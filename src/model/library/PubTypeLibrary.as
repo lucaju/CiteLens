@@ -1,7 +1,13 @@
-package model.dictionay {
+package model.library {
 	
-	
-	public class DicPubTypes {
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
+	public class PubTypeLibrary {
+		
+		//****************** Constructor ****************** ****************** ******************
 		
 		static private var dictionay:Array = [
 			{code:"book", code3:"bok", code4:"Book", name:"Book"},
@@ -17,13 +23,30 @@ package model.dictionay {
 			{code:"other", code3:"oth", code4:"Othr", name:"Other"},
 			{code:"PhD disertation", code3:"phd", code4:"Diss", name:"PhD Dissertation"},
 			{code:"review", code3:"rev", code4:"Revw", name:"Review"},
-			{code:"scholarlyEdition", code3:"sce", code4:"SchE", name:"Scholarly Edition"}
-			]
+			{code:"scholarlyEdition", code3:"sce", code4:"SchE", name:"Scholarly Edition"},
+			{code:"*other", code3:"***", code4:"****", name:"*Other"}
+			];
 		
-		public function DicPubTypes() {
+			
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function PubTypeLibrary() {
 		
 		}
 		
+		
+		//****************** STATIC PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		static public function getPubTypeInfo(value:String):Object {
 			
 			var pubType:Object;
