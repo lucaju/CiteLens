@@ -1,10 +1,22 @@
 package view.assets  {
 	
+	//imports
 	import flash.display.Sprite;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class ShadowLine extends Sprite {
 
+		//****************** Constructor ****************** ****************** ******************
 		
+		/**
+		 * 
+		 * @param w
+		 * 
+		 */
 		public function ShadowLine(w:Number) {
 			
 			super();

@@ -13,30 +13,43 @@ package view.assets.autoComplete {
 	import view.CiteLensView;
 	
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class AutoCompleteBox extends CiteLensView {
 		
-		//properties
-		private var _content:Array;
-		private var _userTyping:String;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var _searchQuery:String = "";
-		private var _searchTarget:String = "";
+		protected var _content				:Array;
+		protected var _userTyping			:String;
 		
-		private var listArray:Array;
-		private var _numSugestions:int = 6;
-		private var itemHeight:Number = 18;
-		private var _boxWidth:Number = 100;
+		protected var _searchQuery			:String		 = "";
+		protected var _searchTarget			:String		 = "";
 		
-		private var bg:Sprite;
-		private var listMask:Sprite;
-		private var list:Sprite
-		private var listItem:AutoCompleteItem;
-		private var _showType:Boolean = true;
+		protected var listArray				:Array;
+		protected var _numSugestions		:int = 6;
+		protected var itemHeight			:Number		 = 18;
+		protected var _boxWidth				:Number		 = 100;
 		
-		private var selectedID:int = -1;
+		protected var bg					:Sprite;
+		protected var listMask				:Sprite;
+		protected var list					:Sprite
+		protected var listItem				:AutoCompleteItem;
+		protected var _showType				:Boolean	 = true;
 		
-		public var newHeight:Number;
+		protected var selectedID			:int		 = -1;
 		
+		public var newHeight				:Number;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function AutoCompleteBox() {
 			
 			super(citeLensController);
@@ -46,6 +59,13 @@ package view.assets.autoComplete {
 			bg = new Sprite();
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function init():void {
 			
 			//box
@@ -80,13 +100,20 @@ package view.assets.autoComplete {
 			list.mask = listMask;
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param AutoCompList
+		 * @param partial
+		 * 
+		 */
 		public function updateList(AutoCompList:Array, partial:String):void {
 			
 			content = AutoCompList;
 			
-			if (numSugestions > content.length) {
-				numSugestions = content.length;
-			}
+			if (numSugestions > content.length) numSugestions = content.length;
 			
 			userTyping = partial;
 			
@@ -131,19 +158,13 @@ package view.assets.autoComplete {
 			newHeight = yPos;
 			TweenMax.to([bg,listMask], .5, {height: yPos});
 			
-			
 		}
 		
-		
-		
-		private function _click(e:MouseEvent):void {
-			listItem = AutoCompleteItem(e.target);
-			_searchQuery = listItem.getLabel();
-			_searchTarget = listItem.getType();
-			
-			dispatchEvent(new Event(Event.SELECT));
-		}
-		
+		/**
+		 * 
+		 * @param arrow
+		 * 
+		 */
 		public function keyboardSelection(arrow:String):void {
 			
 			//roll out current selected
@@ -188,9 +209,46 @@ package view.assets.autoComplete {
 			}
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getFirstOnTheList():String {
+			if (listArray.length > 0) {
+				return listArray[0].getLabel();
+			} else {
+				return null;
+			}
+			
+		}
 		
 		
-		// fx
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _click(e:MouseEvent):void {
+			listItem = AutoCompleteItem(e.target);
+			_searchQuery = listItem.getLabel();
+			_searchTarget = listItem.getType();
+			
+			dispatchEvent(new Event(Event.SELECT));
+		}
+	
+		
+		//****************** INTERNAL METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param colorValue
+		 * @param a
+		 * @return 
+		 * 
+		 */
 		internal function getBitmapFilter(colorValue:uint, a:Number):BitmapFilter {
 			//propriedades
 			var color:Number = colorValue;
@@ -203,61 +261,115 @@ package view.assets.autoComplete {
 			return new GlowFilter(color,alpha,blurX,blurY,strength,quality);
 		}
 		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set showType(value:Boolean):void {
 			_showType = value
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get showType():Boolean {
 			return _showType;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get content():Array {
 			return _content;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set content(value:Array):void {
 			_content = value;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get boxWidth():Number {
 			return _boxWidth;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set boxWidth(value:Number):void {
 			_boxWidth = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get userTyping():String {
 			return _userTyping;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set userTyping(value:String):void {
 			_userTyping = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get numSugestions():int {
 			return _numSugestions;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set numSugestions(value:int):void {
 			_numSugestions = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get searchQuery():String {
 			return _searchQuery;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get searchTarget():String {
 			return _searchTarget;
-		}
-		
-		public function getFirstOnTheList():String {
-			if (listArray.length > 0) {
-				return listArray[0].getLabel();
-			} else {
-				return null;
-			}
-
 		}
 
 	}

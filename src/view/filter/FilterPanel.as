@@ -11,31 +11,50 @@ package view.filter {
 	import view.PanelHeader;
 	import view.style.ColorSchema;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class FilterPanel extends CiteLensView {
 		
-		//properties
-		internal var origWidth:Number;
-		internal var origHeight:Number;
+		//****************** Properties ****************** ****************** ******************
 		
-		internal var filterID:int;
+		internal var origWidth				:Number;
+		internal var origHeight				:Number;
 		
-		internal var active:Boolean = false;								// switch: Filter active or inactive
+		internal var filterID				:int;
 		
-		private var header:PanelHeader;									//header
-		private var optionsPanel:OptionsPanel;								//Options
+		internal var active					:Boolean = false;			// switch: Filter active or inactive
 		
-		private var border:Sprite;
+		private var header					:PanelHeader;				//header
 		
-		private var open:Boolean = false;									// Painel open or close;
+		protected var optionsPanel			:OptionsPanel;				//Options
+		
+		protected var border				:Sprite;
+		
+		protected var open					:Boolean = false;			// Painel open or close;
 		
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function FilterPanel(fID:int) {
 			super(citeLensController);
-
 			filterID = fID;
-			
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function init():void {
 			
 			//global size
@@ -50,6 +69,42 @@ package view.filter {
 			
 		}
 		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function closePanel():void {
+			
+			TweenMax.to(optionsPanel,.5,{alpha:0, y:optionsPanel.y - 20, onComplete:removeOptionPanel});
+			TweenMax.to(border,.5,{alpha:0, height:this.height -20});
+			
+			open = !open;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function removeOptionPanel():void {
+			this.removeChild(border);
+			border = null;
+			
+			this.removeChild(optionsPanel);
+			optionsPanel = null;
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * @param create
+		 * 
+		 */
 		public function resizeBorder(value:Number = 0, create:Boolean = false):void {
 			
 			//Resize border if it exists. Otherwise create it.
@@ -64,19 +119,24 @@ package view.filter {
 				this.addChildAt(border,0);
 				
 			} else {
-				if (border) {
-					TweenMax.to(border,.5,{alpha:1, height: String(value)});
-				}
+				if (border) TweenMax.to(border,.5,{alpha:1, height: String(value)});
 			}
 		}
 		
+		/**
+		 * 
+		 * @param resultsTotal
+		 * 
+		 */
 		public function updateFilterPanel(resultsTotal:int):void  {
-			
 			//update header
 			header.update(resultsTotal);
-			
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		public function resetPanel():void {
 			active = false;
 			open = !open;
@@ -89,6 +149,10 @@ package view.filter {
 			openPanel();
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		public function openPanel():void {
 			optionsPanel = new OptionsPanel(filterID);
 			optionsPanel.y = header.height;
@@ -101,29 +165,24 @@ package view.filter {
 		
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getFilterData():Object {
 			active = true
-			var data:Object = optionsPanel.getSelectedOptions();
-			return data;
+			return optionsPanel.getSelectedOptions();
 		}
 		
-		private function closePanel():void {
-			
-			TweenMax.to(optionsPanel,.5,{alpha:0, y:optionsPanel.y - 20, onComplete:removeOptionPanel});
-			
-			TweenMax.to(border,.5,{alpha:0, height:this.height -20});
-			
-			open = !open;
-		}
 		
-		private function removeOptionPanel():void {
-			this.removeChild(border);
-			border = null;
-			
-			this.removeChild(optionsPanel);
-			optionsPanel = null;
-		}
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get id():int {
 			return filterID;
 		}

@@ -3,21 +3,27 @@ package util {
 	//imports
 	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.events.Event;
 	import flash.net.URLRequest;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class LoadFile extends Sprite{
 		
-		//properties
-		private var url:URLRequest;
-		private var loader:Loader;
+		//****************** Constructor ****************** ****************** ******************
 		
-		
+		/**
+		 * 
+		 * @param file
+		 * 
+		 */
 		public function LoadFile(file:String) {
-			url = new URLRequest(file);
-			loader = new Loader();
+			var url:URLRequest = new URLRequest(file);
+			var loader:Loader = new Loader();
 			loader.load(url);
-			addChild(loader)
+			this.addChild(loader)
 		}
 	}
 }

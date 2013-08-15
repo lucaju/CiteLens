@@ -3,25 +3,42 @@ package view.mini {
 	//imports
 	import view.CiteLensView;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class _ColorColumn extends CiteLensView {
 		
-		//properties
-		private var xml:XMLList;
-		private var allText:String;
+		//****************** Properties ****************** ****************** ******************
+		
+		protected var xml			:XMLList;
+		protected var allText		:String;
 		
 		
-		private var xmlns:Namespace;
-		private var xsi:Namespace;
-		private var teiH:Namespace;
+		protected var xmlns			:Namespace;
+		protected var xsi			:Namespace;
+		protected var teiH			:Namespace;
 		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function _ColorColumn() {
-			
 			super(citeLensController);
-			
 		}
+	
 		
+		//****************** INITIALIZE ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		override public function initialize():void {
-			
 			
 			xml = XMLList(citeLensController.getAllParagraphs());
 			

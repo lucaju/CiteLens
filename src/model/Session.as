@@ -1,105 +1,119 @@
 package model {
 	
+	//imports
+	import model.library.Country;
+	import model.library.CountryLibrary;
+	import model.library.Language;
+	import model.library.LanguageLibrary;
+	import model.library.PubType;
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Session {
 		
-		//properties
-		private var bibliography:Bibliography
+		//****************** Properties ****************** ****************** ******************
 		
-		private var languageLibrary:Array;
-		private var CountryLibrary:Array;
-		private var pubTypeLibrary:Array;
-		private var citationFunctionLibrary:Array;
+		protected var bibliography				:Bibliography
 		
-		private var filters:Array;
+		protected var languageCollection			:Array;
+		protected var countryCollection			:Array;
+		protected var pubTypeCollection			:Array;
+		protected var citationFunctionLibrary	:Array;
 		
-		private var language:Language;
-		private var country:Country;
-		private var pubType:PubType;
-		private var citationFunction:CitationFunction;
+		protected var filters					:Array;
 		
-		private var filter:Filter;
+		protected var language					:Language;
+		protected var country					:Country;
+		protected var pubType					:PubType;
+		protected var citationFunction			:CitationFunction;
 		
+		protected var filter					:Filter;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param bib
+		 * 
+		 */
 		public function Session(bib:Bibliography) {
 			
 			bibliography = bib;
 			
-			languageLibrary = new Array();
-			CountryLibrary = new Array();
-			pubTypeLibrary = new Array();
+			languageCollection = new Array();
+			countryCollection = new Array();
+			pubTypeCollection = new Array();
 			citationFunctionLibrary = new Array();
 			
 			filters = new Array();
 			
+			var repeated:Boolean = false;
+			
 			//loop in bibliography
 			for each(var ref:RefBibliographic in bibliography.getBibligraphy()) {
 				
-				var repeated:Boolean = false;
+				repeated = false;
+				
+				var langInReference:Language = LanguageLibrary.getLangInfo(ref.language)
 				
 				//-------Language
 				//test for repetition
-				for each (language in languageLibrary) {
+				for each (language in languageCollection) {
 					
-					if (ref.language.toLowerCase() == language.name.toLowerCase()) {
-						repeated = true;
-						break;
-					}
+					//trace (ref.language)
 					
-					if (ref.language.toLowerCase() == language.code2.toLowerCase()) {
-						repeated = true;
-						break;
-					}
-					
-					if (ref.language.toLowerCase() == language.code3.toLowerCase()) {
+					if (langInReference.name.toLowerCase() == language.name.toLowerCase() ||			//test name
+						langInReference.name.toLowerCase() == language.iso6391.toLowerCase() ||			//or iso 6391
+						langInReference.name.toLowerCase() == language.iso6392.toLowerCase()) {			//or iso 6392 
+						
 						repeated = true;
 						break;
 					}
 				}
 				
 				//add new language
-				if (!repeated) {
-					language = new Language(languageLibrary.length, ref.language);
-					languageLibrary.push(language);
-				}
+				if (!repeated) languageCollection.push(langInReference);
 				
 				
 				//-------Country
 				repeated = false;
 				//test for repetition
 				for each (var item:String in ref.countries) {
-					for each (country in CountryLibrary) {
-						
-						if (item.toLowerCase() == country.name.toLowerCase()) {  			//test name
-							repeated = true;
-						}
-						
-						if (item.toLowerCase() == country.code2.toLowerCase()) {			//test code2
-							repeated = true;
-						}
-							
-						if (item.toLowerCase() == country.code3.toLowerCase()) {			//test code3
-							repeated = true;
-						}
-					}
 					
-					//add new country
-					if (!repeated) {
-						country = new Country(CountryLibrary.length, item);
-						CountryLibrary.push(country);
+					var countryInReference:Country = CountryLibrary.getCountryInfo(item);
+					
+					for each (country in countryCollection) {
+						
+						if (countryInReference.name.toLowerCase() == country.name.toLowerCase() ||			//test name
+							countryInReference.name.toLowerCase() == country.alpha2.toLowerCase() ||		// or alpha 2
+							countryInReference.name.toLowerCase() == country.alpha3.toLowerCase()) {		// or alpha 3
+							
+							repeated = true;  	//test name
+							break;
+						}
+						
 					}
-				
 				}
-			
+					
+				//add new country
+				if (!repeated) countryCollection.push(countryInReference);
+				
 				
 				//-------Pub Type
 				repeated = false;
 				//test for repetition
-				for each (pubType in pubTypeLibrary) {
-					if (ref.type == pubType.code) {
+				for each (pubType in pubTypeCollection) {
+					
+					if (ref.type.toLowerCase() == pubType.code.toLowerCase()) {
 						repeated = true;
 						break;
 					}
 					
-					if (ref.type == pubType.name) {
+					if (ref.type.toLowerCase() == pubType.name.toLowerCase()) {
 						repeated = true;
 						break;
 					}
@@ -107,8 +121,8 @@ package model {
 				
 				//add new pub type
 				if (!repeated) {
-					pubType = new PubType(pubTypeLibrary.length, ref.type);
-					pubTypeLibrary.push(pubType);
+					pubType = new PubType(pubTypeCollection.length, ref.type);
+					pubTypeCollection.push(pubType);
 				}
 			}
 			
@@ -140,91 +154,166 @@ package model {
 		
 		}
 		
-		//----------- filter
 		
+		//****************** PUBLIC METHODS - FILTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param id
+		 * 
+		 */
 		public function addFilter(id:uint):void {
 			filter = new Filter(id);
 			filters[id] = filter;
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @param data
+		 * 
+		 */
 		public function updateFilter(id:uint, data:Object):void {
 			//trace(data);
-			
-			if (filters[id] == null) {
-				addFilter(id);
-			}
-				filters[id].update(data);
+			if (filters[id] == null) addFilter(id);
+			filters[id].update(data);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		public function removeFilter(filterID:int):void {
 			filters[filterID] = null;
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function filterHasSelectedOptions(filterID:int, type:String):Boolean {
-			var checked:Boolean = filters[filterID].hasSelectedOptions(type);
-			return checked;
+			return filters[filterID].hasSelectedOptions(type);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @param option
+		 * @return 
+		 * 
+		 */
 		public function checkSelectedFilterOption(filterID:int, type:String, option:Object):Boolean {
-			var checked:Boolean = filters[filterID].checkSelectedOption(type, option);
-			return checked;
+			return filters[filterID].checkSelectedOption(type, option);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function getFilterOptionsByType(filterID:int, type:String):Array {
-			var filterOptions:Array = filters[filterID].getOptionsByType(type);
-			return filterOptions;
+			return filters[filterID].getOptionsByType(type);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @return 
+		 * 
+		 */
 		public function getFilterByID(filterID:int):Filter {
 			return filters[filterID];
 		}
 		
-		//------------- GETTERS
-		public function getLanguages():Array {
-			return languageLibrary.concat();
+		
+		//****************** PUBLIC METHODS - GETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getLanguages(showAll:Boolean):Array {
+			if (showAll) {
+				return LanguageLibrary.getLanguages();
+			} else {
+				return languageCollection.concat();
+			}
 		}
 		
+		/**
+		 * 
+		 * @param requestID
+		 * @return 
+		 * 
+		 */
 		public function getLanguageByID(requestID:int):Language {
-			for each (language in languageLibrary) {
-				if (language.id == requestID) {
-					return language;
-					break;
-				}
+			for each (language in languageCollection) {
+				if (language.id == requestID) return language;
 			}
-			
 			return null;
 		}
 		
-		public function getCountries():Array {
-			return CountryLibrary.concat();
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getCountries(showAll:Boolean):Array {
+			if (showAll) {
+				return CountryLibrary.getCountries();
+			} else {
+				return countryCollection.concat();
+			}
 		}
 		
+		/**
+		 * 
+		 * @param requestID
+		 * @return 
+		 * 
+		 */
 		public function getCountryByID(requestID:int):Country {
-			for each (country in CountryLibrary) {
-				if (country.id == requestID) {
-					return country;
-					break;
-				}
+			for each (country in countryCollection) {
+				if (country.id == requestID) return country;
 			}
-			
 			return null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPubTypes():Array {
-			return pubTypeLibrary.concat();
+			return pubTypeCollection.concat();
 		}
 		
+		/**
+		 * 
+		 * @param requestID
+		 * @return 
+		 * 
+		 */
 		public function getPubTypeByID(requestID:int):PubType {
-			for each (pubType in pubTypeLibrary) {
-				if (pubType.id == requestID) {
-					return pubType;
-					break;
-				}
+			for each (pubType in pubTypeCollection) {
+				if (pubType.id == requestID) return pubType;
 			}
-			
 			return null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getCitationFunctions():Array {
 			return citationFunctionLibrary.concat();
 		}

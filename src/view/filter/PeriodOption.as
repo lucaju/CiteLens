@@ -13,17 +13,32 @@ package view.filter {
 	import view.style.ColorSchema;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class PeriodOption extends OptionBox {
 		
-		//properties
-		private var _id:int;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var fromLabel:TextField;
-		private var toLabel:TextField;
-		private var inputFromTF:TextField;
-		private var inputToTF:TextField;
-		private var deleteButton:MinusBT;
+		protected var _id				:int;
 		
+		protected var fromLabel			:TextField;
+		protected var toLabel			:TextField;
+		protected var inputFromTF		:TextField;
+		protected var inputToTF			:TextField;
+		protected var deleteButton		:MinusBT;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * @param id_
+		 * 
+		 */
 		public function PeriodOption(fID:int, id_:int) {
 			
 			super(fID)
@@ -79,7 +94,16 @@ package view.filter {
 			inputToTF.addEventListener(FocusEvent.FOCUS_OUT, _focusOff)	//Focus OFF
 		}
 		
-		private function labelField(l:String):TextField {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param l
+		 * @return 
+		 * 
+		 */
+		protected function labelField(l:String):TextField {
 			var TF:TextField = new TextField();
 			TF.selectable = false;
 			TF.mouseEnabled = false;
@@ -91,27 +115,13 @@ package view.filter {
 			
 			return TF;
 		}
-		
-		/*
-		public function setFromLabelText(value:String):void {
-			fromLabel.text = value;
-			fromLabel.setTextFormat(TXTFormat.getStyle("Period Label","filter"+filterID));
-		}
-		*/
-		
-		public function set activeDeleteButton(value:Boolean):void {
-			if(value) {
-				deleteButton.buttonMode = true;
-				deleteButton.addEventListener(MouseEvent.CLICK, removePeriodRange);
-				TweenMax.to(deleteButton,.5,{removeTint:true});
-			} else {
-				deleteButton.buttonMode = false;
-				deleteButton.removeEventListener(MouseEvent.CLICK, removePeriodRange);
-				TweenMax.to(deleteButton,.5,{tint:0xCCCCCC});
-			}
-		}
 
-		private function buildInput():TextField {
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		protected function buildInput():TextField {
 			var input:TextField = new TextField();
 			
 			input.antiAliasType = "Advanced";
@@ -127,7 +137,13 @@ package view.filter {
 			return input;
 		}
 		
-		private function buildBorder(target:TextField):Shape {
+		/**
+		 * 
+		 * @param target
+		 * @return 
+		 * 
+		 */
+		protected function buildBorder(target:TextField):Shape {
 			var brd:Shape = new Shape();
 			brd.graphics.lineStyle(1,0xCCCCCC,1,true);
 			brd.graphics.beginFill(0x000000,0.05);
@@ -135,7 +151,42 @@ package view.filter {
 			brd.graphics.endFill();
 			return brd;
 		}
+
 		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/*
+		public function setFromLabelText(value:String):void {
+		fromLabel.text = value;
+		fromLabel.setTextFormat(TXTFormat.getStyle("Period Label","filter"+filterID));
+		}
+		*/
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set activeDeleteButton(value:Boolean):void {
+			if(value) {
+				deleteButton.buttonMode = true;
+				deleteButton.addEventListener(MouseEvent.CLICK, removePeriodRange);
+				TweenMax.to(deleteButton,.5,{removeTint:true});
+			} else {
+				deleteButton.buttonMode = false;
+				deleteButton.removeEventListener(MouseEvent.CLICK, removePeriodRange);
+				TweenMax.to(deleteButton,.5,{tint:0xCCCCCC});
+			}
+		}
+		
+		
+		//****************** PUBLIC EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function _addField(e:Event):void {
 			if (inputFromTF.text.length == 1 || inputToTF.text.length == 1) {
 				PeriodBox(this.parent.parent).addPeriodRange();
@@ -147,6 +198,11 @@ package view.filter {
 			}
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function removePeriodRange(e:MouseEvent):void {
 			var box:PeriodBox = PeriodBox(this.parent.parent);
 			
@@ -155,29 +211,26 @@ package view.filter {
 			TweenMax.to(deleteButton, .5, {rotation:-90});
 		}
 
-		public function get id():int {
-			return _id;
-		}
-
-		public function set id(value:int):void {
-			_id = value;
-		}
-		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function focusIn(e:FocusEvent = null):void {
-			if (inputFromTF.text == "year") 	{
-				inputFromTF.text = "";
-			}
-			
-			if (inputToTF.text == "year") 	{
-				inputToTF.text = "";
-			}
+			if (inputFromTF.text == "year") inputFromTF.text = "";
+			if (inputToTF.text == "year") inputToTF.text = "";
 			
 			inputFromTF.alpha = 1;
 			inputToTF.alpha = 1;
 			toLabel.alpha = 1;
 		}
 		
-		private function _focusOff(e:FocusEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _focusOff(e:FocusEvent):void {
 			if (inputFromTF.text.length == 0 && inputToTF.text.length == 0) {
 				inputFromTF.text = "year";
 				inputFromTF.alpha = .2;
@@ -193,6 +246,31 @@ package view.filter {
 			}
 		}
 		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():int {
+			return _id;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set id(value:int):void {
+			_id = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get periodDate():Object {
 			
 			var date:Object = new Object()
@@ -202,6 +280,11 @@ package view.filter {
 			return date;
 		}
 		
+		/**
+		 * 
+		 * @param date
+		 * 
+		 */
 		public function set periodDate(date:Object):void {
 			
 			inputFromTF.text = date.from;

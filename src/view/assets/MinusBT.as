@@ -4,11 +4,24 @@ package view.assets {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class MinusBT extends Sprite {
 		
-		//properties
-		private var shape:Shape;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var shape		:Shape;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param color
+		 * 
+		 */
 		public function MinusBT(color:uint = 0xFFFFFF) {
 			
 			//base

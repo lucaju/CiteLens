@@ -9,19 +9,39 @@ package view.filter {
 	
 	import view.assets.Button;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	final public class FunctionBox extends OptionBox {
 		
-		//properties
-		private var optionContainer:Sprite;
-		private var functionOption:FunctionOption;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var button:Button;
+		protected var optionContainer		:Sprite;
+		protected var functionOption		:FunctionOption;
 		
+		private var button					:Button;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function FunctionBox(fID:int) {
 			super(fID);
 			
 		}
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param active
+		 * 
+		 */
 		override public function init(active:Boolean):void {
 			
 			var citeFuncs:Array = new Array();
@@ -90,6 +110,15 @@ package view.filter {
 			makeEndLine();	
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param target
+		 * @param value
+		 * 
+		 */
 		public function expandHeight(target:FunctionOption, value:Number):void {
 			
 			//find the target item to expand
@@ -110,15 +139,19 @@ package view.filter {
 			}
 			
 			//move endline further down
-			if (endLine) {
-				TweenLite.to(endLine,.5,{y:endLine.y + value});
-			}
+			if (endLine) TweenLite.to(endLine,.5,{y:endLine.y + value});
 			
 			//move box in optionPanel
 			OptionsPanel(this.parent).moveBoxes(this, value);
 			
 		}
 		
+		/**
+		 * 
+		 * @param target
+		 * @param value
+		 * 
+		 */
 		public function contactHeight(target:FunctionOption, value:Number):void {
 			
 			//find the target item to expand
@@ -146,8 +179,11 @@ package view.filter {
 			
 		}
 	
-		
-		//get selected data
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		override public function selectedOptions():Array {
 			
 			var selOptions:Array = new Array();																							//Array to store Citation Functions
@@ -189,11 +225,9 @@ package view.filter {
 
 								itemOptions = subFunctionOption.optionArray;																		//Get the option Array in the subFunction
 								
-								for each(itemOption in itemOptions) {																				//Loop in the options
-
+								for each(itemOption in itemOptions) {																				//Loop in the option
 									citationFunction.addOptionToSubFunction(subFunctionOption.label,itemOption.label, itemOption.selected);		//Get the option: Label and Value
 								}
-								
 								
 							}
 							
@@ -231,12 +265,10 @@ package view.filter {
 				
 				selOptions.push(citationFunction);																					//Store citation function in the array
 			}
-			
-
-			
-			return selOptions;
-			
+					
+			return selOptions;	
 			
 		}
+		
 	}
 }

@@ -2,41 +2,75 @@ package controller {
 	
 	//imports
 	import model.CitationFunction;
-	import model.Country;
+	import model.library.Country;
 	import model.Filter;
-	import model.Language;
+	import model.library.Language;
 	import model.Note;
-	import model.PubType;
+	import model.library.PubType;
 	import model.RefBibliographic;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class FilterProcess {
 		
-		public static const BIBL_ID:String = "bibl_id";
-		public static const NOTE_ID:String = "note_id";
+		//****************** Properties ****************** ****************** ******************
 		
-		public static var results:Array = new Array();
+		public static const BIBL_ID		:String	 = "bibl_id";
+		public static const NOTE_ID		:String	 = "note_id";
 		
-		//properties
-		private var _filter:Filter;
-		private var _bibliography:Array;
-		private var resultArray:Array;
+		public static var results		:Array	 = new Array();
 		
+		protected var _filter			:Filter;
+		protected var _bibliography		:Array;
+		protected var resultArray		:Array;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function FilterProcess() {
 			
 			resultArray = new Array;
 		}
 		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get filter():Filter {
 			return _filter;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get bibliography():Array {
 			return _bibliography;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set bibliography(value:Array):void {
 			_bibliography = value;
 		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
 		
 		public function process(filter_:Filter):void {
 			
@@ -69,7 +103,10 @@ package controller {
 					for each(var lang:Language in languages) {
 						
 						//compare
-						if (bib.language.toLowerCase() == lang.code2.toLowerCase() || bib.language.toLowerCase() == lang.code3.toLowerCase() ) {
+						if (bib.language.toLowerCase() == lang.name.toLocaleLowerCase() ||
+							bib.language.toLowerCase() == lang.iso6391.toLowerCase() ||
+							bib.language.toLowerCase() == lang.iso6392.toLowerCase()) {
+							
 							partialFilteredBib.push(bib);
 							break;
 						}
@@ -98,7 +135,10 @@ package controller {
 						for each(var countr:Country in countries) {
 							
 							//compare
-							if (bibCountry.toLowerCase() == countr.name.toLowerCase()) {
+							if (bibCountry.toLowerCase() == countr.name.toLowerCase() ||
+								bibCountry.toLowerCase() == countr.alpha2.toLocaleLowerCase()  ||
+								bibCountry.toLowerCase() == countr.alpha3.toLocaleLowerCase()) {
+								
 								partialFilteredBib.push(bib);
 								break;
 							}
@@ -108,7 +148,6 @@ package controller {
 				
 				filteredBib = partialFilteredBib;
 			}
-			
 			
 			
 			//----------- pubtype
@@ -125,7 +164,9 @@ package controller {
 					for each(var pubType:PubType in pubtypes) {
 						
 						//compare
-						if (bib.type.toLowerCase() == pubType.name.toLowerCase()) {
+						if (bib.type.toLowerCase() == pubType.name.toLowerCase() ||
+							bib.type.toLowerCase() == pubType.code.toLocaleLowerCase()) {
+							
 							partialFilteredBib.push(bib);
 							break;
 						}
@@ -541,6 +582,11 @@ package controller {
 			resultArray = null;
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		public function removeResults(filterID:int = 0):void {
 			
 			if (filterID == 0) {
@@ -549,11 +595,19 @@ package controller {
 				}
 				
 				results = new Array();
+				
 			} else {
 				results[filterID] = null;
 			}
 		}
 		
+		/**
+		 * 
+		 * @param type
+		 * @param filterID
+		 * @return 
+		 * 
+		 */
 		public function getResult(type:String, filterID:int = 0):Array {
 			
 			//get one filter result or combine all of them
@@ -579,6 +633,11 @@ package controller {
 			}
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		private function combineResults():Array {
 			var combo:Array = new Array();
 			
@@ -592,7 +651,7 @@ package controller {
 			
 			//remove duplicates
 			for (i = combo.length; i > 0; i--){
-				if (combo.indexOf(combo[i-1]) != i-1){
+				if (combo.indexOf(combo[i-1]) != i-1) {
 					combo.splice(i-1,1);
 				}
 			}
@@ -600,7 +659,16 @@ package controller {
 			return combo;
 		}
 		
-		private function notesResults(filterID:int):Array {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param filterID
+		 * @return 
+		 * 
+		 */
+		protected function notesResults(filterID:int):Array {
 			
 			resultArray = results[filterID];
 			
@@ -633,7 +701,13 @@ package controller {
 			return uniqueNotes;
 		}
 		
-		private function removeDuplicates(target:Array):Array {
+		/**
+		 * 
+		 * @param target
+		 * @return 
+		 * 
+		 */
+		protected function removeDuplicates(target:Array):Array {
 			
 			var uniqueArray:Array = new Array();
 			

@@ -4,11 +4,25 @@ package view.assets {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class ArrowBT extends Sprite {
 		
-		//properties
-		private var shape:Shape;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var shape		:Shape;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param direction
+		 * 
+		 */
 		public function ArrowBT(direction:String = "down") {
 			
 			super();
@@ -37,6 +51,14 @@ package view.assets {
 			changeDirection(direction);
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param direction
+		 * 
+		 */
 		public function changeDirection(direction:*):void {
 			
 			if(direction is String) {
@@ -64,5 +86,6 @@ package view.assets {
 			}
 			
 		}
+		
 	}
 }

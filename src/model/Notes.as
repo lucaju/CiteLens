@@ -1,23 +1,36 @@
 package model {
 	
-	//imports
-	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Notes {
 		
-		//properties
-		private var data:XMLList
+		//****************** Properties ****************** ****************** ******************
 		
-		private var bibliography:Bibliography
+		protected var data				:XMLList
 		
-		private var note:Note;
-		private var notesCollection:Array;
+		protected var bibliography		:Bibliography
 		
-		private var xmlns:Namespace;
-		private var xsi:Namespace;
-		private var teiH:Namespace;
+		protected var note				:Note;
+		protected var notesCollection	:Array;
 		
-		private var total:int = 0;
+		protected var xmlns				:Namespace;
+		protected var xsi				:Namespace;
+		protected var teiH				:Namespace;
 		
+		protected var total				:int = 0;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fullData
+		 * @param bib
+		 * 
+		 */
 		public function Notes(fullData:XML, bib:Bibliography) {
 			
 			bibliography = bib;
@@ -57,13 +70,20 @@ package model {
 			
 			//adding notespan
 			for each(var span:XML in data) {
-				if (span.@type == "noteSpan") {
-					addNoteSpan(span);
-				}
+				if (span.@type == "noteSpan") addNoteSpan(span);
 			}
 				
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param item
+		 * @param noteID_
+		 * 
+		 */
 		public function addNote(item:XML, noteID_:int):void {
 			
 			default xml namespace = xmlns;
@@ -80,18 +100,14 @@ package model {
 			notesCollection.push(note);
 			
 			//test for unique ide
-			if (item.@teiH::id != "") {
-				note.uniqueID = item.@teiH::id;
-			}
+			if (item.@teiH::id != "") note.uniqueID = item.@teiH::id;
 			
 			//note place
 			if (item.hasOwnProperty("@place")) {
 				note.notePlace = item.@place;
 				
 				//footnote anchor
-				if (note.notePlace == "foot") {
-					note.noteAnchor = item.@n;
-				}
+				if (note.notePlace == "foot") note.noteAnchor = item.@n;
 				
 			}
 			
@@ -99,37 +115,45 @@ package model {
 			//test for series information
 			for each(var ref:RefBibliographic in bibliography.getBibligraphy()) {
 				for each (var refNote:Object in ref.notes) {
-					if (refNote.id == noteID) {
-						note.addCitation(ref);
-					}
+					if (refNote.id == noteID) note.addCitation(ref);
 				}
 			}
 			
 			note = null
 		}
 		
+		/**
+		 * 
+		 * @param span
+		 * 
+		 */
 		public function addNoteSpan(span:XML):void {
 			
 			var corresp:String = span.@corresp.toString();
 			corresp = corresp.substring(1);
 			
 			for each (note in notesCollection) {
-				if (note.uniqueID == corresp) {			//in this case
-					note.noteSpan = span.text();
-				}
+				if (note.uniqueID == corresp) note.noteSpan = span.text();			//in this case
 			}
 			
 			note = null;
 		}
 		
-		public function get length():int {
-			return notesCollection.length;
-		}
-		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		public function getRefByIndex(value:int):Note {
 			return notesCollection[value];
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function traceNotes(value:int):void {
 			note = notesCollection[value];
 			trace ("ID: " + note.id)
@@ -155,5 +179,11 @@ package model {
 			trace ("--------")
 		}
 
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		public function get length():int {
+			return notesCollection.length;
+		}
 	}
 }

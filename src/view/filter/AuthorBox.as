@@ -11,20 +11,34 @@ package view.filter {
 	
 	public class AuthorBox extends OptionBox {
 		
-		//properties
-		private var author:AuthorOption;
-		private var addBT:CrossBT;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var author		:AuthorOption;
+		protected var addBT			:CrossBT;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function AuthorBox(fID:int) {
 			super(fID);
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param active
+		 * 
+		 */
 		override public function init(active:Boolean):void {
 			
 			//define if it must check for selected itens
-			if (active) {
-				hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, "author");
-			}
+			if (active) hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, "author");
 			
 			//label
 			buildLabel("author");
@@ -42,9 +56,9 @@ package view.filter {
 				var selectedAuthors:Array = citeLensController.getFilterOptionsByType(filterID, "author");
 				
 				for each (var authorName:String in selectedAuthors) {
-					addAuthor(authorName, true);
-					
+					addAuthor(authorName, true);	
 				}
+				
 				//extra one
 				addAuthor();
 				
@@ -59,61 +73,27 @@ package view.filter {
 			
 		}
 		
+		
+		//****************** INTERNAL EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		override internal function _click(e:MouseEvent):void {
 			addAuthor();
 		}
 		
-		public function addAuthor(authorName:String = null, focusValue:Boolean = false):void {
-			
-			//verify if it doesn't have any blank space before add one
-			var blankSpace:Boolean = false;
-			for each (var auth:AuthorOption in optionArray) {
-				if (auth.label == "author name") {
-					blankSpace = true;
-					break;
-				}
-			}
-			
-			if (!blankSpace) {
-				
-				author = new AuthorOption(filterID);
-				if (authorName) {
-					author.authorName = authorName;
-				}
-				
-				if (focusValue) {
-					author.focusIn();
-				}
-				
-				author.y = posY;
-				optionsList.addChild(author);
-				
-				optionArray.push(author);
-				
-				//update vertical space 
-				posY = optionsList.height + 3;
-				
-				//move endline further down
-				if (endLine) {
-					TweenLite.to(endLine,.5,{y:optionsList.y + optionsList.height + 3});
-				}
-				
-				//move box in optionPanel
-				OptionsPanel(this.parent).moveBoxes(this, author.height + 3);
-				
-				//animation
-				//TweenLite.from(author,.5,{y:author.y - 10, alpha:0});
-				
-				//enable remove button in the previus option
-				if (optionArray.length > 1) {
-					optionArray[optionArray.length-2].activeDeleteButton = true; //enable remove button in the first one
-				}
-			}
-			
-		}
 		
-
-		private function removeNextBlankField(e:FocusEvent):void {
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function removeNextBlankField(e:FocusEvent):void {
 			
 			if (e.target is AuthorOption) {
 				
@@ -134,6 +114,62 @@ package view.filter {
 			}
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param authorName
+		 * @param focusValue
+		 * 
+		 */
+		public function addAuthor(authorName:String = null, focusValue:Boolean = false):void {
+			
+			//verify if it doesn't have any blank space before add one
+			var blankSpace:Boolean = false;
+			for each (var auth:AuthorOption in optionArray) {
+				if (auth.label == "author name") {
+					blankSpace = true;
+					break;
+				}
+			}
+			
+			if (!blankSpace) {
+				
+				author = new AuthorOption(filterID);
+				if (authorName) author.authorName = authorName;
+				
+				if (focusValue) author.focusIn();
+				
+				author.y = posY;
+				optionsList.addChild(author);
+				
+				optionArray.push(author);
+				
+				//update vertical space 
+				posY = optionsList.height + 3;
+				
+				//move endline further down
+				if (endLine) TweenLite.to(endLine,.5,{y:optionsList.y + optionsList.height + 3});
+				
+				//move box in optionPanel
+				OptionsPanel(this.parent).moveBoxes(this, author.height + 3);
+				
+				//animation
+				//TweenLite.from(author,.5,{y:author.y - 10, alpha:0});
+				
+				//enable remove button in the previus option
+				if (optionArray.length > 1) optionArray[optionArray.length-2].activeDeleteButton = true; //enable remove button in the first one
+				
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * @param target
+		 * 
+		 */
 		public function deleteAuthorName(target:AuthorOption = null):void {
 			
 			//test for target
@@ -143,14 +179,10 @@ package view.filter {
 					optionsList.removeChild(optionArray[i]); 					//remove option from the screen
 
 					//if the option is the first, change the the second option label and tag for futher changing													
-					if (i == 0) {
-						var isFIrst:Boolean = true;
-					}
+					if (i == 0) var isFIrst:Boolean = true;
 					
 					// if the option is not the last, select those after the delete option
-					if (i < optionArray.length-1) {						
-						var partOfAuthors:Array = optionArray.slice(i);
-					}
+					if (i < optionArray.length-1) var partOfAuthors:Array = optionArray.slice(i);
 					
 					optionArray.splice(i,1);									//remove target from collection
 					
@@ -191,16 +223,18 @@ package view.filter {
 				
 				optionArray[0].activeDeleteButton = false;
 				//posY = optionsList.height + 3;
-				if (endLine) {
-					TweenLite.to(endLine,.5,{y:optionsList.y + posY});
-				}
+				if (endLine) TweenLite.to(endLine,.5,{y:optionsList.y + posY});
 			}
 			
 			//move box in optionPanel
 			OptionsPanel(this.parent).moveBoxes(this, - (author.height + 3));
 		}
 		
-		//get selected data
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		override public function selectedOptions():Array {
 			var selOptions:Array;
 			
@@ -211,9 +245,7 @@ package view.filter {
 				if (name != "" && name != "author name") {
 					
 					//initialize array
-					if (!selOptions) {
-						selOptions = new Array();
-					}
+					if (!selOptions) selOptions = new Array();
 					
 					selOptions.push(author.authorName);
 				}

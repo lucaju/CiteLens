@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?> <?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/teilite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 schema/CiteLens-customization.xsd" xmlns="http://www.tei-c.org/ns/1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/teilite.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 schema/CiteLens-customization.xsd" xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -106,21 +108,21 @@
                             <author>
                                 <name type="first">Brent D.</name>
                                 <name type="last">Shaw</name>
-                            </author>, "<title level="a">Tombstones and Roman Family Relations in the Principate: Civilians, Soldiers and Slaves</title>," <title level="j">Journal of Roman Studies</title>
-                            <biblScope type="vol">74</biblScope> (<date>1984</date>): <biblScope type="pp">124-156</biblScope>
+                            </author>, "<title level="a">Tombstones and Roman Family Relations in the Principate: Civilians, Soldiers and Slaves</title>," <title level="j">Journal of Roman Studies</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">United Kingdom</pubCountry>
+                            <pubCountry xmlns="http://www.example.org/ns/nonTEI">United Kingdom</pubCountry><biblScope type="vol">74</biblScope> (<date>1984</date>): <biblScope type="pp">124-156</biblScope>
                         </bibl>; </ab>
                     <ab type="citation">
                         <bibl sourceRole="secondary" reason="both" contentType="fact" xml:lang="EN" type="journalArticle" xml:id="bibl_4">
                             <author>
                                 <name type="first">Brent D.</name>
-                                <name type="last">Shaw</name>, </author> "<title level="a">Latin Funerary Epigraphy and Family Life in the Later Roman Empire</title>," <title level="j">Historia</title>
+                                <name type="last">Shaw</name>, </author> "<title level="a">Latin Funerary Epigraphy and Family Life in the Later Roman Empire</title>," <title level="j">Historia</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry>
                             <biblScope type="vol">33</biblScope> (<date>1984</date>): <biblScope type="pp">457-497</biblScope>. </bibl></ab>
                     <ab type="citation"><bibl sourceRole="secondary" reason="neither" contentType="fact" xml:lang="EN" type="journalArticle" xml:id="bibl_5">
                             <author>
                                 <name type="first">Dale B.</name>
                                 <name type="last">Martin</name>
                             </author>, " <title level="a">The Construction of the Ancient Family: Methodological Considerations</title>," <title level="j">Journal of Roman Studies</title>
-                            <biblScope type="vol">86</biblScope> (<date>1996</date>): <biblScope type="pp">40-60</biblScope>
+                            <pubCountry xmlns="http://www.example.org/ns/nonTEI">United Kingdom</pubCountry><biblScope type="vol">86</biblScope> (<date>1996</date>): <biblScope type="pp">40-60</biblScope>
                             <seg function="contextualization">questions the counting method of </seg>
                             <relatedItem type="contradicts">
                                 <bibl sourceRole="secondary" reason="both" contentType="fact" type="journalArticle" corresp="#bibl_3"><author>
@@ -139,6 +141,7 @@
                             <date>1996</date>
                             <biblScope type="pp">170 ff</biblScope>
                             <publisher>University of North Carolina-Chapel Hill</publisher>
+                            <pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry>
                         </bibl>
                         <seg function="contextualization">for a thorough discussion of the topic.</seg>
                     </ab>
@@ -181,9 +184,9 @@
                         </ab>
                     </note>
                     <p>
-                        <ref type="noteSpan" corresp="#note_8">The origin for claims of this type is to be found in a document dating from the fifth century BCE that has remained the necessary starting point for all discussion of the funerary practices of these cults. It is the famous inscription of Cumae (today Cuma, in Italy), which seems to reserve a burial place for initiates of a cult of Bacchus. The text announces in fact that it is forbidden for a noninitiate to repose there, using a vocabulary that exceeds human law and evokes a religious sanction. Many scholars,</ref>
+                        <ref type="noteSpan" corresp="#note_8">The origin for claims of this type is to be found in a document dating from the fifth century BCE that has remained the necessary starting point for all discussion of the funerary practices of these cults. It is the famous inscription of Cumae (today Cuma, in Italy), which seems to reserve a burial place for initiates of a cult of Bacchus. The text announces in fact that it is forbidden for a noninitiate to repose there, using a vocabulary that exceeds human law and evokes a religious sanction. Many scholars,
                         <ref type="noteSpan" corresp="#note_7">after Cumont<ref type="noteLoc" target="#note_7">7</ref></ref>
-                        <ref type="noteSpan" corresp="#note_8">have seen in it proof that Dionysian associations had their own cemeteries. Recent discussions have attempted to determine if this document concerned a Dionysian or Orphic cult; for our purposes, that debate is less important than trying to reconstitute the archaeological context of the inscription.<ref type="noteLoc" target="#note_8">8</ref></ref> Actually, this inscription was not carved on a stele but on the inner face of a stone slab that must have been used to cover a tomb. This means that the inscription could not have been read from the outside. The inscription of Cumae, despite its strong religious defense, thus probably did not have a function very different from the Orphic inscriptions on gold tablets whose primary purpose was to proclaim salvation. <ref type="noteSpan" corresp="#note_9">Rather than an interdiction, this inscription, notes Jean-Marie Pailler, is like <q>"a hyphen between initiation and afterlife."</q><ref type="noteLoc" target="#note_9">9</ref></ref>
+                        have seen in it proof that Dionysian associations had their own cemeteries. Recent discussions have attempted to determine if this document concerned a Dionysian or Orphic cult; for our purposes, that debate is less important than trying to reconstitute the archaeological context of the inscription.<ref type="noteLoc" target="#note_8">8</ref></ref> Actually, this inscription was not carved on a stele but on the inner face of a stone slab that must have been used to cover a tomb. This means that the inscription could not have been read from the outside. The inscription of Cumae, despite its strong religious defense, thus probably did not have a function very different from the Orphic inscriptions on gold tablets whose primary purpose was to proclaim salvation. <ref type="noteSpan" corresp="#note_9">Rather than an interdiction, this inscription, notes Jean-Marie Pailler, is like <q>"a hyphen between initiation and afterlife."</q><ref type="noteLoc" target="#note_9">9</ref></ref>
                         <ref type="noteSpan" corresp="#note_10">Moreover, archaeology has provided cases showing that a separate tomb was not the <pb n="16"/>rule; on the site of Hipponium (today Vibo Valentia, in Italy), for example, the tomb of an Orphic initiate was found among tombs of noninitiates in the same necropolis.<ref type="noteLoc" target="#note_10">10</ref></ref>
                         <ref type="noteSpan" corresp="#note_11">It has similarly been thought that a cluster of some one hundred tombs at Tarentum (today Taranto, in Italy) laid out regularly and very simply, constituted the cemetery of a Pythagorean community. Archaeologists thought they had found at the center of this necropolis the tomb of Archytas, a Pythagorean general at Tarentum in the fourth century BCE. It has now been proven that this was a woman's tomb from the beginning of the second century BCE; there is nothing to suggest a connection between this cluster of tombs and Pythagorism.<ref type="noteLoc" target="#note_11">11</ref></ref> This very early evidence does not support the notion of the separation of the dead by religion. </p>
                     <note xml:id="note_7" place="foot" anchored="true" n="7">
@@ -200,13 +203,13 @@
                     <note xml:id="note_8" place="foot" anchored="true" n="8">
                         <gi>8. </gi><ab type="citation">
                             <seg function="contextualization">The inscription unearthed in</seg>
-                            <bibl sourceRole="secondary" reason="neither" contentType="fact" xml:lang="IT" type="book" xml:id="bibl_11">
+                            <bibl sourceRole="secondary" reason="neither" contentType="fact" xml:lang="IT" type="excavationReport" xml:id="bibl_11">
                                 <date>1903</date> by <author>
                                     <name type="first">Antonio</name>
                                     <name type="last">Sogliano</name>
-                                </author> ( <series>
-                                    <title level="s">Notizie degli scavi di antichità</title>, </series>
-                                <date>1905</date>, <biblScope type="pp">380</biblScope>) <seg function="contextualization">is published in</seg>
+                                </author> ( 
+                                    <title level="j">Notizie degli scavi di antichità</title>,
+                                <date>1905</date>, <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="pp">380</biblScope>) <seg function="contextualization">is published in</seg>
                                 <relatedItem type="citing">
                                     <bibl sourceRole="secondary" reason="neither" contentType="fact" xml:lang="FR" type="book" xml:id="bibl_12">
                                         <author>
@@ -215,7 +218,7 @@
                                         <title level="m">Lois sacrées des cités grecques. Supplément.</title>, <series>
                                             <title level="m">Ecole française d'Athènes. Travaux et mémoires</title>
                                             <biblScope type="vol">11</biblScope>
-                                        </series> ( <pubPlace>Paris</pubPlace>: <publisher>De Boccard</publisher>, <date>1962</date>) <biblScope type="pp">202-203</biblScope>, no. <biblScope type="catNo.">120</biblScope>. </bibl>
+                                        </series> ( <pubPlace>Paris</pubPlace>: <publisher>De Boccard</publisher>, <pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry> <date>1962</date>) <biblScope type="pp">202-203</biblScope>, no. <biblScope type="catNo.">120</biblScope>. </bibl>
                                 </relatedItem></bibl>
                         </ab>
                         <ab type="citation">
@@ -291,7 +294,7 @@
                                         <author>
                                             <name type="first">Pier Giovanni</name>
                                             <name type="last">Guzzo</name>, " </author>
-                                        <title level="a">Altre note tarantine</title>," <title level="j">Taras</title>
+                                        <title level="a">Altre note tarantine</title>," <title level="j">Taras</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry>
                                         <biblScope type="vol">12</biblScope> ( <date>1992</date>): <biblScope type="pp">135-141</biblScope>, esp. <biblScope type="pp">135-136</biblScope>
                                     </bibl>
                                 </relatedItem>
@@ -327,7 +330,7 @@
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See</seg>
-                            <bibl sourceRole="primary" contentType="fact" reason="support" furtherReading="true" type="corpus" xml:lang="LAT" xml:id="bibl_20">
+                            <bibl sourceRole="primary" contentType="fact" reason="support" furtherReading="true" type="corpus" xml:lang="LA" xml:id="bibl_20">
                                 <author>
                                     <name type="first">Maarten Jozef</name>
                                     <name type="last">Vermaseren</name>
@@ -338,7 +341,7 @@
                     </note>
                     <note xml:id="note_13" place="foot" anchored="true" n="13">
                         <gi>13. </gi><ab type="citation">
-                            <bibl sourceRole="primary" reason="neither" contentType="fact" type="corpus" xml:lang="LAT" corresp="#bibl_20">
+                            <bibl sourceRole="primary" reason="neither" contentType="fact" type="corpus" xml:lang="LA" corresp="#bibl_20">
                                 <author>
                                     <name type="last">Vermaseren</name>
                                 </author>
@@ -457,8 +460,8 @@
                                 </series> ( <pubPlace>Leiden</pubPlace>: <publisher>Brill</publisher>, <date>1972</date>), <pubCountry xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry>
                                 <biblScope type="pp">107</biblScope>, no. <biblScope type="catNo.">C9 </biblScope>
                                 <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" furtherReading="true" reason="neither" xml:lang="LAT" type="corpus" xml:id="bibl_25">
-                                        <title level="m "><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
+                                    <bibl sourceRole="primary" contentType="fact" furtherReading="true" reason="neither" xml:lang="LA" type="corpus" xml:id="bibl_25">
+                                        <title level="m"><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
                                         <biblScope type="vol">10</biblScope>.<biblScope type="catNo.">1894</biblScope>)</bibl>
                                 </relatedItem></bibl>
                         </ab>
@@ -516,7 +519,7 @@
                     </note>
                     <note xml:id="note_22" place="foot" anchored="true" n="22">
                         <gi>22. </gi><ab type="citation">
-                            <bibl sourceRole="secondary" xml:lang="LAT" contentType="opinion" reason="reject" type="PhD disertation" xml:id="bibl_28">
+                            <bibl sourceRole="secondary" xml:lang="LA" contentType="opinion" reason="reject" type="PhD disertation" xml:id="bibl_28">
                                 <author>
                                     <name type="first">Felix</name>
                                     <name type="last">Hettner</name>
@@ -612,7 +615,7 @@
                                     <name type="first">Tessa</name>
                                     <name type="last">Rajak</name>, " </author>
                                 <title level="a">Archisynagogoi: Office, Title and Social Status in the Greco-Jewish Synagogue</title>," <title level="j">Journal of Roman Studies</title>
-                                <biblScope type="vol">83</biblScope> (<date>1993</date>): <biblScope type="pp">75-93</biblScope>. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">United Kingdom</pubCountry><biblScope type="vol">83</biblScope> (<date>1993</date>): <biblScope type="pp">75-93</biblScope>. </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_27" place="foot" anchored="true" n="27">
@@ -622,7 +625,7 @@
                                     <name type="first">Leonard Victor</name>
                                     <name type="last">Rutgers</name>, " </author>
                                 <title level="a">Archeological Evidence for the Interaction of Jews and Non-Jews in Late Antiquity</title>," <title level="j">American Journal of Archeology</title>
-                                <biblScope type="vol">96</biblScope> (<date>1992</date>): <biblScope type="pp">101-118</biblScope>. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry><biblScope type="vol">96</biblScope> (<date>1992</date>): <biblScope type="pp">101-118</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See also</seg>
@@ -671,7 +674,7 @@
                                     <name type="first">B. H.</name>
                                     <name type="last">Williams</name>, </author>
                                 <title level="a">The Organization of Jewish Burials in Ancient Rome in the Light of Evidence from Palestine and the Diaspora</title>
-                                <title level="j">Zeitschrift für Papyrologie und Epigraphik</title>
+                                <title level="j">Zeitschrift für Papyrologie und Epigraphik</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry>
                                 <biblScope type="vol">101</biblScope> (<date>1994</date>): 165-182 </bibl>. </ab>
                         <ab type="citation">
                             <seg function="contextualization">See</seg>
@@ -719,12 +722,12 @@
                     <note xml:id="note_31" place="foot" anchored="true" n="31">
                         <gi>31. </gi><ab type="citation">
                             <seg function="contextualization"> See </seg>
-                            <bibl sourceRole="secondary" contentType="fact" reason="neither" type="journalArticle" xml:id="bibl_38" xml:lang="EN">
+                            <bibl sourceRole="secondary" contentType="fact" reason="neither" type="bookSection" xml:id="bibl_38" xml:lang="EN">
                                 <author>
                                     <name type="first">Isaiah</name>
                                     <name type="last">Gafni</name>
-                                </author>, " <title level="a">Reinternment in the Land of Israel: Notes on the Origin and Development of the Custom</title>," <title level="j">Jerusalem Cathedra</title>
-                                <biblScope type="vol">1</biblScope> (<date>1981</date>): <biblScope type="pp">96-104</biblScope>. </bibl>
+                                </author>, " <title level="a">Reinternment in the Land of Israel: Notes on the Origin and Development of the Custom</title>," <title level="m">Jerusalem Cathedra</title>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry><pubCountry xmlns="http://www.example.org/ns/nonTEI">Israel</pubCountry><biblScope type="vol">1</biblScope> (<date>1981</date>): <biblScope type="pp">96-104</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See also </seg>
@@ -745,7 +748,7 @@
                                 <author>
                                     <name type="first">Ross Shepard</name>
                                     <name type="last">Kraemer</name>
-                                </author>, " <title level="a">Jewish Tuna and Christian Fish: Identifying Religious Affiliation in Epigraphic Sources</title>," <title>Harvard Theological Review</title>
+                                </author>, " <title level="a">Jewish Tuna and Christian Fish: Identifying Religious Affiliation in Epigraphic Sources</title>," <title level="j">Harvard Theological Review</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry>
                                 <biblScope type="vol">84</biblScope> ( <date>1991</date>): <biblScope type="pp">141-162</biblScope> ; </bibl> and <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="EN" type="journalArticle" xml:id="bibl_40">
                                 <author>
                                     <name type="first">Jan William</name>
@@ -775,7 +778,7 @@
                                     <name type="first">Cesare</name>
                                     <name type="last">Colafemmina</name>
                                 </author>, " <title level="a">Saggio di scavo in località 'Collina della Maddalena' a Venosa</title>," <title level="j">Vetera Christianorum</title>
-                                <biblScope type="vol">18</biblScope> ( <date>1981</date>): <biblScope type="pp">443-451</biblScope> . </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">18</biblScope> ( <date>1981</date>): <biblScope type="pp">443-451</biblScope> . </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See also</seg>
@@ -785,7 +788,7 @@
                                     <name type="last">Meyers</name>
                                 </author>, " <title level="a">Report on the Excavations at the Venosa Catacombs 1981</title>
                                 <title level="j">Vetera Christianorum</title>
-                                <biblScope type="vol">20</biblScope> ( <date>1983</date>): <biblScope type="pp">445-459</biblScope>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">20</biblScope> ( <date>1983</date>): <biblScope type="pp">445-459</biblScope>
                             </bibl>; <bibl sourceRole="secondary" furtherReading="true" contentType="fact" reason="neither" xml:lang="EN" type="journalArticle" corresp="#bibl_33">
                                 <author>
                                     <name type="last">Rutgers</name>
@@ -846,7 +849,7 @@
                     <note xml:id="note_37" place="foot" anchored="true" n="37">
                         <gi>37. </gi><ab type="citation">
                             <seg function="contextualization">See the text and translation by</seg>
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" xml:id="bibl_46">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" xml:id="bibl_46">
                                 <author>
                                     <name type="first">Jean-Baptiste</name>
                                     <name type="last">Frey</name>
@@ -880,7 +883,7 @@
                     </note>
                     <note xml:id="note_38" place="foot" anchored="true" n="38">
                         <gi>38. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" corresp="#bibl_46">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" corresp="#bibl_46">
                                 <author>
                                    <name type="last">Frey</name>
                                 </author>, <title level="m">Corpus inscriptionum iudaicarum</title>, vol. <biblScope type="vol">2</biblScope>, no <biblScope type="catNo.">741</biblScope> = <relatedItem type="alternative">
@@ -896,19 +899,19 @@
                     <note xml:id="note_39" place="foot" anchored="true" n="39">
                         <gi>39. </gi><ab type="citation">
                             <seg function="contextualization">More examples: </seg>
-                            <bibl sourceRole="secondary" contentType="fact" reason="neither" furtherReading="true" xml:lang="LAT" type="corpus" corresp="#bibl_46">
+                            <bibl sourceRole="secondary" contentType="fact" reason="neither" furtherReading="true" xml:lang="LA" type="corpus" corresp="#bibl_46">
                                 <author>
                                     <name type="last">Frey</name>
                                 </author>, <title level="m">Corpus inscriptionum iudaicarum</title>, vol. <biblScope type="vol">2</biblScope>, nos. <biblScope type="catNo.">775</biblScope>, <biblScope type="catNo.">776</biblScope>, <biblScope type="catNo.">799</biblScope>, etc. </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">About the Jewish inscription of Hierapolis, see </seg>
-                            <bibl sourceRole="secondary" contentType="opinion" reason="support" xml:lang="LAT" type="journalArticle" xml:id="bibl_49">
+                            <bibl sourceRole="secondary" contentType="opinion" reason="support" xml:lang="LA" type="journalArticle" xml:id="bibl_49">
                                 <author>
                                     <name type="first">Elena</name>
                                     <name type="last">Miranda</name>
                                 </author>, " <title level="a">La comunità giudaica di Hierapolis di Frigia</title>," <title level="j">Epigraphica Anatolica</title>
-                                <biblScope type="vol">31</biblScope> ( <date>1999</date>): <biblScope type="pp">109-55</biblScope>, esp. <biblScope type="pp">148</biblScope> (for funerary fines). </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry><biblScope type="vol">31</biblScope> ( <date>1999</date>): <biblScope type="pp">109-55</biblScope>, esp. <biblScope type="pp">148</biblScope> (for funerary fines). </bibl>
                         </ab>
                     </note>
                     <p>
@@ -925,7 +928,7 @@
                                     <name type="first">Tullia</name>
                                     <name type="last">Ritti</name>
                                 </author>, " <title level="a">Nuovi dati su una nota epigrafe sepolcrale con stefanotico da Hierapolis di Frigia</title>," <title level="j">Scienze dell'antichità</title>
-                                <biblScope type="vol">6-7</biblScope> ( <date>1992-93</date>) <biblScope type="pp">41-68</biblScope>, esp. <biblScope type="pp">41-43</biblScope>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">6-7</biblScope> ( <date>1992-93</date>) <biblScope type="pp">41-68</biblScope>, esp. <biblScope type="pp">41-43</biblScope>
                             </bibl> and <bibl sourceRole="secondary" contentType="fact" reason="support" xml:lang="IT" type="journalArticle" corresp="#bibl_49">
                                 <author>
                                     <name type="last">Miranda</name>
@@ -951,7 +954,7 @@
                                     <name type="first">Margaret H.</name>
                                     <name type="last">Williams</name>
                                 </author>, " <title level="a">The Jews of Corycus: A Neglected Diasporan Community from Roman Times</title>," <title level="j">Journal for the Study of Judaism</title>
-                                <biblScope type="vol">25</biblScope> ( <date>1994</date>): <biblScope type="pp">274-86</biblScope>, esp. <biblScope type="pp">278</biblScope> and <biblScope type="note">notes 23-24</biblScope>. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry><biblScope type="vol">25</biblScope> ( <date>1994</date>): <biblScope type="pp">274-86</biblScope>, esp. <biblScope type="pp">278</biblScope> and <biblScope type="note">notes 23-24</biblScope>. </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_41" place="foot" anchored="true" n="41">
@@ -985,7 +988,7 @@
                                     <name type="first">Margaret H.</name>
                                     <name type="last">Williams</name>
                                 </author>, " <title level="a">The Meaning and Function of Ioudaios in Graeco-Roman Inscriptions</title>," <title level="j">Zeitschrift für Papyrologie und Epigraphik</title>
-                                <biblScope type="vol">116</biblScope> ( <date>1997</date>): <biblScope type="pp">256</biblScope> and n. <biblScope type="note">69</biblScope>, </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry><biblScope type="vol">116</biblScope> ( <date>1997</date>): <biblScope type="pp">256</biblScope> and n. <biblScope type="note">69</biblScope>, </bibl>
                             <seg function="contextualization">stresses the weakness of <bibl sourceRole="secondary" contentType="opinion" reason="support" type="bookSection" corresp="#bibl_53"><author>
                                         <name type="last">Strubbe</name>
                                     </author></bibl>'s arguments; </seg>we find the same comment in <bibl sourceRole="secondary" contentType="opinion" reason="support" xml:lang="EN" type="bookSection" corresp="#bibl_36">
@@ -1017,7 +1020,7 @@
                     </p>
                     <note xml:id="note_44" place="foot" anchored="true" n="44">
                         <gi>44. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" corresp="#bibl_46">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" corresp="#bibl_46">
                                 <author>
                                     <name type="last">Frey</name>
                                 </author>, <title level="m">Corpus inscriptionum iudaicarum</title>, vol. <biblScope type="vol">2</biblScope>, no. <biblScope type="catNo.">777</biblScope>(incomplete); <seg function="contextualization">new edition in </seg>
@@ -1059,7 +1062,7 @@
                                     <name type="first">Margaret H.</name>
                                     <name type="last">Williams</name>
                                 </author>, " <title level="a">The Jews and Godfearers Inscription from Aphrodisias: A Case of Patriarcal Interference in Early 3rd Century Caria?</title>" <title level="j">Historia</title>
-                                <biblScope type="vol">41</biblScope>, no. <biblScope type="issue">3</biblScope> ( <date>1992</date>): <biblScope type="pp">297-310</biblScope> . </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry><biblScope type="vol">41</biblScope>, no. <biblScope type="issue">3</biblScope> ( <date>1992</date>): <biblScope type="pp">297-310</biblScope> . </bibl>
                         </ab>
                     </note>
                     <p>
@@ -1083,7 +1086,7 @@
                                     <name type="first">Shimon</name>
                                     <name type="last">Applebaum</name>
                                 </author>, " <title level="a">The Jewish Community of Hellenistic and Roman Teucheira in Cyrenaica</title>," <title level="j">Scripta Hierosolymitana</title>
-                                <biblScope type="vol">7</biblScope> ( <date>1961</date>): <biblScope type="pp">27-52</biblScope>, esp. <biblScope type="pp">34-35</biblScope> . </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Israel</pubCountry><biblScope type="vol">7</biblScope> ( <date>1961</date>): <biblScope type="pp">27-52</biblScope>, esp. <biblScope type="pp">34-35</biblScope> . </bibl>
                         </ab>
                     </note>
                     <p>
@@ -1098,7 +1101,7 @@
                                     <name type="first">Robert C.</name>
                                     <name type="last">Gregg</name>
                                 </author>, " <title level="a">Marking Religious and Ethnic Boundaries: Cases from the Ancient Golan Heights</title>," <title level="j">Church History</title>
-                                <biblScope type="vol">69</biblScope>, no. <biblScope type="issue">3</biblScope> ( <date>2000</date>): <biblScope type="pp">519-57</biblScope>, esp. <biblScope type="pp">547-548</biblScope>.</bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">United Kingdom</pubCountry><biblScope type="vol">69</biblScope>, no. <biblScope type="issue">3</biblScope> ( <date>2000</date>): <biblScope type="pp">519-57</biblScope>, esp. <biblScope type="pp">547-548</biblScope>.</bibl>
                         </ab>
                     </note>
                     <note xml:id="note_49" place="foot" anchored="true" n="49">
@@ -1120,7 +1123,7 @@
                                 <author>
                                     <name type="first">Charles Simon</name>
                                     <name type="last">Clermont-Ganneau</name>
-                                </author>, " <title level="a">L'antique nécropole juive d'Alexandrie</title>" <title level="j">Comptes rendus de l'Académie des Inscriptions et Belles-Lettres</title> ( <date>1907</date>): <biblScope type="pp">236-39</biblScope>, <biblScope type="pp">375-76</biblScope> . </bibl>
+                                </author>, " <title level="a">L'antique nécropole juive d'Alexandrie</title>" <title level="j">Comptes rendus de l'Académie des Inscriptions et Belles-Lettres</title> ( <date>1907</date>): <biblScope type="pp">236-39</biblScope>, <biblScope type="pp">375-76</biblScope> <pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry> . </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_50" place="foot" anchored="true" n="50">
@@ -1148,7 +1151,7 @@
                                     <name type="first">Yves</name>
                                     <name type="last">Le Bohec</name>
                                 </author>, " <title level="a">Inscriptions juives et judaïsantes de l'Afrique romaine</title>," <title level="j">Antiquités africaines</title>
-                                <biblScope type="vol">17</biblScope> ( <date>1981</date>): <biblScope type="pp">168</biblScope>, and <biblScope type="pp">180-89</biblScope> (for the inscriptions). </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry><biblScope type="vol">17</biblScope> ( <date>1981</date>): <biblScope type="pp">168</biblScope>, and <biblScope type="pp">180-89</biblScope> (for the inscriptions). </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization"><bibl sourceRole="secondary" contentType="opinion" reason="reject" type="book" corresp="#bibl_61">
@@ -1230,6 +1233,8 @@
                                 </author>, " <title level="a">I cimiteri ebraici di Roma</title>," in <title level="m">Società romana e impero tardoantico.</title><biblScope type="vol">2</biblScope>, <title level="a">Le merci. Gli insediamenti</title>, <editor>
                                     <name type="first">Andrea</name>
                                     <name type="last">Giardina</name>, </editor>
+                                <date rend="false">1986</date>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry>
                                 <series>
                                     <title level="s">Collezione storica</title>
                                 </series>
@@ -1239,7 +1244,7 @@
                                     <name type="first">Leonard Victor</name>
                                     <name type="last">Rutgers</name>
                                 </author>, " <title level="a">Überlegungen zu den jüdischen Katakomben Roms</title>," <title level="j">Jahrbuch für Antike und Christentum</title>
-                                <biblScope type="vol">33</biblScope> ( <date>1990</date>): <biblScope type="pp">140-57.</biblScope>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry><biblScope type="vol">33</biblScope> ( <date>1990</date>): <biblScope type="pp">140-57.</biblScope>
                             </bibl>
                         </ab>
                         <ab type="citation">
@@ -1248,7 +1253,7 @@
                                 <author>
                                     <name type="first">Leonard Victor</name>
                                     <name type="last">Rutgers</name>
-                                </author>, " <title level="a">Dating the Jewish Catacombs of Ancient Rome</title>," in idem, <title level="m">The Hidden Heritage of Diaspora Judaism</title> (<pubPlace>Leuven</pubPlace>: <publisher>Peeters</publisher>, <date>1998</date>), <pubCountry xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry>
+                                </author>, " <title level="a">Dating the Jewish Catacombs of Ancient Rome</title>," in idem, <title level="m">The Hidden Heritage of Diaspora Judaism</title> (<pubPlace>Leuven</pubPlace>: <publisher>Peeters</publisher>, <date>1998</date>), <pubCountry xmlns="http://www.example.org/ns/nonTEI">Belgium</pubCountry>
                                 <biblScope type="pp">45-47</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
@@ -1379,7 +1384,7 @@
                                     <biblScope type="vol">204</biblScope>
                                 </series> ( <publisher>Latomus</publisher>, <pubPlace>Brussels</pubPlace>: <pubCountry xmlns="http://www.example.org/ns/nonTEI">Belgium</pubCountry>
                                 <date>1989</date>), <biblScope type="pp">48-49</biblScope> , </bibl>
-                            <seg function="contextualization">assumes on the basis of <bibl sourceRole="primary" contentType="fact" reason="neither" type="codex" xml:id="bibl_77" xml:lang="LAT"><title level="a">Digesta</title>
+                            <seg function="contextualization">assumes on the basis of <bibl sourceRole="primary" contentType="fact" reason="neither" type="codex" xml:id="bibl_77" xml:lang="LA"><title level="a">Digesta</title><editor rend="false"><name type="first">Alan</name><name type="last">Watson</name></editor><date rend="false">1985</date><pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry>
                                     <biblScope type="otherLoc">17.2.52.7</biblScope></bibl> that there were small businesses specializing in the development of land for resale as tombs. </seg>
                         </ab>
                         <ab type="citation">
@@ -1415,7 +1420,7 @@
                                         <author>
                                             <name type="last">Noy</name>
                                         </author>, <title level="m">Jewish Inscriptions of Western Europe</title>, vol. <biblScope type="vol">2</biblScope>, no. <biblScope type="catNo.">378</biblScope> = <relatedItem type="alternative">
-                                            <bibl sourceRole="primary" contentType="fact" xml:lang="LAT" type="corpus" reason="neither" corresp="#bibl_46">
+                                            <bibl sourceRole="primary" contentType="fact" xml:lang="LA" type="corpus" reason="neither" corresp="#bibl_46">
                                                 <author>
                                                     <name type="last">Frey</name>
                                                 </author>
@@ -1426,9 +1431,9 @@
                                     </bibl>
                                 </relatedItem>
                                 <relatedItem type="cited">
-                                    <bibl sourceRole="primary" contentType="fact" xml:lang="LAT" type="corpus" reason="neither" corresp="#bibl_47">
+                                    <bibl sourceRole="primary" contentType="fact" xml:lang="LA" type="corpus" reason="neither" corresp="#bibl_47">
                                         <title level="m">Tituli Asiae minoris</title>. <biblScope type="vol">2, 2</biblScope>, no. <biblScope type="catNo.">612</biblScope> = <relatedItem type="alternative">
-                                            <bibl sourceRole="primary" contentType="fact" xml:lang="LAT" type="corpus" corresp="#bibl_46" reason="neither">
+                                            <bibl sourceRole="primary" contentType="fact" xml:lang="LA" type="corpus" corresp="#bibl_46" reason="neither">
                                                 <author>
                                                     <name type="last">Frey</name>
                                                 </author>
@@ -1438,7 +1443,7 @@
                                     </bibl>
                                 </relatedItem>
                                 <relatedItem type="cited">
-                                    <bibl sourceRole="primary" contentType="fact" xml:lang="LAT" type="corpus" reason="neither" corresp="#bibl_25">
+                                    <bibl sourceRole="primary" contentType="fact" xml:lang="LA" type="corpus" reason="neither" corresp="#bibl_25">
                                         <title level="m"><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
                                         <biblScope type="vol">6</biblScope>. <biblScope type="catNo.">10412</biblScope>, <seg function="contextualization">which is no longer identified as Jewish.</seg>
                                     </bibl>
@@ -1448,7 +1453,7 @@
                     </note>
                     <note xml:id="note_62" place="foot" anchored="true" n="61">
                         <gi>61. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" xml:id="bibl_133">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" xml:id="bibl_133">
                                 <title>Semahot</title>
                                 <biblScope type="otherLoc">1.9.</biblScope>
                             </bibl>
@@ -1466,15 +1471,15 @@
                     </note>
                     <note xml:id="note_63" place="foot" anchored="true" n="62">
                         <gi>62. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" xml:id="bibl_80">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" xml:id="bibl_80">
                                 <title level="m">Tosefta</title>. <biblScope type="otherLoc">Gittin 5.5</biblScope>; </bibl>
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" xml:id="bibl_81">
-                                <title level="m">Jerusalem Talmud</title>. <biblScope type="otherLoc">Demai 1.4</biblScope>; </bibl> and <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" corresp="#bibl_81">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" xml:id="bibl_81">
+                                <title level="m">Jerusalem Talmud</title>. <biblScope type="otherLoc">Demai 1.4</biblScope>; </bibl> and <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" corresp="#bibl_81">
                                 <title level="m">Jerusalem Talmud</title>. <biblScope type="otherLoc">Aboda zora 1.3</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See</seg>
-                            <bibl sourceRole="primary" contentType="fact" reason="support" xml:lang="HEB" type="other" xml:id="bibl_82">
+                            <bibl sourceRole="primary" contentType="fact" reason="support" xml:lang="HE" type="other" xml:id="bibl_82">
                                 <title level="m">Babylonian Talmud</title>. <biblScope type="otherLoc">Gittin 61a</biblScope>, </bibl>
                             <seg function="contextualization">where no burial place is indicated either</seg></ab>
                         <ab type="citation">(contra <bibl sourceRole="secondary" contentType="fact" reason="reject" xml:lang="EN" type="journalArticle" corresp="#bibl_33">
@@ -1485,7 +1490,7 @@
                     </note>
                     <note xml:id="note_64" place="foot" anchored="true" n="63">
                         <gi>63. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" xml:id="bibl_83">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" xml:id="bibl_83">
                                 <title level="m">Michna</title>. <biblScope type="otherLoc">Ohalot 18.7-8</biblScope> . </bibl>
                             <seg function="contextualization">See</seg>
                             <bibl sourceRole="secondary" contentType="fact" reason="neither" xml:lang="EN" type="book" xml:id="bibl_84">
@@ -1511,8 +1516,8 @@
                     </note>
                     <note xml:id="note_65" place="foot" anchored="true" n="64">
                         <gi>64. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" corresp="#bibl_83">
-                                <title level="m">Michna</title>. <biblScope type="otherLoc">Shabbat 23.4</biblScope></bibl>, and <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HEB" type="other" corresp="#bibl_80">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" corresp="#bibl_83">
+                                <title level="m">Michna</title>. <biblScope type="otherLoc">Shabbat 23.4</biblScope></bibl>, and <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="HE" type="other" corresp="#bibl_80">
                                 <title level="m">Tosefta</title>. <biblScope type="otherLoc">Shabbat 17.14-15</biblScope>.</bibl>
                             <seg function="contextualization">See</seg>
                             <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="EN" type="scholarlyEdition" corresp="#bibl_84">
@@ -1527,7 +1532,7 @@
                             <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="EN" type="book" corresp="#bibl_85">
                                 <author>
                                     <name type="last">Porton</name>
-                                </author>, <title level="m">Goyim</title>, <biblScope type="pp">28-29</biblScope>, <biblScope type="pp">208</biblScope>. </bibl>
+                                </author>, <title level="m" type="short">Goyim</title>, <biblScope type="pp">28-29</biblScope>, <biblScope type="pp">208</biblScope>. </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_66" place="foot" anchored="true" n="65">
@@ -1536,7 +1541,7 @@
                             <bibl sourceRole="secondary" contentType="opinion" reason="support" xml:lang="EN" type="book" corresp="#bibl_85">
                                 <author>
                                     <name type="last">Porton</name>
-                                </author>, <title level="m">Goyim</title>, <biblScope type="pp">4-5</biblScope>. </bibl>
+                                </author>, <title level="m" type="short">Goyim</title>, <biblScope type="pp">4-5</biblScope>. </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_67" place="foot" anchored="true" n="66">
@@ -1545,21 +1550,21 @@
                                 <author>
                                     <name type="first">Leonard V.</name>
                                     <name type="last">Rutgers</name>
-                                </author>, in <seg function="indirectCitation">a review of the French version of this book</seg>, states that"the sources do not forbid explicitly the burying together of Jews and non-Jews simply because it was self-evident from the beginning that this was not normal procedure" ( <title level="j">Vigiliae Christianae</title>
-                                <biblScope type="vol">59</biblScope>, no.<biblScope type="issue"> 2</biblScope> [<date>2005</date>]: <biblScope type="pp">214</biblScope>. </bibl>
+                                </author>, in <seg function="indirectCitation"><title level="a" rend="false">Éric Rebillard, Religion et sépulture. L'Église, les vivants et les morts dans l'Antiquité tardive</title>a review of the French version of this book</seg>, states that"the sources do not forbid explicitly the burying together of Jews and non-Jews simply because it was self-evident from the beginning that this was not normal procedure" ( <title level="j">Vigiliae Christianae</title>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry><biblScope type="vol">59</biblScope>, no.<biblScope type="issue"> 2</biblScope> [<date>2005</date>]: <biblScope type="pp">214</biblScope>. </bibl>
                         </ab>
                         <ab type="authorIntervention">This is the kind of assumption I am challenging in this book.</ab>
                     </note>
-                    <p> Ultimately, the choice of a tomb seems to have been a family matter, as it is taught in the Old Testament. <ref type="noteSpan" corresp="#note_68">The purchase of the Tomb of the Patriarchs by Abraham at Hebron <note xml:id="note_68" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HEB" xml:id="bibl_125"><title level="a"><abbr>Gen.</abbr><expan>Genesis</expan></title><title level="m" rend="false">Bible</title>
+                    <p> Ultimately, the choice of a tomb seems to have been a family matter, as it is taught in the Old Testament. <ref type="noteSpan" corresp="#note_68">The purchase of the Tomb of the Patriarchs by Abraham at Hebron <note xml:id="note_68" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HE" xml:id="bibl_125"><title level="a"><abbr>Gen.</abbr><expan>Book of Genesis</expan></title><title level="m" rend="false">Bible</title>
                                     <biblScope type="otherLoc">23</biblScope></bibl>)</note> is an important model, and the desirability of possessing a family tomb for the burial of the dead is a recurring theme in the Old Testament.</ref>
-                        <ref type="noteSpan" corresp="#note_69">This is Jacob's wish in <note xml:id="note_69" place="in-line"><bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HEB" corresp="#bibl_125"><title level="a">Genesis</title><title level="m" rend="false">Bible</title>
+                        <ref type="noteSpan" corresp="#note_69">This is Jacob's wish in <note xml:id="note_69" place="in-line"><bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HE" corresp="#bibl_125"><title level="a">Book of Genesis</title><title level="m" rend="false">Bible</title>
                                     <biblScope type="otherLoc">49:29-31</biblScope></bibl></note>: that he be buried with his fathers, where he himself buried his wife Leah, in the field where Abraham and Sarah as well as Isaac and Rebecca lie buried.</ref>
-                        <ref type="noteSpan" corresp="#note_70">Joseph makes his family promise to take his body back to the land of Abraham when they are able to do so <note xml:id="note_70" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HEB" corresp="#bibl_125"><title level="a"><abbr>Gen.</abbr><expan>Genesis</expan></title>
+                        <ref type="noteSpan" corresp="#note_70">Joseph makes his family promise to take his body back to the land of Abraham when they are able to do so <note xml:id="note_70" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HE" corresp="#bibl_125"><title level="a"><abbr>Gen.</abbr><expan rend="false">Book of Genesis</expan></title>
                                     <title level="m" rend="false">Bible</title><biblScope type="otherLoc">50:25</biblScope></bibl>)</note>.</ref>
-                        <ref type="noteSpan" corresp="#note_71">Gideon and Samson also were buried in their fathers' tombs <note xml:id="note_71" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HEB" xml:id="bibl_126"><title level="a"><abbr>Judg.</abbr>
-                                        <expan>Judges</expan></title><title level="m" rend="false">Bible</title>
+                        <ref type="noteSpan" corresp="#note_71">Gideon and Samson also were buried in their fathers' tombs <note xml:id="note_71" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HE" xml:id="bibl_126"><title level="a"><abbr>Judg.</abbr>
+                                        <expan>Book of Judges</expan></title><title level="m" rend="false">Bible</title>
                                     <biblScope type="otherLoc">8:32</biblScope> and <biblScope type="otherLoc">16:31</biblScope></bibl>)</note>.</ref>
-                        <ref type="noteSpan" corresp="#note_72">David gathers the bones of Saul, of his son Jonathan, and of the seven hanged men, in the tomb of Kish, Saul's father <note xml:id="note_72" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HEB" xml:id="bibl_127"><title level="a"><abbr>2 Sam</abbr><expan>2 Samuel</expan></title><title level="m" rend="false">Bible</title>, <biblScope type="otherLoc">21:12-14</biblScope></bibl>)</note>.</ref>
+                        <ref type="noteSpan" corresp="#note_72">David gathers the bones of Saul, of his son Jonathan, and of the seven hanged men, in the tomb of Kish, Saul's father <note xml:id="note_72" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="support" type="other" xml:lang="HE" xml:id="bibl_127"><title level="a"><abbr>2 Sam</abbr><expan>Second Book of Samuel</expan></title><title level="m" rend="false">Bible</title>, <biblScope type="otherLoc">21:12-14</biblScope></bibl>)</note>.</ref>
                     </p>
                     <p> Thus, there was no specific religious ruling about the choice of a tomb; the model is simply that of family buriaL Moreover, it should be noted that, for Jews, contrasting family and community did not have the same significance <pb n="27"/>as for followers of the cults of Mithras or of Isis; burial with family and burial among Jews were one and the same thing. <ref type="noteSpan" corresp="#note_73">How then are we to explain the groupings of family tombs in the same catacombs at Rome? Was it a desire to distinguish themselves from non-Jews?<ref type="noteLoc" target="#note_73">67</ref></ref> That seems to be contradicted by the absence of parallels, elsewhere, in Jewish communities of the Diaspora. <ref type="noteSpan" corresp="#note_74">But the size of the city might explain different social practices.<ref type="noteLoc" target="#note_74">68</ref></ref>
                     </p>
@@ -1619,15 +1624,21 @@
                     <note xml:id="note_75" place="foot" anchored="true" n="69">
                         <gi>69. </gi><ab type="citation">
                             <seg function="contextualization">See</seg>
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="EN" type="other" corresp="#bibl_129"><title level="a"><abbr>Matt.</abbr><expan>Matthew</expan></title><title level="m">Bible</title> 
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="EN" type="other" xml:id="bibl_129"><title level="a"><abbr>Matt.</abbr><expan rend="false">Gospel after Matthew</expan></title><title level="m">Bible</title> 
                                 <biblScope type="otherLoc">8:25</biblScope>
                             </bibl> "<quote>Let the dead bury the dead</quote>," <seg function="contextualization">which is, surprisingly, rarely commented on by the Fathers of the Church, unless allegorically;</seg>
                         </ab>
                         <ab type="citation">
-                            <seg function="contextualization">see</seg><bibl sourceRole="primary" contentType="opinion" reason="neither" type="commentary" corresp="#bibl_92" xml:lang="LAT"><author>
+                            <seg function="contextualization">see</seg><bibl sourceRole="primary" contentType="opinion" reason="neither" type="commentary" xml:id="bibl_92" xml:lang="LA"><author>
                                     <name type="first">Hilary</name>
-                                    <name type="last">of Poitiers</name>
-                                </author><biblScope type="otherLoc" corresp="#note_81">below, note 73.</biblScope></bibl>
+                                <name type="last">of Poitiers</name>
+                                </author><editor rend="false">
+                                    <name type="first">Jean</name>
+                                    <name type="last">Doignon</name>
+                                </editor><title level="m" rend="false">In Matthaeum </title><series rend="false">
+                                    <title level="s">Sources chrétiennes</title>
+                                    <biblScope type="vol">254</biblScope>
+                                </series> (<pubPlace rend="false">Paris</pubPlace><publisher rend="false">Editions du Cerf</publisher><date rend="false">1978</date><pubCountry rend="false" xmlns="http://www.example.org/ns/nonTEI">France</pubCountry><biblScope type="otherLoc" corresp="#note_81">below, note 73.</biblScope></bibl>
                         </ab>
                     </note>
                     <note xml:id="note_76" place="foot" anchored="true" n="70">
@@ -1638,7 +1649,7 @@
                                     <name type="first">Éric</name>
                                     <name type="last">Rebillard</name>
                                 </author>, " <title level="a">Eglise et sépulture dans l'Antiquité tardive (Occident latin, 3e-6e siècles)</title>" <title level="j">Annales: histoire, sciences sociales</title>
-                                <biblScope type="vol">54</biblScope>, no. <biblScope type="issue">5</biblScope> (<date>1999</date>): <biblScope type="pp">1029-32</biblScope>. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry><biblScope type="vol">54</biblScope>, no. <biblScope type="issue">5</biblScope> (<date>1999</date>): <biblScope type="pp">1029-32</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
                             <seg function="contextualization">See</seg>
@@ -1647,25 +1658,25 @@
                                     <name type="first">Mark J.</name>
                                     <name type="last">Johnson</name>
                                 </author>, " <title level="a">Pagan-Christian Burial Practices of the Fourth Century: Shared Tombs?</title>" <title level="j">Journal of Early Christian Studies</title>
-                                <biblScope type="vol">5</biblScope>, no. <biblScope type="issue">1</biblScope> ( <date>1997</date>): <biblScope type="pp">37-59</biblScope> , </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">United States</pubCountry><biblScope type="vol">5</biblScope>, no. <biblScope type="issue">1</biblScope> ( <date>1997</date>): <biblScope type="pp">37-59</biblScope> , </bibl>
                             <seg function="contextualization">for a list of similar testimonies and a critique of the way they have been used.</seg>
                         </ab>
                     </note>
                     <p>
-                        <ref type="noteSpan" corresp="#note_77">As a result, a phrase from Tertullian (c. 160-225) has been taken out of context: "<q>We may live with the heathens, die with them we may not</q>" <note xml:id="note_77" place="in-line">(<bibl sourceRole="primary" contentType="opinion" reason="neither" type="other" xml:lang="LAT" xml:id="bibl_128"><author rend="false"><name type="last">Tertullian</name></author><editor rend="false"><name type="last">Waszink</name><name type="first">Jan</name> <name type="middle">Hendrik</name></editor><editor rend="false"><name type="last">Van Winden</name><name type="first">J. C. M.</name></editor><title level="a">De idololatria</title><date rend="false">1987</date><pubPlace rend="false">Leiden</pubPlace><pubCountry rend="false" xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry>
+                        <ref type="noteSpan" corresp="#note_77">As a result, a phrase from Tertullian (c. 160-225) has been taken out of context: "<q>We may live with the heathens, die with them we may not</q>" <note xml:id="note_77" place="in-line">(<bibl sourceRole="primary" contentType="opinion" reason="neither" type="other" xml:lang="LA" xml:id="bibl_128"><author rend="false"><name type="last">Tertullian</name></author><editor rend="false"><name type="last">Waszink</name><name type="first">Jan</name> <name type="middle">Hendrik</name></editor><editor rend="false"><name type="last">Van Winden</name><name type="first">J. C. M.</name></editor><title level="a">De idololatria</title><date rend="false">1987</date><pubPlace rend="false">Leiden</pubPlace><pubCountry rend="false" xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry>
                                     <biblScope type="otherLoc">14.5</biblScope></bibl>)</note>. Tertullian comments upon the verses of 1 Corinthians in which Paul explains that idolatry must be shunned, but not so as to offend the pagans; thus, one is allowed to accept an invitation to dinner from a pagan and to eat what is served without question, but if meat is offered as a meat of sacrifice, it must be refused. Tertullian concludes, "<q>While it is inevitable that we live and mingle with sinners, we may also sin with them. Where there is social intercourse, which is permitted by the apostle, there is also sinning, which is permitted by no one. We may live with the heathens, die with them we may not.</q>" Death in that sense means sin, so the second phrase repeats the first and cannot be understood as an interdiction for Christians to be buriedamong pagan tombs. </ref></p>
                     <p>
                         <ref type="noteSpan" corresp="#note_78">A letter from Cyprian of Carthage (d. 258) has also often been interpreted in this sense. The letter is a response by Cyprian and his African colleagues to the Spanish communities of Legio, Astorica, and Emerita on the subject of the bishops Basilides and Martialis. They had obtained false certificates of sacrifice that testified that they had conformed with Decius's edict (250) but they did not themselves actually sacrifice. Nevertheless, their churches deemed their conduct unworthy of bishops and deposed them. The Spaniards appealed to their African colleagues, for Basilides requested and received support from Stephen, bishop of Rome. The offense of the two bishops was not simply their obtaining of certificates of sacrifice. Martialis's case, in particular, was aggravated by his membership in a collegium. Not only did he participate in the banquets of the collegium, but also had buried his sons in the collegium burial place. Cyprian's indignation is clear in the words he used: "<q>his own sons he had buried in the manner of pagans as members of that same sodality, interred in the company of strangers among heathen graves.</q>"<ref type="noteLoc" target="#note_78">71</ref></ref> We must take note of his insistence on describing pagan rites as foreign to Christians, but the key to understanding his indignation is found in the role played by the collegium. <ref type="noteSpan" corresp="#note_79">Martialis, in effect, not only turned to the collegium for the burial of his sons but obtained for them tombs in the locus scpulturae of the collegium-in other words, in the monument or the ground owned by the collegium, where its members could be buried.<ref type="noteLoc" target="#note_79">72</ref></ref> The choice of such a place had religious implications, for members <pb n="29"/>of a collegium commemorated their dead together and on those occasions offered libations and sacrifices that were forbidden to Christians. Cyprian's letter therefore contains no general condemnation of the mixing of pagan and Christian tombs, but condemns specifically the recourse to a pagan association for funerals and burials of Christians. </p>
                     <note xml:id="note_78" place="foot" anchored="true" n="71">
                         <gi>71. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="letter" corresp="#bibl_90">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="letter" xml:id="bibl_90">
                                 <author>
                                     <name type="last">Cyprian</name>
                                 </author>, <title level="m">Letters</title>
                                 <biblScope type="otherLoc">67.6</biblScope>
                             </bibl>
                             <seg function="contextualization">See</seg>
-                            <bibl sourceRole="secondary" contentType="opinion" reason="neither" furtherReading="true" xml:lang="EN" type="scholarlyEdition" xml:id="bibl_90">
+                            <bibl sourceRole="secondary" contentType="fact" reason="neither" furtherReading="true" xml:lang="EN" type="scholarlyEdition" corresp="#bibl_90">
                                 <author rend="false"><name type="last">Cyprian</name></author><editor>
                                     <name type="first">Graeme W</name>
                                     <name type="last">Clarke</name>
@@ -1687,7 +1698,7 @@
                                     <name type="first">Anna</name>
                                     <name type="last">Cafissi</name>
                                 </author>, " <title level="a">Contributo alla storia dei collegi romani: i collegia funeraticia</title>," <title level="j">Studi e ricerche dell'Istituto di Storia, Facoltà di Lettere e Filosofia, Università di Firenze</title>
-                                <biblScope type="vol">2</biblScope> ( <date>1983</date>): <biblScope type="pp">89-111</biblScope> ; </bibl> and <bibl sourceRole="secondary" contentType="fact" reason="neither" furtherReading="true" xml:lang="FR" type="book" corresp="#bibl_27">
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">2</biblScope> ( <date>1983</date>): <biblScope type="pp">89-111</biblScope> ; </bibl> and <bibl sourceRole="secondary" contentType="fact" reason="neither" furtherReading="true" xml:lang="FR" type="book" corresp="#bibl_27">
                                 <author>
                                     <name type="last">Waltzing</name>
                                 </author>, <title level="m">&#201;tude historique sur les corporations</title>, <biblScope type="vol">4</biblScope>:<biblScope type="pp">487-95</biblScope>
@@ -1705,19 +1716,19 @@
                             <biblScope type="chap">chapter 3 of the present volume</biblScope></bibl> for the funerary activities of the collegia.</ab>
                     </note>
                     <p>
-                        <ref type="noteSpan" corresp="#note_81">A passage from Hilary of Poitiers (d. 367) has also been misunderstood. It is a commentary on <note xml:id="note_80" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="neither" type="other" xml:lang="LAT" xml:id="bibl_129"><title level="a">Matthew</title><title level="m" rend="false">Bible</title>
-                                    <biblScope type="otherLoc">18:22</biblScope></bibl></note>: "<q>He did not therefore forbid to honor a father with a decent burial, but by adding, 'let the dead bury the dead,' he urged him not to associate with the memory of the saints (memoriis sanctorum) dead nonbelievers, and also to consider as dead those who live without God.</q>" The memoriae sanctorum have sometimes been understood as the tombs of the saints, but the last part of the sentence shows that death there is used metaphorically, which caused the last editor of the text to conclude that "<q>the wording does not reflect a liturgical usage relative to burials, but is relevant to the rule on excommunication.</q>"<ref type="noteLoc" target="#note_81">73</ref></ref>
+                        <ref type="noteSpan" corresp="#note_81">A passage from Hilary of Poitiers (d. 367) has also been misunderstood. It is a commentary on <ref type="noteSpan" corresp="#note_80"><note xml:id="note_80" place="in-line">(<bibl sourceRole="primary" contentType="fact" reason="neither" type="other" xml:lang="LA" corresp="#bibl_129"><title level="a">Matthew</title><title level="m" rend="false">Bible</title>
+                            <biblScope type="otherLoc">18:22</biblScope></bibl></note>: "<q>He did not therefore forbid to honor a father with a decent burial, but by adding, 'let the dead bury the dead,' he urged him not to associate with the memory of the saints (memoriis sanctorum) dead nonbelievers, and also to consider as dead those who live without God.</q>"</ref> The memoriae sanctorum have sometimes been understood as the tombs of the saints, but the last part of the sentence shows that death there is used metaphorically, which caused the last editor of the text to conclude that "<q>the wording does not reflect a liturgical usage relative to burials, but is relevant to the rule on excommunication.</q>"<ref type="noteLoc" target="#note_81">73</ref></ref>
                     </p>
                     <note xml:id="note_81" place="foot" anchored="true" n="73">
                         <gi>73. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="opinion" reason="neither" xml:lang="LAT" type="commentary" corresp="#bibl_92">
+                            <bibl sourceRole="primary" contentType="opinion" reason="neither" xml:lang="LA" type="commentary" corresp="#bibl_92">
                                 <author>
                                     <name type="last">Hilary</name>
                                 </author>
-                                <title level="m">In Matthaeum 7.11</title>
+                                <title level="m">In Matthaeum </title><biblScope type="otherLoc">7.11</biblScope>
                             </bibl>
                             <seg function="contextualization">, with commentary by</seg>
-                            <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="FR" type="scholarlyEdition" xml:id="bibl_92">
+                            <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="FR" type="scholarlyEdition" corresp="#bibl_92">
                                 <author rend="false"><name type="last">Hilary of Poitiers</name></author><editor>
                                     <name type="first">Jean</name>
                                     <name type="last">Doignon</name>
@@ -1736,7 +1747,7 @@
                         </ab>
                     </note>
                     <p>
-                        <ref type="noteSpan" corresp="#note_82">Finally, sometimes cited is a text in which Theodoret of Cyrus (d. 458/466) refers to pagan concerns that Christian burials were a source of pollution <note xml:id="note_82" place="in-line">(<bibl sourceRole="primary" contentType="opinion" reason="neither" type="other" xml:lang="EN" xml:id="bibl_130"><title level="a">The Cure of Greek Maladies</title>
+                        <ref type="noteSpan" corresp="#note_82">Finally, sometimes cited is a text in which Theodoret of Cyrus (d. 458/466) refers to pagan concerns that Christian burials were a source of pollution <note xml:id="note_82" place="in-line">(<bibl sourceRole="primary" contentType="opinion" reason="neither" type="other" xml:lang="EN" xml:id="bibl_130"><title level="a">The Cure of Greek Maladies</title><author rend="false"><name type="last">Theodoret of Cyrus</name></author>
                                     <biblScope type="otherLoc">8:29</biblScope></bibl>)</note>. The object of the criticism was actually the veneration of the martyrs. Theodoret dealt with the objection easily by alluding to the cult of the tombs of ancient heroes; their tombs, like those of the martyrs, were intermingled among the living. There was never an issue of the mixing of pagan and Christian tombs.</ref>
                     </p>
                     <p>
@@ -1744,15 +1755,15 @@
                     </p>
                     <note xml:id="note_83" place="foot" anchored="true" n="74">
                         <gi>74. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="codex" xml:id="bibl_93">
-                                <title level="m">Capitulatio de partibus Saxoniae</title>, <biblScope type="otherLoc">22</biblScope>; </bibl>
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="codex" xml:id="bibl_93">
+                                <title level="m">Capitulatio de partibus Saxoniae</title> <author rend="false"><name type="last">Charlemagne</name></author><date rend="false">782</date> <pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry>, <biblScope type="otherLoc">22</biblScope>; </bibl>
                             <seg function="contextualization">see also the analysis of</seg>
                             <bibl sourceRole="secondary" contentType="opinion" reason="neither" xml:lang="EN" type="journalArticle" xml:id="bibl_94">
                                 <author>
                                     <name type="first">Bonnie</name>
                                     <name type="last">Effros</name>
                                 </author>, " <title level="a">De partibus Saxoniae and the Regulation of Mortuary Custom: A Carolingian Campaign of Christianization or the Suppression of Saxon Identity?</title>" <title level="j">Revue belge de philologie et d'histoire</title>
-                                <biblScope type="vol">75</biblScope>, no. <biblScope type="issue">2</biblScope> (<date>1997</date>): <biblScope type="pp">267-86</biblScope>. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Belgium</pubCountry><biblScope type="vol">75</biblScope>, no. <biblScope type="issue">2</biblScope> (<date>1997</date>): <biblScope type="pp">267-86</biblScope>. </bibl>
                         </ab>
                     </note>
                     <p> In any case, it is impossible to affirm that the exclusive character of Christian burial places was a very ancient regulation. The church clearly wanted to leave the question of burial to the discretion of the family and not interfere in this sphere. <pb n="30"/></p>
@@ -1774,15 +1785,15 @@
                                 <author>
                                     <name type="first">Giovanni Battista</name>
                                     <name type="last">De Rossi</name>
-                                </author>, " <title level="a">Le iscrizioni trovate nei sepolcri all'aperto cielo nella villa Patrizi</title>," <title level="j">Bullettino di archeologia cristiana</title> ( <date>1865</date>): <biblScope type="pp">53-54</biblScope>(= <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" corresp="#bibl_25">
+                                </author>, " <title level="a">Le iscrizioni trovate nei sepolcri all'aperto cielo nella villa Patrizi</title>," <title level="j">Bullettino di archeologia cristiana</title> ( <date>1865</date>): <biblScope type="pp">53-54</biblScope><pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry>(= <relatedItem type="alternative">
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" corresp="#bibl_25">
                                         <title level="m"><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
                                         <biblScope type="vol">6</biblScope>.<biblScope type="catNo.">10412</biblScope></bibl>
                                 </relatedItem>
                                 <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" xml:id="bibl_97">
-                                        <title level="m"><abbr>ICVR</abbr><expan>Inscriptiones Christianae Urbis Romae</expan></title>
-                                        <biblScope type="vol">8</biblScope>. </bibl>
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" xml:id="bibl_97">
+                                        <title level="m"><abbr>ICVR</abbr><expan>Inscriptiones Christianae Urbis Romae</expan></title><pubPlace rend="false">Rome</pubPlace><pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><date rend="false">1983</date>
+                                        <biblScope type="vol">8</biblScope>.<biblScope type="catNo.">20737</biblScope> </bibl>
                                 </relatedItem>
                             </bibl>
                         </ab>
@@ -1810,10 +1821,10 @@
                                 <author>
                                     <name type="first">Giovanno Battista</name>
                                     <name type="last">De Rossi</name>
-                                </author>, " <title level="a">Le varie e successive condizioni di legalità dei cemeteri, il vario grado di liberta dell'arte cristiana, e la legalità della medesima religione nel primo secolo verificate dalle recenti scoperte nel cemetero di Domitilla</title>," <title level="j">Bullettino di archeologia cristiana</title> (<date>1865</date>): <biblScope type="pp">89-99</biblScope> (= <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LAT" corresp="#bibl_97">
+                                </author>, " <title level="a">Le varie e successive condizioni di legalità dei cemeteri, il vario grado di liberta dell'arte cristiana, e la legalità della medesima religione nel primo secolo verificate dalle recenti scoperte nel cemetero di Domitilla</title>," <title level="j">Bullettino di archeologia cristiana</title> (<date>1865</date>): <biblScope type="pp">89-99</biblScope><pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry> (= <relatedItem type="alternative">
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LA" corresp="#bibl_97">
                                         <title level="m"><abbr>ICVR</abbr><expan>Inscriptiones Christianae Urbis Romae</expan></title>
-                                        <biblScope type="catNo.">3.6555</biblScope>).</bibl>
+                                        <biblScope type="vol">3</biblScope>.<biblScope type="catNo.">6555</biblScope>).</bibl>
                                 </relatedItem>
                             </bibl>
                         </ab>
@@ -1826,14 +1837,13 @@
                                 <biblScope type="pp">305-6</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
-                            <bibl sourceRole="secondary" contentType="opinion" reason="neither" type="corpus" xml:lang="LAT" corresp="#bibl_97">
+                            <bibl sourceRole="secondary" contentType="opinion" reason="neither" type="corpus" xml:lang="LA" corresp="#bibl_97">
                                 <author><name type="first">Antonio</name>
                                     <name type="last">Ferrua</name></author> ( <title level="m"><abbr>ICVR</abbr><expan>Inscriptiones Christianae Urbis Romae</expan></title>
-                                <biblScope type="catNo.">3.6555</biblScope>) <seg function="contextualization">compares the formula to</seg>
+                                <biblScope type="vol">3</biblScope>.<biblScope type="catNo.">6555</biblScope>) <seg function="contextualization">compares the formula to</seg>
                                 <relatedItem type="cited">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="other" xml:lang="LAT" xml:id="bibl_102">
-                                        <biblScope type="chap">2</biblScope>
-                                        <title level="a"><abbr>Cor.</abbr><expan>Corinthians</expan></title>
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="other" xml:lang="LA" xml:id="bibl_102">
+                                        <title level="a"><abbr>2 Cor.</abbr><expan>Second Epistle to the Corinthians</expan></title>
                                         <biblScope type="otherLoc">1:9</biblScope>: <seg function="directCitation"><quote>non simus fidentes in nobis sed in deo qui suscitat mortuos</quote>.</seg>
                                     </bibl>
                                 </relatedItem>
@@ -1847,9 +1857,9 @@
                                 <author>
                                     <name type="first">Gioacchino</name>
                                     <name type="last">Mancini</name>
-                                </author>, " <title level="a">Scoperta di un antico sepolcreto cristiano nel territorio veliterno, in località Solluna</title>," <title level="j">Notizie degli scavi di antichità</title> (<date>1924</date>): <biblScope type="pp">341-53</biblScope>, esp. 3<biblScope type="pp">45-46</biblScope> (= <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LAT" corresp="#bibl_97">
-                                        <title level="m"><abbr>ICVR</abbr><expan>Inscriptiones Christianae Urbis Romae</expan></title>
+                                </author>, " <title level="a">Scoperta di un antico sepolcreto cristiano nel territorio veliterno, in località Solluna</title>," <title level="j">Notizie degli scavi di antichità</title> (<date>1924</date>): <biblScope type="pp">341-53</biblScope>, esp. 3<biblScope type="pp">45-46</biblScope><pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry> (= <relatedItem type="alternative">
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LA" xml:id="bibl_109">
+                                        <title level="m"><abbr>ILCV</abbr><expan>Inscriptiones latinae christianae veteres</expan></title><editor rend="false"><name type="first">Ernst</name><name type="last">Diehl</name></editor><pubPlace rend="false">Berlin</pubPlace><pubCountry xmlns="http://www.example.org/ns/nonTEI">Germany</pubCountry><date rend="false">1961</date>
                                         <biblScope type="catNo.">3681</biblScope></bibl>
                                 </relatedItem>).</bibl></ab>
                         <ab type="citation">
@@ -1862,7 +1872,7 @@
                         <ref type="noteSpan" corresp="#note_88">A famous inscription from Caesarea (today Cherchel, in Algeria) mentions a gift to the church of a funerary enclosure by a pious benefactor, the clarissimus Severianus.<ref type="noteLoc" target="#note_88">79</ref></ref> What has been preserved is not the original inscription, but that engraved by the Church of Caesarea celebrating the gift. Paleographically, the inscription is from the fourth century, but the gift of Severianus might be earlier. <ref type="noteSpan" corresp="#note_89">The archaeological context of the inscription is unknown;<ref type="noteLoc" target="#note_89">80</ref></ref> the description of the enclosure comes entirely from the inscription. Severianus, poetically described by the term cultor uerbi, bought some land to be used for burial and built there at his expense a cella. The whole is then designated by the word memoria-in other words, a (monumental) tomb. The term cella is imprecise. We can rule out the idea of a chapel devoted to the <pb n="32"/>martyrs, for these would be mentioned in the commemorative inscription. Cella designates either a tomb or the edifice to house it and intended also for the holding of funerary rites. </p>
                     <note xml:id="note_88" place="foot" anchored="true" n="79">
                         <gi>79. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" corresp="#bibl_25">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" corresp="#bibl_25">
                                 <title level="m"><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
                                 <biblScope type="vol">8</biblScope>.<biblScope type="catNo.">9585</biblScope>, <seg function="contextualization">with commentary in</seg>
                                 <relatedItem type="citing">
@@ -1873,7 +1883,7 @@
                                         </author>, <title level="m">Loca Sanctorum Africae: le culte des martyrs en Afrique du IVe au VIIe siècle</title>, <series>
                                             <title level="s">Collection de l'Ecole française de Rome</title>
                                             <biblScope type="vol">58</biblScope>
-                                        </series> ( <pubPlace>Rome</pubPlace>: <publisher>Ecole française de Rome</publisher>, <date>1982</date>), <biblScope type="vol">1</biblScope>:<biblScope type="pp">380-83</biblScope>, no. <biblScope type="catNo.">179</biblScope>. </bibl>
+                                        </series> ( <pubPlace>Rome</pubPlace>: <publisher>Ecole française de Rome</publisher>, <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry> <date>1982</date>), <biblScope type="vol">1</biblScope>:<biblScope type="pp">380-83</biblScope>, no. <biblScope type="catNo.">179</biblScope>. </bibl>
                                 </relatedItem>
                             </bibl>
                         </ab>
@@ -1889,25 +1899,25 @@
                                 <author>
                                     <name type="first">Paul</name>
                                     <name type="last">Monceaux</name>
-                                </author>, <title level="m">Histoire littéraire de l'Afrique chrétienne: depuis les origines jusqu'a l'invasion arabe</title> (<pubPlace>Paris</pubPlace>: <publisher>Leroux</publisher>, <date>1901-23</date>), <biblScope type="vol">1</biblScope>:<biblScope type="pp">14</biblScope> and <biblScope type="vol">2</biblScope>:<biblScope type="pp">125-30</biblScope>. </bibl>
+                                </author>, <title level="m">Histoire littéraire de l'Afrique chrétienne: depuis les origines jusqu'a l'invasion arabe</title> (<pubPlace>Paris</pubPlace>:<pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry> <publisher>Leroux</publisher>, <date>1901-23</date>), <biblScope type="vol">1</biblScope>:<biblScope type="pp">14</biblScope> and <biblScope type="vol">2</biblScope>:<biblScope type="pp">125-30</biblScope>. </bibl>
                         </ab>
                         <ab type="citation"> Actually, <bibl sourceRole="secondary" contentType="fact" reason="support" type="excavationReport" xml:lang="FR" xml:id="bibl_108"> Cardinal <name type="last">Lavigerie</name>
                                 <seg function="contextualization">excavated in the area where the inscription was found, but the excavation did not fulfill his expectations since he discovered a pagan enclosure. See the publication of the excavation in </seg>
                                 <author>
                                     <name type="first">Philippe</name>
                                     <name type="last">Leveau</name>
-                                </author>, " <title level="a">Fouilles anciennes sur les nécropoles antiques de Cherchel</title>," <series>
-                                    <title level="j">Antiquités africaines</title>
+                                </author>, " <title level="a">Fouilles anciennes sur les nécropoles antiques de Cherchel</title>," 
+                                    <title level="j">Antiquités africaines</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry>
                                     <biblScope type="vol">12</biblScope>
-                                </series> (<date>1978</date>): <biblScope type="pp">93-95</biblScope>.</bibl></ab>
+                                 (<date>1978</date>): <biblScope type="pp">93-95</biblScope>.</bibl></ab>
                     </note>
                     <p> Gifts, like those of Faltonia or of Severianus, did not come from a desire to separate Christians and non-Christians in death, but were benefactions comparable to those of contemporary pagans. <ref type="noteSpan" corresp="#note_90">This is again the case in a second inscription from Cherchel, this time that of a priest, Victor, who built an aaubitorium in order to house several tombs, including that of his mother Rogata, and who made it a gift "to all the brothers";<ref type="noteLoc" target="#note_90">81</ref></ref> and <ref type="noteSpan" corresp="#note_91">in a Lydian inscription dated from the fourth century that relates how Gennadius bought "with what God gave him" a monument and made it a "tomb for Christians of the Catholic Church."<ref type="noteLoc" target="#note_91">82</ref></ref> We will have to return to this role of the church as an intermediary, in a way, between the donor and eventual beneficiaries. But nothing should lead us to see behind these gifts a Christian duty to be buried together and apart from others; no tension with the family is evident. To open one's funerary monument to other Christians was not even an expression of a preference for "Christian" burial . </p>
                     <note xml:id="note_90" place="foot" anchored="true" n="81">
                         <gi>81. </gi><ab type="citation">
-                            <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LAT" xml:id="bibl_109">
+                            <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LA" corresp="#bibl_109">
                                 <title level="m"><abbr>ILCV</abbr><expan>Inscriptiones Latinae Christianae veteres</expan></title>
                                 <biblScope type="catNo."> 1179</biblScope> = <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LAT" type="corpus" corresp="#bibl_25">
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" xml:lang="LA" type="corpus" corresp="#bibl_25">
                                         <title level="m"><abbr>CIL</abbr><expan>Corpus Inscriptionum Latinarum</expan></title>
                                         <biblScope type="vol">8</biblScope>.<biblScope type="catNo.">9586</biblScope>
                                     </bibl>
@@ -1927,10 +1937,10 @@
                                     <title level="s">Philosophisch-Historische Klasse</title>
                                     <biblScope type="vol">77</biblScope>, no. <biblScope type="issue">1</biblScope>
                                 </series> (
-                                <pubPlace>Vienna</pubPlace>: <publisher>Rohrer</publisher>, <date>1959</date>), <biblScope type="pp">13</biblScope>,no. <biblScope type="catNo.">10</biblScope>
+                                <pubPlace>Vienna</pubPlace>: <pubCountry xmlns="http://www.example.org/ns/nonTEI">Austria</pubCountry><publisher>Rohrer</publisher>, <date>1959</date>), <biblScope type="pp">13</biblScope>,no. <biblScope type="catNo.">10</biblScope>
                                 (= <relatedItem type="alternative">
-                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LAT" xml:id="bibl_111">
-                                        <title level="m"><abbr>SEG</abbr><expan>Supplementum Epigraphicum Graecum</expan></title>, <biblScope type="vol">19</biblScope>, <date>1963</date>,no. <biblScope type="catNo.">719</biblScope>
+                                    <bibl sourceRole="primary" contentType="fact" reason="neither" type="corpus" xml:lang="LA" xml:id="bibl_111">
+                                        <title level="m"><abbr>SEG</abbr><expan>Supplementum Epigraphicum Graecum</expan></title>, <biblScope type="vol">19</biblScope>, <date>1963</date>,no. <biblScope type="catNo.">719</biblScope><pubCountry xmlns="http://www.example.org/ns/nonTEI">Netherlands</pubCountry>
                                     </bibl>
                                 </relatedItem>). 
                             </bibl>
@@ -2012,7 +2022,7 @@
                                 <author>
                                     <name type="last">De Rossi</name>
                                     <name type="first" rend="false">Giovanni Battista</name>
-                                </author>, <title level="m">La Roma sotterranea cristiana</title>, <biblScope type="otherLoc">1:84</biblScope>, </bibl>
+                                </author>, <title level="m">La Roma sotterranea cristiana</title>, <biblScope type="otherLoc">1:84</biblScope> <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry> <date rend="false">1864</date>, </bibl>
                             <seg function="contextualization">on the distinction between common and private burial places;</seg> and <bibl sourceRole="secondary" contentType="opinion" reason="reject" xml:lang="IT" type="book" xml:id="bibl_116">
                                 <author>
                                     <name type="first">Pasquale</name>
@@ -2050,7 +2060,7 @@
                                     <name type="first">Fabrizio</name>
                                     <name type="last">Bisconti</name>
                                 </author>, " <title level="a">L'ipogeo degli Aureli in viale Manzoni: un esempio di sincresi provata</title>," <title level="j">Augustinianum</title>
-                                <biblScope type="vol">25</biblScope> ( <date>1985</date>): <biblScope type="pp">889-903</biblScope> . </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">25</biblScope> ( <date>1985</date>): <biblScope type="pp">889-903</biblScope> . </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_100" place="foot" anchored="true" n="91">
@@ -2091,7 +2101,7 @@
                                 </series> (<date>1974</date>): <biblScope type="pp">549-96</biblScope>. </bibl>
                         </ab>
                         <ab type="citation">
-                            <bibl sourceRole="secondary" xml:lang="ESP" type="book" xml:id="bibl_121">
+                            <bibl sourceRole="secondary" xml:lang="ES" type="book" xml:id="bibl_121">
                                 <author>
                                     <name type="first">Elena Conde</name>
                                     <name type="last">Guerri</name>
@@ -2114,7 +2124,7 @@
                                     <name type="first">Charles</name>
                                     <name type="last">Pietri</name>
                                 </author>, " <title level="a">Appendice prosopographique a la Roma Christiana (311-440)</title>," <title level="j">Mélange de l'Ecole française de Rome. Antiquité</title>
-                                <biblScope type="vol">89</biblScope> (<date>1977</date>): 398-406. </bibl>
+                                <pubCountry xmlns="http://www.example.org/ns/nonTEI">Italy</pubCountry><biblScope type="vol">89</biblScope> (<date>1977</date>): 398-406. </bibl>
                         </ab>
                     </note>
                     <note xml:id="note_103" place="foot" anchored="true" n="94">

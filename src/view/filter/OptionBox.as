@@ -7,31 +7,47 @@ package view.filter {
 	
 	import events.CiteLensEvent;
 	
+	import settings.Settings;
+	
 	import view.assets.Button;
 	import view.assets.tooltip.ToolTip;
 	import view.style.ColorSchema;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class OptionBox extends OptionsPanel {
 		
-		//properties
-		internal var optionArray:Array;
-		internal var optionsList:Sprite;		
-		internal var endLine:Sprite;
-		internal var labelTF:TextField;
-		internal var optionCount:int = 0;
-		internal var marginX:int = 50;
-		internal var posY:Number = 0;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var collumnCount:uint = 3;
-		private var button:Button;
-		private var posX:Number = 0;
-		private var type:String;
+		internal var optionArray			:Array;
+		internal var optionsList			:Sprite;		
+		internal var endLine				:Sprite;
+		internal var labelTF				:TextField;
+		internal var optionCount			:int		 = 0;
+		internal var marginX				:int		 = 50;
+		internal var posY					:Number		 = 0;
 		
-		private var toolTip:ToolTip;
+		protected var collumnCount			:uint		 = 3;
+		protected var button				:Button;
+		protected var posX					:Number		 = 0;
+		protected var type					:String;
 		
-		internal var hasSelectedOptions:Boolean = false;
+		protected var toolTip				:ToolTip;
 		
+		internal var hasSelectedOptions		:Boolean	 = false;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * @param t
+		 * 
+		 */
 		public function OptionBox(fID:int, t:String = "") {
 			
 			super(fID);
@@ -41,12 +57,17 @@ package view.filter {
 			type = t;
 		}
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param active
+		 * 
+		 */
 		override public function init(active:Boolean):void {
 			
 			//define if it must check for selected itens
-			if (active) {
-				hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, type);
-			}
+			if (active) hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, type);
 			
 			//label
 			buildLabel(type.toLowerCase());
@@ -61,29 +82,40 @@ package view.filter {
 			switch (type) {
 				
 				case "Language":
-					dictionary = citeLensController.getLanguages();
+					dictionary = citeLensController.getLanguages(Settings.showAllLanguages);
 					collumnCount = 5;
-					dictionary.sortOn("code2");
-					populate(dictionary, "code2");
+					var langNotation:String = Settings.languageFilterNotation;
+					dictionary.sortOn(langNotation);
+					populate(dictionary, langNotation);
 					break;
 				
 				case "Country":
-					dictionary = citeLensController.getCountries();
+					dictionary = citeLensController.getCountries(Settings.showAllCountries);
 					collumnCount = 4;
-					populate(dictionary, "code3");
-					dictionary.sortOn("code3");
+					var countryNotation:String = Settings.countryFilterNotation;
+					dictionary.sortOn(countryNotation);
+					populate(dictionary, countryNotation);
 					break;
 				
 				case "Publication Type":
 					dictionary = citeLensController.getPubTypes();
-					populate(dictionary, "code4");
 					dictionary.sortOn("code4");
+					populate(dictionary, "code4");
 					break;	
 			}
 				
 		}
 		
-		private function populate(dictionary:Array, labelType:String):void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param dictionary
+		 * @param labelType
+		 * 
+		 */
+		protected function populate(dictionary:Array, labelType:String):void {
 			
 			//dictionary loop
 			for each (var dicOption:* in dictionary) {
@@ -92,8 +124,8 @@ package view.filter {
 				var lbl:String = dicOption.getCode(labelType);
 				
 				//if (type != "Publication Type") {
-					lbl = lbl.toUpperCase()
-				//}
+					lbl = lbl.toUpperCase();
+				//}	
 
 				
 			//	button = new Button(lbl,"Button Style",ColorSchema.getColor("filter"+filterID));
@@ -101,6 +133,8 @@ package view.filter {
 				
 				button.x = posX;
 				button.y = posY;
+				
+				//if (type == "Country") trace (lbl);
 				
 				//test position
 				if (button.x + button.width > maxW - margin) {
@@ -149,6 +183,43 @@ package view.filter {
 			makeEndLine();
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function selectedOptions():Array {
+			
+			var selOptions:Array;
+			
+			for each (var option:Object in optionArray) {
+				
+				//trace (option.selected)
+				
+				if (option.selected == true) {
+					
+					//initialize array
+					if (!selOptions) {
+						selOptions = new Array();
+					}
+					
+					selOptions.push(option.source);
+				}
+			}
+			
+			return selOptions;
+		}
+		
+		//****************** INTERNAL METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param l
+		 * 
+		 */
 		internal function buildLabel(l:String):void {
 			
 			labelTF = new TextField();
@@ -165,6 +236,10 @@ package view.filter {
 			
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		internal function makeEndLine():void {
 			endLine = new Sprite();
 			endLine.graphics.lineStyle(1);
@@ -178,6 +253,32 @@ package view.filter {
 			this.addChild(endLine);
 		}
 		
+		/**
+		 * 
+		 * @param target
+		 * @param status
+		 * 
+		 */
+		internal function switchClick(target:Button, status:String):void {
+			target.status = status;
+		}
+		
+		/**
+		 * 
+		 * @param target
+		 * 
+		 */
+		public function deleteOption(target:*):void {
+			//Override
+		}
+		
+		//****************** INTERNAL EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		internal function _click(e:MouseEvent):void {
 			var button:Button = Button(e.target);
 			
@@ -207,19 +308,21 @@ package view.filter {
 			
 		}
 		
-		internal function switchClick(target:Button, status:String):void {
-			target.status = status;
-		}
-		
-		private function addOption(e:MouseEvent = null):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function addOption(e:MouseEvent = null):void {
 			//override
 		}
 		
-		public function deleteOption(target:*):void {
-			//Override
-		}
-		
-		private function _over(e:MouseEvent):void{
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _over(e:MouseEvent):void{
 			
 			var data:Object = new Object();
 			data.target = e.target;
@@ -238,34 +341,17 @@ package view.filter {
 			}
 		}
 		
-		private function _out(e:MouseEvent):void{
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _out(e:MouseEvent):void{
 			if (toolTip) {
 				stage.removeChild(toolTip);
 				toolTip = null;
 			}
 		}
 		
-		//get selected data
-		public function selectedOptions():Array {
-			
-			var selOptions:Array;
-			
-			for each (var option:Object in optionArray) {
-				
-				//trace (option.selected)
-				
-				if (option.selected == true) {
-					
-					//initialize array
-					if (!selOptions) {
-						selOptions = new Array();
-					}
-					
-					selOptions.push(option.source);
-				}
-			}
-			
-			return selOptions;
-		}
 	}
 }

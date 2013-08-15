@@ -17,32 +17,53 @@ package view.reader {
 	
 	import view.PanelHeader;
 	
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Reader extends Sprite {
 		
-		//properties
-		private var citeLensController:CiteLensController										//controller
+		//****************** Properties ****************** ****************** ******************
 		
-		private var p:XML;
-		private var paragraph:ParagraphElement;
-		private var span:SpanElement
-		private var paragraphArray:Array;
-		private var readerFlow:TextFlow;
-		private var header:PanelHeader;									//header
-		private var container:Sprite;
-		private var containerController:ContainerController;
+		protected var citeLensController		:CiteLensController				//controller
 		
-		private var border:Shape;
+		protected var p							:XML;
+		protected var paragraph					:ParagraphElement;
+		protected var span						:SpanElement
+		protected var paragraphArray			:Array;
+		protected var readerFlow				:TextFlow;
+		protected var header					:PanelHeader;					//header
+		protected var container					:Sprite;
+		protected var containerController		:ContainerController;
 		
-		private var w:int = 275;
-		private var h:int = 538;
+		protected var border					:Shape;
+		
+		protected var w							:int	 = 275;
+		protected var h							:int	 = 538;
 			
-		private var marginW:uint = 10;
-		private var marginH:uint = 3;
+		protected var marginW					:uint	 = 10;
+		protected var marginH					:uint	 = 3;
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function Reader(value:CiteLensController):void {
 			citeLensController = value;
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function initialize():void {
 			
 			//border
@@ -142,11 +163,26 @@ package view.reader {
 			
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param valueW
+		 * @param valueH
+		 * 
+		 */
 		public function setDimensions(valueW:Number, valueH:Number):void {
 			w = valueW;
 			h = valueH;
 		}
 		
+		/**
+		 * 
+		 * @param valueW
+		 * @param valueH
+		 * 
+		 */
 		public function updateDimension(valueW:Number, valueH:Number = 0):void {
 			
 			//reader
@@ -167,6 +203,11 @@ package view.reader {
 			TweenMax.to(header, .5, {width:header.width + valueW, delay:.3});
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function resize(value:Array):void {
 			containerController.setCompositionSize(value[0],value[1]);
 			readerFlow.flowComposer.updateAllControllers();

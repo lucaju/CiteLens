@@ -1,25 +1,36 @@
 package model {
 	
-	//imports
-	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Document {
 		
-		//properties
-		private var data:XMLList
+		//****************** Properties ****************** ****************** ******************
 		
-		private var ref:RefBibliographic;
+		protected var data			:XMLList
 		
-		private var xmlns:Namespace;
-		private var xsi:Namespace;
-		private var teiH:Namespace;
+		protected var ref			:RefBibliographic;
 		
+		protected var xmlns			:Namespace;
+		protected var xsi			:Namespace;
+		protected var teiH			:Namespace;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fullData
+		 * 
+		 */
 		public function Document(fullData:XML) {
 			//namespaces
 			var namespaces:Array = fullData.namespaceDeclarations();
 			xsi = namespaces[0];
 			xmlns = namespaces[1];
 			
-						
 			//define the default namespace
 			default xml namespace = xmlns;
 		
@@ -29,7 +40,6 @@ package model {
 			
 			//create new bibliographic reference
 			ref = new RefBibliographic(0);
-			
 			
 			//test for tittle
 			if (data.titleStmt.hasOwnProperty("title")) {
@@ -55,16 +65,10 @@ package model {
 			}
 			
 			//test for language
-			if (data.titleStmt.title.@teiH::lang != "") {
-				ref.language = data.titleStmt.title.@teiH::lang;
-			}
+			if (data.titleStmt.title.@teiH::lang != "") ref.language = data.titleStmt.title.@teiH::lang;
 			
 			//test for publisher
-			if (data.publicationStmt.hasOwnProperty("publisher")) {
-				ref.publisher = data.publicationStmt.publisher;
-			}
-
-			//test for pubplace
+			if (data.publicationStmt.hasOwnProperty("publisher")) ref.publisher = data.publicationStmt.publisher;
 			
 			//test for pubplace
 			if (data.publicationStmt.hasOwnProperty("pubPlace")) {
@@ -83,9 +87,7 @@ package model {
 			}
 		
 			//test for date
-			if (data.publicationStmt.hasOwnProperty("date")) {
-				ref.date = data.publicationStmt.date;
-			}
+			if (data.publicationStmt.hasOwnProperty("date")) ref.date = data.publicationStmt.date;
 			
 			//test for series information
 			if (data.publicationStmt.hasOwnProperty("series")) {
@@ -95,14 +97,24 @@ package model {
 			}
 			
 			//test for scope		
-			if (data.publicationStmt.@biblScope) {
-				ref.scope = data.publicationStmt.biblScope.text();
-			}
+			if (data.publicationStmt.@biblScope) ref.scope = data.publicationStmt.biblScope.text();
 			
 			//test for type
-			if (data.publicationStmt.@type != "") {
-				ref.type = data.publicationStmt.@type;
-			}
+			if (data.publicationStmt.@type != "") ref.type = data.publicationStmt.@type;
+			
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * Return Document bibliography information
+		 * 
+		 * @return ref:RefBibliogrphic
+		 * 
+		 */
+		public function getDocRef():RefBibliographic {
+			return ref;
 		}
 		
 		/**
@@ -136,16 +148,6 @@ package model {
 			trace ("Scope: "+ref.scope);
 			trace ("Type: "+ref.type);
 		}
-
-
-		/**
-		 * Return Document bibliography information
-		 * 
-		 * @return ref:RefBibliogrphic
-		 * 
-		 */
-		public function getDocRef():RefBibliographic {
-			return ref;
-		}
+		
 	}
 }

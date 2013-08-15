@@ -1,19 +1,32 @@
 package model {
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Filter {
 		
-		//properties
-		private var _id:uint;
-		private var _languages:Array;
-		private var _countries:Array;
-		private var _pubTypes:Array;
-		private var _periods:Array;
-		private var _functions:Array;
-		private var _authors:Array;
-		private var _empty:Boolean = false;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var _id				:uint;
+		protected var _languages		:Array;
+		protected var _countries		:Array;
+		protected var _pubTypes			:Array;
+		protected var _periods			:Array;
+		protected var _functions		:Array;
+		protected var _authors			:Array;
+		protected var _empty			:Boolean = false;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param id_
+		 * 
+		 */
 		public function Filter(id_:uint) {
-			
 			//initialize
 			_id = id_;
 			
@@ -25,11 +38,15 @@ package model {
 			_authors = new Array();
 			
 		}
-
-		public function get id():uint {
-			return _id;
-		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param data
+		 * 
+		 */
 		public function update(data:Object):void {
 			
 			var filterCount:int = 0;
@@ -90,36 +107,31 @@ package model {
 			
 		}
 		
+		/**
+		 * 
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function hasSelectedOptions(type:String):Boolean {
-			var checked:Boolean;
-			
 			var typeCollection:Array = getOptionsByType(type);
 			
 			if (typeCollection.length > 0) {
-				checked = true;
+				return true;
 			} else {
-				checked = false;
+				return false;
 			}
-			
-			return checked;
-			
 		}
 		
 		public function checkSelectedOption(type:String, option:Object):Boolean {
 			
-			var checked:Boolean = false;;
-			
 			var typeCollection:Array = getOptionsByType(type);
 			
 			for each (var item:Object in typeCollection) {
-				if (item.id == option.id) {
-					checked = true;
-					break;
-				}
+				if (item.id == option.id) return true;
 			}
 			
-			return checked;
-			
+			return false;
 		}
 		
 		public function getOptionsByType(type:String):Array {
@@ -156,38 +168,88 @@ package model {
 		}
 		
 		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():uint {
+			return _id;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getLanguagesID():Array {
 			return _languages.concat();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getCountriesID():Array {
 			return _countries.concat();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPubTypesID():Array {
 			return _pubTypes.concat();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPeriods():Array {
 			return _periods.concat();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getFunctions():Object {
 			return _functions;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getAuthors():Object {
 			return _authors;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get empty():Boolean {
 			return _empty;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set empty(value:Boolean):void {
 			_empty = value;
 		}
-
 
 	}
 }

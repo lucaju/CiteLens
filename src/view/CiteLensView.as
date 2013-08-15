@@ -15,45 +15,59 @@ package view {
 	import mvc.AbstractView;
 	import mvc.IController;
 	
+	import util.DeviceInfo;
+	
 	import view.bibliography.BibliographyView;
 	import view.filter.FilterPanel;
 	import view.mini.ColorColumns;
 	import view.reader.Reader;
 	
-	import util.DeviceInfo;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class CiteLensView extends AbstractView {
 		
-		//properties
-		static public var citeLensController:CiteLensController										//controller
+		//****************** Properties ****************** ****************** ******************
 		
-		//graphic layout slots
-		private var header:Header;																	//Header
-		private var filterPanel:FilterPanel;														//flter panel
-		private var elementsArray:Array;
-		private var filterPanelArray:Array;															//Filter panel collection
-		private var filterVisualArray:Array;														//Filter panel collection
-		private var bibiographyView:BibliographyView;												//Bibliography List
-		private var readerView:Reader;																//Reader
-		private var viz:ColorColumns;																//Mini Nav
-		private var gap:int = 5;																	//gap between elements
-		private var posMainY:Number = 60;
+		static public var citeLensController		:CiteLensController				//controller
+		
+		protected var header						:Header;						//Header
+		protected var filterPanel					:FilterPanel;					//flter panel
+		protected var elementsArray					:Array;
+		protected var filterPanelArray				:Array;							//Filter panel collection
+		protected var filterVisualArray				:Array;							//Filter panel collection
+		protected var bibiographyView				:BibliographyView;				//Bibliography List
+		protected var readerView					:Reader;						//Reader
+		protected var viz							:ColorColumns;					//Mini Nav
+		
+		protected var gap							:int 	= 5;					//gap between elements
+		protected var posMainY						:Number = 60;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
 		
 		/**
-		 * Contructor
-		 **/
+		 * 
+		 * @param c
+		 * 
+		 */
 		public function CiteLensView(c:IController) {
-			
 			super(c);
 			
 			//define controller
 			citeLensController = CiteLensController(c);
-			
 		}
 		
+		
+		//****************** INITIALIZE ****************** ****************** ******************
+
 		/**
-		 * Initialize
-		 **/
+		 * 
+		 * 
+		 */
 		public function initialize():void {
 			
 			elementsArray = new Array()
@@ -95,7 +109,6 @@ package view {
 			} else {
 				numFilterPanel = 3;
 			}
-			
 			
 			for (var i:int = 1; i <= numFilterPanel; i++) {
 				
@@ -139,7 +152,6 @@ package view {
 			//add Mini Nav;
 			filterVisualArray = new Array();
 			
-			
 			viz = new ColorColumns();
 			viz.id = 0;
 			viz.y = posMainY
@@ -164,6 +176,14 @@ package view {
 			
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		public function addViualization(filterID:int):void {
 			//add Mini Nav;
 			viz = new ColorColumns(filterID); //filterID
@@ -198,9 +218,13 @@ package view {
 				}
 			}
 			
-			
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function updateViualization(e:CiteLensEvent):void {
 			
 			//defining panel
@@ -261,9 +285,7 @@ package view {
 				citeLensController.updateBiblList(BiblData);
 					
 				//viz
-				if (!(filterVisualArray[filterID] is ColorColumns)) {
-					addViualization(filterID);
-				}
+				if (!(filterVisualArray[filterID] is ColorColumns)) addViualization(filterID);
 				
 				viz = ColorColumns(filterVisualArray[filterID]) 
 				var vizData:Array = citeLensController.getFilterResults("note_id", filterID)
@@ -273,8 +295,16 @@ package view {
 		}
 		
 		
-		//move
-		private function move(type:String, target:int, offset:Number):void {
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param type
+		 * @param target
+		 * @param offset
+		 * 
+		 */
+		protected function move(type:String, target:int, offset:Number):void {
 			
 			switch (type) {
 				
@@ -317,7 +347,12 @@ package view {
 		}
 		
 		
-		private function drag(e:Event):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function drag(e:Event):void {
 			viz = ColorColumns(e.target);
 			
 			//defining positon
@@ -341,13 +376,23 @@ package view {
 			viz.startDrag(false, boundaries);
 		}
 		
-		private function dragStop(e:MouseEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function dragStop(e:MouseEvent):void {
 			viz.stopDrag();
 			removeEventListener(MouseEvent.MOUSE_MOVE, _displaceViz);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, dragStop);
 		}
 		
-		private function _displaceViz(e:MouseEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _displaceViz(e:MouseEvent):void {
 			var endPoint:Number = readerView.x - viz.width + gap;
 			
 			if (viz.x == endPoint && viz.endPoint == false) {
@@ -360,6 +405,14 @@ package view {
 			}
 		}
 		
+		
+		//****************** PRIVATE METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param obj
+		 * 
+		 */
 		private function removeObject(obj:DisplayObject):void {
 			this.removeChild(obj);
 		}

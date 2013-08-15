@@ -3,12 +3,34 @@ package view.style {
 	//imports
 	import flash.text.TextFormat;
 
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class TXTFormat {
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function TXTFormat() {
 			
 		}
 		
+		
+		//****************** STATIC PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param styleName
+		 * @param statusColor
+		 * @return 
+		 * 
+		 */
 		static public function getStyle(styleName:String = "standard", statusColor:String = "standard"):TextFormat {
 			
 			var style:TextFormat = new TextFormat();

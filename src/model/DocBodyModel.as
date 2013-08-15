@@ -1,28 +1,42 @@
 package model {
 	
+	//Imports
 	import flashx.textLayout.conversion.ConversionType;
 	import flashx.textLayout.conversion.TextConverter;
 	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.TextFlow;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class DocBodyModel {
 		
-		//properties
-		private var paragraph:String;
-		private var paragraphXML:XML;
-		private var _array:Array;
-		private var _arrayXML:Array;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var paragraphs:XMLList;
+		protected var paragraph				:String;
+		protected var paragraphXML			:XML;
+		protected var _array				:Array;
+		protected var _arrayXML				:Array;
 		
-		private var xmlns:Namespace;
-		private var xsi:Namespace;
-		private var teiH:Namespace;
+		protected var paragraphs			:XMLList;
 		
-		private var textFlow:TextFlow;
-		private var _plainTex:String;
+		protected var xmlns					:Namespace;
+		protected var xsi					:Namespace;
+		protected var teiH					:Namespace;
+		
+		protected var textFlow				:TextFlow;
+		protected var _plainTex				:String;
 		
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param data
+		 * 
+		 */
 		public function DocBodyModel(data:XML) {
 			
 			//namespaces
@@ -75,6 +89,14 @@ package model {
 			
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param item
+		 * 
+		 */
 		public function addParagraph(item:String):void {
 				
 			//create new paragraph
@@ -84,6 +106,11 @@ package model {
 			_array.push(paragraph);
 		}
 		
+		/**
+		 * 
+		 * @param item
+		 * 
+		 */
 		public function addParagraphXML(item:XML):void {
 			
 			//create new paragraph
@@ -92,17 +119,31 @@ package model {
 			_arrayXML.push(paragraphXML);
 		}
 		
-		public function get length():int {
-			return _array.length;
-		}
-		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		public function getParagraphByIndex(value:int):String {
 			return _array[value];
 		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		public function getParagraphXMLByIndex(value:int):XML {
 			return _arrayXML[value];
 		}
-		
+	
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getAllParagraphsXML():XML {
 			
 			//temp attribute
@@ -163,6 +204,11 @@ package model {
 			return xml;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getFlowConvertText():TextFlow {
 			
 			textFlow = new TextFlow();
@@ -171,17 +217,32 @@ package model {
 			return textFlow;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPlainText():String {
 			
 			_plainTex = TextConverter.export(textFlow,TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
 			return _plainTex;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPlainTextLength():int {
 			getPlainText();
 			return _plainTex.length;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getRefsId():Array {
 			
 			var i:int = 1;
@@ -194,9 +255,16 @@ package model {
 				refsId.push(ref.id);
 				i++
 			}
+			
 			return refsId;
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @return 
+		 * 
+		 */
 		public function getRefLocationByID(id:String):Object {
 			//trace (textFlow.getElementByID(id).getText())
 			//trace (id)
@@ -214,6 +282,18 @@ package model {
 			}
 			
 			return pos;
+		}
+		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get length():int {
+			return _array.length;
 		}
 	}
 }

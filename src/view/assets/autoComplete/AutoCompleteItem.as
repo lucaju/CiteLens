@@ -5,31 +5,55 @@ package view.assets.autoComplete {
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
-	import view.style.*;
+	import view.style.ColorSchema;
+	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class AutoCompleteItem extends Sprite {
 		
-		//properties
-		private var label:String;
-		private var type:String;
-		private var userPartial:String
-		private var _itemWidth:Number;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var labelTF:TextField;
-		private var typeTF:TextField
-		private var BG:Sprite;
+		protected var label			:String;
+		protected var type			:String;
+		protected var userPartial	:String
+		protected var _itemWidth	:Number;
 		
-		private var initial:int;
-		private var end:int;
+		protected var labelTF		:TextField;
+		protected var typeTF		:TextField
+		protected var BG			:Sprite;
 		
-		private var _showType:Boolean = true;
+		protected var initial		:int;
+		protected var end			:int;
 		
+		protected var _showType		:Boolean = true;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param l
+		 * @param t
+		 * @param _partial
+		 * 
+		 */
 		public function AutoCompleteItem(l:String, t:String, _partial:String) {
 			label = l;
 			type = t;
 			userPartial = _partial;
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function init():void {
 			
 			//define text style // bold match the user typing
@@ -66,15 +90,11 @@ package view.assets.autoComplete {
 			labelTF.text = label;
 			
 			//style
-			if (initial > -1) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),0,initial+1);
-			}
+			if (initial > -1) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),0,initial+1);
 			
 			labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Bold"),initial,end);
 			
-			if (end != label.length) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),end,label.length);
-			}
+			if (end != label.length) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),end,label.length);
 			
 			this.addChild(labelTF);
 			
@@ -94,6 +114,14 @@ package view.assets.autoComplete {
 			this.addEventListener(MouseEvent.ROLL_OUT, _rollOut)
 		}
 		
+		
+		//****************** PUBLIC EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function _rollOver(e:MouseEvent = null):void {
 			
 			//style
@@ -102,19 +130,20 @@ package view.assets.autoComplete {
 				typeTF.alpha = .7;
 			}
 			
-			if (initial > -1) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","white"),0,initial+1);
-			}
+			if (initial > -1) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","white"),0,initial+1);
 			
 			labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Bold","white"),initial,end);
 			
-			if (end != label.length) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","white"),end,label.length);
-			}
+			if (end != label.length) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","white"),end,label.length);
 			
 			BG.alpha = 1;
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function _rollOut(e:MouseEvent = null):void {
 			
 			//style
@@ -123,43 +152,71 @@ package view.assets.autoComplete {
 				typeTF.alpha = .2;
 			}
 			
-			if (initial > -1) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),0,initial+1);
-			}
+			if (initial > -1) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),0,initial+1);
 			
 			labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Bold"),initial,end);
 			
-			if (end != label.length) {
-				labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),end,label.length);
-			}
+			if (end != label.length) labelTF.setTextFormat(TXTFormat.getStyle("AutoComplete Text","gray"),end,label.length);
 			
 			BG.alpha = 0;
 		}
 
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getLabel():String {
 			return label;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getType():String {
 			return type;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get itemWidth():Number {
 			return _itemWidth;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set itemWidth(value:Number):void {
 			_itemWidth = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get showType():Boolean {
 			return _showType;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set showType(value:Boolean):void {
 			_showType = value;
 		}
-
 		
 	}
 }

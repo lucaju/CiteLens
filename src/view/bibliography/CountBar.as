@@ -11,17 +11,25 @@ package view.bibliography {
 	
 	public class CountBar extends Sprite {
 		
-		//properties
-		private var total:int;
-		private var partial:int;
-		private var wider:int;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var bg:Sprite;
-		private var TF:TextField;
+		protected var total			:int;
+		protected var partial		:int;
+		protected var wider			:int;
 		
+		protected var bg			:Sprite;
+		protected var TF			:TextField;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param w
+		 * 
+		 */
 		public function CountBar(w:int) {
-			super();
-			
+
 			wider = w;
 			
 			bg = new Sprite();
@@ -29,6 +37,14 @@ package view.bibliography {
 			
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param t
+		 * 
+		 */
 		public function initialize(t:int):void {
 			
 			total = t;
@@ -60,6 +76,14 @@ package view.bibliography {
 			this.addChild(TF);
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param p
+		 * 
+		 */
 		public function update(p:int):void {
 			
 			if (partial != p) {
@@ -75,7 +99,14 @@ package view.bibliography {
 
 		}
 		
-		private function updateData():void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function updateData():void {
 			
 			TF.y = 0;
 			var tweenFrom:int;
@@ -91,5 +122,6 @@ package view.bibliography {
 				TweenMax.from(TF, .5, {y:"5", alpha: 0})
 			}
 		}
+		
 	}
 }

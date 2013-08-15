@@ -1,57 +1,94 @@
 package model {
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class RefBibliographic {
 		
-		private var _id:int;
-		private var _uniqueID:String;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var _titles:Array = new Array();
-		private var _title:Object;
-		private var _authors:Array = new Array();
-		private var _author:Object;
-		private var _editors:Array = new Array();
-		private var _editor:Object;
-		private var _authorship:String;
-		private var _language:String;
+		protected var _id					:int;
+		protected var _uniqueID				:String;
 		
-		private var _publisher:String;
+		protected var _titles				:Array = new Array();
+		protected var _title				:Object;
+		protected var _authors				:Array = new Array();
+		protected var _author				:Object;
+		protected var _editors				:Array = new Array();
+		protected var _editor				:Object;
+		protected var _authorship			:String;
+		protected var _language				:String;
 		
-		private var _pubPlaces:Array = new Array();
-		private var _pubPlace:String;
+		protected var _publisher			:String;
 		
-		private var _countries:Array = new Array();
-		private var _country:String;
+		protected var _pubPlaces			:Array = new Array();
+		protected var _pubPlace				:String;
 		
-		private var _date:int;
+		protected var _countries			:Array = new Array();
+		protected var _country				:String;
 		
-		private var _series:Array = new Array();
-		private var _serie:Object;
-		private var _scope:String;
+		protected var _date					:int;
 		
-		private var _sourceRole:String;
-		private var _type:String;
+		protected var _series				:Array = new Array();
+		protected var _serie				:Object;
+		protected var _scope				:String;
 		
-		private var _notes:Array = new Array();
-		private var _note:Object;
+		protected var _sourceRole			:String;
+		protected var _type					:String;
+		
+		protected var _notes				:Array = new Array();
+		protected var _note					:Object;
 		
 		
+		//****************** Constructor ****************** ****************** ******************
 		
+		/**
+		 * 
+		 * @param id
+		 * 
+		 */
 		public function RefBibliographic(id:int) {
 			_id = id;
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get id():int {
 			return _id;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get uniqueID():String {
 			return _uniqueID;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set uniqueID(value:String):void {
 			_uniqueID = value;
 		}
 
+		/**
+		 * 
+		 * @param name
+		 * @param level
+		 * 
+		 */
 		public function addTitle(name:String, level:String):void {
 			_title = new Object();
 			_title.id = _titles.length;
@@ -62,11 +99,22 @@ package model {
 			_title = null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get titles():Array {
 			return _titles;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get title():String {
+			
 			//return the higher level title
 			var realTitle:String;
 			var levels:Array = ["a","m","j","s","u"];
@@ -74,7 +122,7 @@ package model {
 			
 			//if it has titles
 			if(_titles.length > 0) {
-				//does not have level
+				//it does not has level
 				if (!_titles[i].level) {
 					realTitle = _titles[i].name;
 					
@@ -84,6 +132,7 @@ package model {
 					while(i < _titles.length) {
 						
 						//test for the highest level
+						
 						if (_titles[i].level == levels[lvNumber]) {
 							realTitle = _titles[i].name;
 							break;
@@ -110,6 +159,12 @@ package model {
 			return realTitle;
 		}
 		
+		/**
+		 * 
+		 * @param last
+		 * @param first
+		 * 
+		 */
 		public function addAuthor(last:String, first:String = null):void {
 			_author = new Object();
 			_author.id = _authors.length;
@@ -120,10 +175,20 @@ package model {
 			_author = null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get authors():Array {
 			return _authors;	
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get fullAuthors():String {
 			var fullAuth:String = "";
 			for each (var auth:Object in _authors) {
@@ -132,6 +197,12 @@ package model {
 			return fullAuth;	
 		}
 		
+		/**
+		 * 
+		 * @param last
+		 * @param first
+		 * 
+		 */
 		public function addEditor(last:String, first:String = null):void {
 			_editor = new Object();
 			_editor.id = _editors.length;
@@ -142,10 +213,20 @@ package model {
 			_editor = null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get editors():Array {
 			return _editors;	
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get fullEditors():String {
 			var fullEditors:String = "";
 			for each (var edit:Object in _editors) {
@@ -154,11 +235,22 @@ package model {
 			return fullEditors;	
 		}
 		
+		/**
+		 * 
+		 * @param FirsNameLastName
+		 * @return 
+		 * 
+		 */
 		public function getAuthorship(FirsNameLastName:Boolean = false):String {
 			setFullAuthorship(FirsNameLastName);
 			return _authorship;
 		}
 		
+		/**
+		 * 
+		 * @param FirsNameLastName
+		 * 
+		 */
 		public function setFullAuthorship(FirsNameLastName:Boolean):void {
 			_authorship = "";
 			
@@ -166,35 +258,20 @@ package model {
 				
 				for each(_author in _authors) {																	//authors loop
 					
-					if (FirsNameLastName) {
-						
-						if (_author.firstName) {																	//if there is first name
-							_authorship += _author.firstName;
-						}
-						
-						if (_author.lastName) {																		//if there is last name
-							_authorship += " " + _author.lastName;
-						}
-						
+					if (FirsNameLastName) {						
+						if (_author.firstName) _authorship += _author.firstName;								//if there is first name					
+						if (_author.lastName) _authorship += " " + _author.lastName;							//if there is last name
+							
 						
 					} else {
 					
-						if (_author.lastName) {																		//if there is last name
-							_authorship += _author.lastName;
-						}
-						
-						if (_author.lastName && _author.firstName) {												//add comma to separate last and firt name if there is last name
-							_authorship += ", "
-						}
-						
-						if (_author.firstName) {																	//if there is first name
-							_authorship += _author.firstName;
-						}						
+						if (_author.lastName) _authorship += _author.lastName;									//if there is last name	
+						if (_author.lastName && _author.firstName) _authorship += ", ";							//add comma to separate last and firt name if there is last name
+						if (_author.firstName) _authorship += _author.firstName;								//if there is first name
+												
 					}
 					
-					if (_author.id < _authors.length-1) {														//add comma to separate authors if it is not the last one
-						_authorship += ", ";	
-					}
+					if (_author.id < _authors.length-1) _authorship += ", ";									//add comma to separate authors if it is not the last one
 					
 				}
 			}
@@ -205,33 +282,19 @@ package model {
 					
 					if (FirsNameLastName) {
 						
-						if (_editor.firstName) {														//if there is first name
-							_authorship += _editor.firstName;
-						}
-						
-						if (_editor.lastName) {
-							_authorship += " " +_editor.lastName;
-						}
-						
+						if (_editor.firstName) _authorship += _editor.firstName;								//if there is first name
+						if (_editor.lastName) _authorship += " " +_editor.lastName;
+									
 					} else {
 					
-						if (_editor.lastName) {
-							_authorship += _editor.lastName;
-						}
-						
-						if (_editor.lastName && _editor.firstName) {						//add comma to separate last and firt name if there is last name
-							_authorship += ", "
-						}
-						
-						if (_editor.firstName) {														//if there is first name
-							_authorship += _editor.firstName;
-						}
+						if (_editor.lastName) _authorship += _editor.lastName;
+						if (_editor.lastName && _editor.firstName) _authorship += ", ";							//add comma to separate last and firt name if there is last name
+						if (_editor.firstName) _authorship += _editor.firstName;								//if there is first name
 						
 					}
 					
-					if (_editor.id < _editors.length-1) {												//add comma to separate authors if it is not the last one
-						_authorship += ", ";	
-					}
+					if (_editor.id < _editors.length-1) _authorship += ", ";									//add comma to separate authors if it is not the last one
+						
 				}
 			}
 				
@@ -242,46 +305,103 @@ package model {
 			
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get language():String {
 			return _language;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set language(value:String):void {
 			_language = value;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get publisher():String {
 			return _publisher;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set publisher(value:String):void {
 			_publisher = value;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get pubPlaces():Array {
 			return _pubPlaces;
 		}
 		
+		/**
+		 * 
+		 * @param name
+		 * 
+		 */
 		public function addPubPlace(name:String):void {
 			_pubPlaces.push(name);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get countries():Array {
 			return _countries;
 		}
 		
+		/**
+		 * 
+		 * @param name
+		 * 
+		 */
 		public function addCountry(name:String):void {
 			_countries.push(name);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get date():int {
 			return _date;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set date(value:int):void {
 			_date = value;
 		}
 		
+		/**
+		 * 
+		 * @param title
+		 * @param bibScopetype
+		 * @param bibScope
+		 * 
+		 */
 		public function addSerie(title:String, bibScopetype:String = null, bibScope:Number = 0):void {
 			_serie = new Object();
 			_serie.id = _series.length;
@@ -293,36 +413,78 @@ package model {
 			_serie = null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get series():Array {
 			return _series;	
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get scope():String {
 			return _scope;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set scope(value:String):void {
 			_scope = value;
 		}
 		
-		public function get sourceRole():String
-		{
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get sourceRole():String {
 			return _sourceRole;
 		}
 
-		public function set sourceRole(value:String):void
-		{
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set sourceRole(value:String):void {
 			_sourceRole = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get type():String {
 			return _type;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set type(value:String):void {
 			_type = value;
 		}
 
+		/**
+		 * 
+		 * @param noteID
+		 * @param UniqueID
+		 * @param reason
+		 * @param contentType
+		 * @param furtherReading
+		 * 
+		 */
 		public function addNote(noteID:int, UniqueID:String, reason:String, contentType:String, furtherReading:String):void {
 			_note = new Object();
 			_note.id = noteID;
@@ -335,10 +497,14 @@ package model {
 			_note = null;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get notes():Array {
 			return _notes;	
 		}
 
-		
 	}
 }

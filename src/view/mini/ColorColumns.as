@@ -2,54 +2,68 @@ package view.mini {
 	
 	//imports
 	import com.greensock.TweenMax;
-	import com.greensock.easing.*;
-	
-	import events.CiteLensEvent;
+	import com.greensock.easing.Back;
 	
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	
+	import events.CiteLensEvent;
 	
 	import view.CiteLensView;
 	import view.PanelHeader;
 	import view.style.ColorSchema;
 	
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class ColorColumns extends CiteLensView  {
 		
-		//properties
-		private var _id:int;
-		private var plainTextLength:int;											//store text length in character number
-		private var refsId:Array;													//Store the refereces
-		private var positions:Array;												//store refrence positions
+		//****************** Properties ****************** ****************** ******************
 		
-		private var chunkCollection:Array;											//store chunks
-		private var chunk:Shape;													//iterate chunk
+		protected var _id					:int;
+		protected var plainTextLength		:int;							//store text length in character number
+		protected var refsId				:Array;							//Store the refereces
+		protected var positions				:Array;							//store refrence positions
 		
-		private var _hMax:int = 560;												//max height
-		private var _wMax:int = 34;													//max width
-		private var _numColumns:int = 1;												//number of columns
+		protected var chunkCollection		:Array;							//store chunks
+		protected var chunk					:Shape;							//iterate chunk
 		
-		private var numLines:int = hMax/2;											//max number of lines = height / 2 (one line of chunk and one line of separation)
+		protected var _hMax					:int	 = 560;					//max height
+		protected var _wMax					:int	 = 34;					//max width
+		protected var _numColumns			:int	 = 1;					//number of columns
 		
-		private var lineWeight:Number = 1;												//line weigth
-		private var columnGap:int = 5;												//gap between columns
+		protected var numLines				:int	 = hMax/2;				//max number of lines = height / 2 (one line of chunk and one line of separation)
 		
-		private var pixRate:Number;													//pixelrate - store the sample rate based in the text length and the max parameters
+		protected var lineWeight			:Number	 = 1;					//line weigth
+		protected var columnGap				:int	 = 5;					//gap between columns
 		
-		private var generalColor:uint = 0xCCCCCC;
-		private var highlightColor:uint = 0x999999;
+		protected var pixRate				:Number;						//pixelrate - store the sample rate based in the text length and the max parameters
 		
-		private var filterID:int = 0;
+		protected var generalColor			:uint	 = 0xCCCCCC;
+		protected var highlightColor		:uint	 = 0x999999;
 		
-		private var viz:Sprite;
-		private var header:PanelHeader;									//header
+		protected var filterID				:int	 = 0;
 		
-		private var animation:Boolean = false;
+		private var viz						:Sprite;
+		private var header					:PanelHeader;					//header
 		
-		private var _originalPosition:Object;
-		private var _endPoint:Boolean = false;
+		protected var animation				:Boolean = false;
 		
+		protected var _originalPosition		:Object;
+		protected var _endPoint				:Boolean = false;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function ColorColumns(fID:int = 0) {
 			super(citeLensController);
 			
@@ -73,55 +87,13 @@ package view.mini {
 			_hMax = _hMax - (header.height + 2);
 		}
 		
-		private function _drag(e:MouseEvent):void {
-			dispatchEvent(new CiteLensEvent(CiteLensEvent.DRAG));
-			//this.startDrag(false, new Rectangle(this.x,this.y,this.y + 300,0));
-		}
 		
-		public function get id():int {
-			return _id;
-		}
+		//****************** Initialize ****************** ****************** ******************
 		
-		public function set id(value:int):void {
-			_id = value;
-		}
-		
-		public function get originalPosition():Object {
-			return _originalPosition;
-		}
-		public function get numColumns():int {
-			return _numColumns;
-		}
-
-		public function set numColumns(value:int):void {
-			_numColumns = value;
-		}
-
-		public function get wMax():int {
-			return _wMax;
-		}
-
-		public function set wMax(value:int):void {
-			_wMax = value;
-		}
-
-		public function get hMax():int {
-			return _hMax;
-		}
-
-		public function set hMax(value:int):void {
-			_hMax = value - (header.height + 2);
-			numLines = _hMax/2
-		}
-		
-		public function get endPoint():Boolean {
-			return _endPoint;
-		}
-		
-		public function set endPoint(value:Boolean):void {
-			_endPoint = value;
-		}
-		
+		/**
+		 * 
+		 * 
+		 */
 		override public function initialize():void {
 			
 			//save orignal position
@@ -129,7 +101,28 @@ package view.mini {
 			_originalPosition.x = this.x;
 			_originalPosition.y = this.y;
 		}
+		
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _drag(e:MouseEvent):void {
+			dispatchEvent(new CiteLensEvent(CiteLensEvent.DRAG));
+			//this.startDrag(false, new Rectangle(this.x,this.y,this.y + 300,0));
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
 			
+		/**
+		 * 
+		 * @param notes
+		 * 
+		 */
 		public function updateViz(notes:Array):void {
 			
 			//if width change
@@ -367,6 +360,10 @@ package view.mini {
 			
 		}
 	
+		/**
+		 * 
+		 * 
+		 */
 		public function clear():void {
 			
 			if (viz) {
@@ -382,6 +379,108 @@ package view.mini {
 			
 			chunkCollection = null;
 			*/
+		}
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():int {
+			return _id;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set id(value:int):void {
+			_id = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get originalPosition():Object {
+			return _originalPosition;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get numColumns():int {
+			return _numColumns;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set numColumns(value:int):void {
+			_numColumns = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get wMax():int {
+			return _wMax;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set wMax(value:int):void {
+			_wMax = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get hMax():int {
+			return _hMax;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set hMax(value:int):void {
+			_hMax = value - (header.height + 2);
+			numLines = _hMax/2
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get endPoint():Boolean {
+			return _endPoint;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set endPoint(value:Boolean):void {
+			_endPoint = value;
 		}
 	
 	}

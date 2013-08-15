@@ -9,29 +9,48 @@ package view.bibliography {
 	
 	import view.CiteLensView;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class BibliographyView extends CiteLensView {
 		
-		private var origWidth:Number;
-		private var origHeight:Number;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var wMax:Number = 186;
-		private var hMax:Number = 536;
+		protected var origWidth			:Number;
+		protected var origHeight		:Number;
 		
-		private var border:Shape;
+		protected var wMax				:Number = 186;
+		protected var hMax				:Number = 536;
 		
-		private var searchBar:SearchBar;			
-		private var sortBar:SortByBar;
-		private var countBar:CountBar;
-		private var list:List;
+		protected var border			:Shape;
 		
-		internal var margin:uint = 2;
+		protected var searchBar			:SearchBar;			
+		protected var sortBar			:SortByBar;
+		protected var countBar			:CountBar;
+		protected var list				:List;
 		
-		public function BibliographyView() {
-			
+		internal var margin				:uint = 2;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function BibliographyView() {	
 			super(citeLensController);
 		}
 		
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		override public function initialize():void {
 			
 			//global size
@@ -62,7 +81,7 @@ package view.bibliography {
 			sortBar.initialize();
 			
 			//list container
-			list = new List();
+			list = new List(this.getController());
 			list.y = sortBar.y + sortBar.height;
 			this.addChildAt(list,0);
 			list.initialize();
@@ -79,26 +98,15 @@ package view.bibliography {
 				
 		}
 		
-		public function updateList(e:CiteLensEvent):void {
-			
-			var params:Object = e.parameters;
-			var filterType:String = params.type;
-			var reset:Boolean = params.reset;
-			var filterResult:Array = params.filterResult;
-			
-			
-			list.filter(filterResult, filterType, reset);
-				
-			countBar.update(filterResult.length);
-			
-			//reset search input
-			if (params.type == "filter") {
-				searchBar.reset();
-			}
-			
-		}
 		
-		private function listSort(e:CiteLensEvent):void {
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function listSort(e:CiteLensEvent):void {
 			
 			var eventParams:Object = e.parameters;
 			
@@ -112,6 +120,40 @@ package view.bibliography {
 			
 		}
 		
+		
+		//****************** PUBLIC EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		public function updateList(e:CiteLensEvent):void {
+			
+			var params:Object = e.parameters;
+			var filterType:String = params.type;
+			var reset:Boolean = params.reset;
+			var filterResult:Array = params.filterResult;
+			
+			
+			list.filter(filterResult, filterType, reset);
+				
+			countBar.update(filterResult.length);
+			
+			//reset search input
+			if (params.type == "filter") searchBar.reset();
+			
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param valueW
+		 * @param valueH
+		 * 
+		 */
 		public function setDimensions(valueW:Number, valueH:Number):void {
 			wMax = valueW;
 			hMax = valueH;

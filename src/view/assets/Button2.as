@@ -8,22 +8,37 @@ package view.assets {
 	
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Button2 extends Sprite {
 		
-		//properties
-		private var shape:Shape;
-		private var labelTF:TextField;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var _label:String
-		private var _color:uint;
-		private var _style:String;
+		protected var shape				:Shape;
+		protected var labelTF			:TextField;
 		
-		private var txtFormat:TXTFormat;
+		protected var _label			:String
+		protected var _color			:uint;
+		protected var _style			:String;
 		
-		private var margin:Number = .2; 					//Defined proportionaly in percentage
+		protected var txtFormat			:TXTFormat;
 		
-		private var _status:String = "active";
+		protected var margin			:Number = .2; 					//Defined proportionaly in percentage
 		
+		protected var _status			:String = "active";
+		
+		//****************** Constructo ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param l
+		 * @param s
+		 * @param c
+		 * 
+		 */
 		public function Button2(l:String, s:String = "Button Style", c:uint = 0x333333) {
 			
 			super();
@@ -67,34 +82,80 @@ package view.assets {
 			
 		}
 		
-		private function _over(e:MouseEvent):void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _over(e:MouseEvent):void {
 				shape.alpha = .1;
 		}
 		
-		private function _out(e:MouseEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _out(e:MouseEvent):void {
 				shape.alpha = 0;
 		}
 
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get label():String {
 			return _label;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set label(value:String):void {
 			_label = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get color():uint {
 			return _color;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set color(value:uint):void {
 			_color = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get status():String {
 			return _status;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set status(value:String):void {
 			_status = value;
 			labelTF.setTextFormat(TXTFormat.getStyle(style, status));
@@ -113,14 +174,23 @@ package view.assets {
 			}
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get style():String {
 			return _style;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set style(value:String):void {
 			_style = value;
 		}
-
 
 	}
 }

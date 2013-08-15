@@ -14,38 +14,53 @@ package view {
 	import view.style.ColorSchema;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class PanelHeader extends Sprite {
 		
-		public static const STANDARD:String = "standard";
-		public static const FILTER:String = "filter";
+		//****************** Properties ****************** ****************** ******************
 		
-		//properties
-		private var _id:int;
-		private var _type:String;
-		private var color:uint = 0xCCCCCC;
+		public static const STANDARD	:String = "standard";
+		public static const FILTER		:String = "filter";
 		
-		private var w:Number = 155;
-		private var h:Number = 20;
-		private var r:Number = 6;
+		protected var _id				:int;
+		protected var _type				:String;
+		protected var color				:uint = 0xCCCCCC;
 		
-		private var box:Sprite;
-		private var labelID:TextField;
-		private var titleTF:TextField;
+		protected var w					:Number = 155;
+		protected var h					:Number = 20;
+		protected var r					:Number = 6;
 		
-		private var eraseBT:CrossBT;
+		protected var box				:Sprite;
+		protected var labelID			:TextField;
+		protected var titleTF			:TextField;
 		
+		protected var eraseBT			:CrossBT;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param id_
+		 * @param typ
+		 * 
+		 */
 		public function PanelHeader(id_:int = 0, typ:String = "standard") {
-			
-			super();
 			
 			id = id_;
 			_type  = typ;
 			
 			//color
-			if (_type == "filter") {
-				color = ColorSchema.getColor("filter"+id)
-			}
+			if (_type == "filter") color = ColorSchema.getColor("filter"+id)
+			
 		}
+		
+		
+		//****************** Initialize ****************** ****************** ******************
 		
 		public function init():void {
 			
@@ -80,9 +95,16 @@ package view {
 
 			}
 			
-			
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function setTitle(value:String):void {
 			
 			if (!titleTF) {
@@ -116,32 +138,34 @@ package view {
 			titleTF.text = value;
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		public function clear():void {
-			
 			for (var i:int = numChildren-1; i >= 0; i--) {
 				removeChild(this.getChildAt(i));
 			}
 		}
 		
-
-		public function get id():int {
-			return _id;
-		}
-
-		public function set id(value:int):void {
-			_id = value;
-		}
-
-		public function get type():String {
-			return _type;
-		}
-		
+		/**
+		 * 
+		 * @param valueW
+		 * @param valueH
+		 * @param valueRound
+		 * 
+		 */
 		public function setDimensions(valueW:Number, valueH:Number = 20, valueRound:Number = 6):void {
 			w = valueW;
 			h = valueH;
 			r = valueRound;
 		}
 		
+		/**
+		 * 
+		 * @param data
+		 * 
+		 */
 		public function update(data:int):void {
 			
 			var results:String;
@@ -162,7 +186,7 @@ package view {
 			}
 			
 			function updateData():void {
-	
+				
 				titleTF.y = 1;
 				titleTF.alpha = 1;
 				
@@ -187,11 +211,16 @@ package view {
 				TweenMax.from(eraseBT, .5, {alpha: 0, delay:.5})
 			}
 			
-			
-				
 		}
 		
-		private function eraseClick(e:MouseEvent):void {
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function eraseClick(e:MouseEvent):void {
 			
 			//update title
 			update(-1);
@@ -206,6 +235,36 @@ package view {
 			obj.reset = true;
 			dispatchEvent(new CiteLensEvent(CiteLensEvent.CHANGE_VISUALIZATION,obj));
 			
+		}
+		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():int {
+			return _id;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set id(value:int):void {
+			_id = value;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get type():String {
+			return _type;
 		}
 
 	}

@@ -11,20 +11,33 @@ package view.filter {
 	
 	public class PeriodBox extends OptionBox {
 		
-		//properties
-		private var period:PeriodOption;
-		private var addBT:CrossBT;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var period:PeriodOption;
+		protected var addBT:CrossBT;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function PeriodBox(fID:int) {
 			super(fID);
 		}
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param active
+		 * 
+		 */
 		override public function init(active:Boolean):void {
 			
 			//define if it must check for selected itens
-			if (active) {
-				hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, "period");
-			}
+			if (active) hasSelectedOptions = citeLensController.filterHasSelectedOptions(filterID, "period");
 			
 			//label
 			buildLabel("period");
@@ -72,47 +85,27 @@ package view.filter {
 			
 		}
 		
+		
+		//****************** INTERNAL EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		override internal function _click(e:MouseEvent):void {
 			addPeriodRange();
 		}
 		
-		public function addPeriodRange(periodRange:Object = null, focusValue:Boolean = false):void {
-			period = new PeriodOption(filterID, optionCount++);
-			if (periodRange) {
-				period.periodDate = periodRange;
-			}
-			
-			if (focusValue) {
-				period.focusIn();
-			}
-			
-			period.y = posY;
-			optionsList.addChild(period);
-			
-			optionArray.push(period);
-			
-			//update vertical space 
-			//posY += period.height + 3;
-			posY = optionsList.height + 3;
-			
-			//move endline further down
-			TweenLite.to(endLine,.5,{y:optionsList.y + optionsList.height + 3});
-			
-			//move box in optionPanel
-			OptionsPanel(this.parent).moveBoxes(this, period.height + 3);
-			
-			//animation
-			//TweenLite.from(period,.5,{y:period.y - 10, alpha:0});
-			TweenLite.from(period,.5,{alpha:0});
-			
-			//if there are more than one in the option list
-			if (optionArray.length > 1) {
-				optionArray[optionArray.length-2].activeDeleteButton = true; //enable remove button in the first one
-			}
-			
-		}
 		
-		private function removeNextBlankField(e:FocusEvent):void {
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function removeNextBlankField(e:FocusEvent):void {
 			
 			if (e.target is PeriodOption) {
 				
@@ -136,6 +129,50 @@ package view.filter {
 			}
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param periodRange
+		 * @param focusValue
+		 * 
+		 */
+		public function addPeriodRange(periodRange:Object = null, focusValue:Boolean = false):void {
+			period = new PeriodOption(filterID, optionCount++);
+			if (periodRange) period.periodDate = periodRange;
+			
+			if (focusValue) period.focusIn();
+			
+			period.y = posY;
+			optionsList.addChild(period);
+			
+			optionArray.push(period);
+			
+			//update vertical space 
+			//posY += period.height + 3;
+			posY = optionsList.height + 3;
+			
+			//move endline further down
+			TweenLite.to(endLine,.5,{y:optionsList.y + optionsList.height + 3});
+			
+			//move box in optionPanel
+			OptionsPanel(this.parent).moveBoxes(this, period.height + 3);
+			
+			//animation
+			//TweenLite.from(period,.5,{y:period.y - 10, alpha:0});
+			TweenLite.from(period,.5,{alpha:0});
+			
+			//if there are more than one in the option list
+			if (optionArray.length > 1) optionArray[optionArray.length-2].activeDeleteButton = true; //enable remove button in the first one
+			
+		}
+		
+		/**
+		 * 
+		 * @param target
+		 * 
+		 */
 		public function deletePeriodRange(target:PeriodOption):void {
 			
 			//test for target
@@ -159,6 +196,7 @@ package view.filter {
 					
 					break;
 				}
+				
 			}
 			
 			//animation to realocate
@@ -194,8 +232,11 @@ package view.filter {
 			
 		}
 		
-		
-		//get selected data
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		override public function selectedOptions():Array {
 			var selOptions:Array;
 			
@@ -206,10 +247,7 @@ package view.filter {
 				if (periodDate.from != "year" || periodDate.to != "year") {
 					
 					//initialize array
-					if (!selOptions) {
-						selOptions = new Array();
-					}
-					
+					if (!selOptions) selOptions = new Array();
 					
 					selOptions.push(period.periodDate);
 				

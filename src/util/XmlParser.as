@@ -6,19 +6,41 @@ package util {
 	
 	import flash.events.EventDispatcher;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class XmlParser extends EventDispatcher {
 		
-		//properties
-		private var xml:XML;
-		private var notes:XMLList;
-		private var paragraphs:XMLList;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var bibliography:Bibliography;
+		protected var xml			:XML;
+		protected var notes			:XMLList;
+		protected var paragraphs	:XMLList;
 		
+		protected var bibliography	:Bibliography;
+		
+		
+		//****************** COnstructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param data
+		 * 
+		 */
 		public function XmlParser(data:*) {
 			xml = new XML(data);
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function createTextBody():DocBodyModel {
 			
 			paragraphs = xml.monograph.body.chapter.chapterBody.descendants("p");
@@ -55,6 +77,11 @@ package util {
 			return docBody;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function createBibliography():Bibliography {
 		
 			notes = xml.monograph.body.chapter.chapterBody.descendants("note");

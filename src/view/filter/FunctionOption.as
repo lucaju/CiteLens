@@ -13,33 +13,47 @@ package view.filter {
 	import view.assets.Button;
 	import view.style.ColorSchema;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class FunctionOption extends OptionBox {
 		
-		//properties
-		private var _id:int;																								//Function Option ID
-		private var _type:String;
-		private var _label:String;
-		private var _options:Array;
-		private var _subFunctions:Array;
-		private var _selected:Boolean;
-		private var _subItemLevel:int = 0;
-		private var posX:Number = 90;
-
-		private var labelContainer:Sprite;
-		private var functionButton:Button;	
-		private var button:Button;	
-		private var functionOption:FunctionOption
-		private var line:Sprite;
-		private var sepLine:Sprite;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var _id				:int;																								//Function Option ID
+		protected var _type				:String;
+		protected var _label			:String;
+		protected var _options			:Array;
+		protected var _subFunctions		:Array;
+		protected var _selected			:Boolean;
+		protected var _subItemLevel		:int	 = 0;
+		private var posX				:Number	 = 90;
+
+		protected var labelContainer	:Sprite;
+		protected var functionButton	:Button;	
+		protected var functionOption	:FunctionOption
+		protected var line				:Sprite;
+		protected var sepLine			:Sprite;
+		private var button				:Button;	
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param labelString
+		 * @param fID
+		 * @param id_
+		 * @param type_
+		 * 
+		 */
 		public function FunctionOption(labelString:String, fID:int, id_:int = -1, type_:String = CitationFunction.UNIQUE) {
 			
 			super(fID);
 			
 			//Save id
-			if (_id != -1) {
-				id = id_;
-			}
+			if (_id != -1) id = id_;
 			
 			//save label
 			_label = labelString;
@@ -48,9 +62,7 @@ package view.filter {
 			type = type_;
 			
 			//If unique
-			if (type == CitationFunction.UNIQUE) {
-				selected = false;
-			}
+			if (type == CitationFunction.UNIQUE) selected = false;
 			
 			//Container
 			labelContainer = new Sprite();
@@ -65,124 +77,11 @@ package view.filter {
 			posY = this.height + 2;
 			
 		}
-
-		public function get id():int {
-			return _id;
-		}
 		
-		public function set id(value:int):void {
-			_id = value;
-		}
 		
-		public function get label():String {
-			return _label;
-		}
-
-		public function set label(value:String):void {
-			_label = value;
-		}
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
 		
-		public function get type():String {
-			return _type;
-		}
-		
-		public function set type(value:String):void {
-			_type = value;
-		}
-		
-		public function get subItemLevel():int {
-			return _subItemLevel;
-		}
-		
-		public function set subItemLevel(value:int):void {
-			_subItemLevel = value;
-		}
-		
-		public function get selected():Boolean {
-			return _selected;
-		}
-		
-		public function set selected(value:Boolean):void {
-			_selected = value;
-			if (functionButton){
-				(_selected) ? functionButton.status = "selected" : functionButton.status = "active";
-			}
-		}
-
-		public function get options():Array {
-			return _options.concat();
-		}
-
-		public function set options(value:Array):void {
-			_options = value;
-			
-			//test if there is selected options
-			for each (var item:Object in _options) {
-				if (item.value == true) {
-					showFactOpinion();
-					break;
-				}
-			}
-		}
-		
-		public function get subFunctions():Array {
-			return _subFunctions.concat();
-		}
-		
-		public function set subFunctions(value:Array):void {
-			_subFunctions = value;
-			
-			//test if there is selected options
-			var testSelected:Boolean = false;
-			
-			for each (var subFunct:CitationFunction in _subFunctions) {
-				var items:Array = subFunct.options;
-				for each (var item:Object in items) {
-					if (item.value == true) {
-						showSubFunctions();
-						testSelected = true;
-						break;
-					}
-				}
-				if (testSelected) {
-					break;
-				}
-			}
-		}
-		
-		public function get hasSubFuntions():Boolean {
-			return (_subFunctions) ? true : false;
-		}
-		
-		public function get hasOption():Boolean {
-			return (_options) ? true : false;
-		}
-		
-		public function separateLine():void {
-			
-			var lineW:Number = maxW - (4 * margin)
-			var dashLenght:Number = 2;
-			var gapLenght:Number = 4;
-			var currentXPos:Number = 0;	
-			
-			line = new Sprite();
-			line.graphics.lineStyle(1,ColorSchema.getColor("filter"+filterID));
-			line.graphics.beginFill(0x000000);
-			
-			while(currentXPos < lineW) {
-				line.graphics.lineTo(currentXPos + dashLenght, 0);
-				currentXPos = currentXPos + dashLenght;
-				line.graphics.moveTo(currentXPos + gapLenght, 0);
-				currentXPos = currentXPos + gapLenght;
-			}
-			
-			line.graphics.endFill();
-			
-			line.y = this.height + 2;
-			this.addChild(line);
-		}
-		
-		private function _functionClick(e:MouseEvent):void {
+		protected function _functionClick(e:MouseEvent):void {
 			
 			var button:Button = Button(e.target);
 			
@@ -206,12 +105,37 @@ package view.filter {
 			
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function factOpinionClick(e:MouseEvent = null):void {
+			
+			var option:Object;
+			
+			var targetButton:Button = Button(e.target);
+			
+			//deselect
+			if (targetButton.status != "selected") {
+				for each (option in optionArray) {
+					button = option.bt;
+					button.status = "active";
+					option.selected = false;
+				}
+			}
+			
+			//option click
+			if (e) _click(e);
+			
+		}
 		
-		private function showSubFunctions():void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		protected function showSubFunctions():void {
 			
 			optionArray = new Array;
-			
-			
 			
 			var expandedHeight:Number = 0;
 			for each (var item:CitationFunction in subFunctions) {
@@ -226,9 +150,7 @@ package view.filter {
 				this.addChild(functionOption);
 				
 				//check if the button is selected
-				if (item.value == true) {
-					functionOption.selected
-				}
+				if (item.value == true) functionOption.selected;
 				
 				optionArray.push({id:item.id, label:item.label, bt:functionOption, source:item}); //original id:item.label
 					
@@ -262,7 +184,11 @@ package view.filter {
 			triggerEvent()
 		}
 		
-		private function hideSubFunctions():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function hideSubFunctions():void {
 
 			var contractedHeight:Number = 0;
 			
@@ -276,9 +202,7 @@ package view.filter {
 			}
 			
 			//move endline further down
-			if (line) {
-				TweenMax.to(line,.5,{y:line.y - contractedHeight,onComplete:removeSubOptions});
-			}
+			if (line) TweenMax.to(line,.5,{y:line.y - contractedHeight,onComplete:removeSubOptions});
 			
 			//remove items
 			removeSubOptions();
@@ -287,8 +211,11 @@ package view.filter {
 			FunctionBox(this.parent.parent).contactHeight(this, contractedHeight);
 		}
 		
-		
-		private function removeSubOptions():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function removeSubOptions():void {
 			
 			var item:FunctionOption;
 			for (var i:int = 0; i < optionArray.length; i++) {
@@ -307,9 +234,12 @@ package view.filter {
 			
 			triggerEvent()
 		}
-	
 		
-		private function showFactOpinion():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function showFactOpinion():void {
 			optionArray = new Array;
 			
 			for (var i:int = 0; i < options.length; i++) {
@@ -325,9 +255,7 @@ package view.filter {
 				button.addEventListener(MouseEvent.CLICK, factOpinionClick);
 				
 				//check if the button is selected
-				if (options[i].value == true) {
-					switchClick(button, "selected")
-				}
+				if (options[i].value == true) switchClick(button, "selected");
 				
 				optionArray.push({label:options[i].label, bt:button, selected:options[i].value});
 				
@@ -343,8 +271,7 @@ package view.filter {
 				button = optionArray[0].bt;
 				button.status = "selected";
 				optionArray[0].selected = true;
-			}
-			
+			}	
 			
 			selected = true;
 			
@@ -352,8 +279,11 @@ package view.filter {
 			
 		}
 		
-		
-		private function hideFactOpinion():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function hideFactOpinion():void {
 			
 			for (var i:int = 0; i < optionArray.length; i++) {
 				var item:Button = optionArray[i].bt;
@@ -370,7 +300,11 @@ package view.filter {
 			changeSubFunctionsStatus();
 		}
 		
-		private function removeFactOpinion():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function removeFactOpinion():void {
 			
 			for (var i:int = 0; i < optionArray.length; i++) {
 				var item:Button = optionArray[i].bt;
@@ -384,30 +318,11 @@ package view.filter {
 			triggerEvent();
 		}
 		
-		private function factOpinionClick(e:MouseEvent = null):void {
-
-			var option:Object;
-			
-			var targetButton:Button = Button(e.target);
-			
-			//deselect
-			if (targetButton.status != "selected") {
-				for each (option in optionArray) {
-					button = option.bt;
-					button.status = "active";
-					option.selected = false;
-				}
-			}
-			
-			
-			//option click
-			if (e) {
-				_click(e);
-			}
-			
-		}
-		
-		private function changeSubFunctionsStatus():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function changeSubFunctionsStatus():void {
 			this.selected = false;
 			
 			if (this.parent is FunctionOption) {
@@ -433,13 +348,216 @@ package view.filter {
 			}
 		}
 		
-		private function triggerEvent():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function triggerEvent():void {
 			//dispatch visualization change
 			var obj:Object = new Object()
 			obj.filterID = filterID;
 			
 			dispatchEvent(new CiteLensEvent(CiteLensEvent.CHANGE_VISUALIZATION,obj));
 		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		public function separateLine():void {
+			
+			var lineW:Number = maxW - (4 * margin)
+			var dashLenght:Number = 2;
+			var gapLenght:Number = 4;
+			var currentXPos:Number = 0;	
+			
+			line = new Sprite();
+			line.graphics.lineStyle(1,ColorSchema.getColor("filter"+filterID));
+			line.graphics.beginFill(0x000000);
+			
+			while(currentXPos < lineW) {
+				line.graphics.lineTo(currentXPos + dashLenght, 0);
+				currentXPos = currentXPos + dashLenght;
+				line.graphics.moveTo(currentXPos + gapLenght, 0);
+				currentXPos = currentXPos + gapLenght;
+			}
+			
+			line.graphics.endFill();
+			
+			line.y = this.height + 2;
+			this.addChild(line);
+		}
+		
 
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():int {
+			return _id;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set id(value:int):void {
+			_id = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get label():String {
+			return _label;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set label(value:String):void {
+			_label = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get type():String {
+			return _type;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set type(value:String):void {
+			_type = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get subItemLevel():int {
+			return _subItemLevel;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set subItemLevel(value:int):void {
+			_subItemLevel = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get selected():Boolean {
+			return _selected;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set selected(value:Boolean):void {
+			_selected = value;
+			if (functionButton){
+				(_selected) ? functionButton.status = "selected" : functionButton.status = "active";
+			}
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get options():Array {
+			return _options.concat();
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set options(value:Array):void {
+			_options = value;
+			
+			//test if there is selected options
+			for each (var item:Object in _options) {
+				if (item.value == true) {
+					showFactOpinion();
+					break;
+				}
+			}
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get subFunctions():Array {
+			return _subFunctions.concat();
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set subFunctions(value:Array):void {
+			_subFunctions = value;
+			
+			//test if there is selected options
+			var testSelected:Boolean = false;
+			
+			for each (var subFunct:CitationFunction in _subFunctions) {
+				var items:Array = subFunct.options;
+				for each (var item:Object in items) {
+					if (item.value == true) {
+						showSubFunctions();
+						testSelected = true;
+						break;
+					}
+				}
+				if (testSelected) break;
+			}
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get hasSubFuntions():Boolean {
+			return (_subFunctions) ? true : false;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get hasOption():Boolean {
+			return (_options) ? true : false;
+		}
 	}
 }

@@ -5,12 +5,35 @@ package view.reader {
 	
 	import view.style.ColorSchema;
 	
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class TextReaderStyle {
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function TextReaderStyle() {
 			
 		}
 		
+		
+		//****************** STATIC PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param styleName
+		 * @param mini
+		 * @param statusColor
+		 * @return 
+		 * 
+		 */
 		static public function getStyle(styleName:String, mini:Boolean = false, statusColor:String = "standard"):TextLayoutFormat {
 			
 			var style:TextLayoutFormat = new TextLayoutFormat();

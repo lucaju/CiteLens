@@ -15,20 +15,33 @@ package view.filter {
 	import view.style.ColorSchema;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class AuthorOption extends OptionBox {
 		
-		//properties
-		static public var instances:int = 0;
+		//****************** Properties ****************** ****************** ******************
+		
+		static public var instances			:int = 0;
+		
+		protected var _id					:int;
+		protected var input					:TextField;
+		protected var ghostInput			:TextField
+		protected var deleteButton			:MinusBT;
+		protected var autoCompleteBox		:AutoCompleteBox;
+		protected var brd					:Shape;
+		protected var _label				:String = "";
 		
 		
-		private var _id:int;
-		private var input:TextField;
-		private var ghostInput:TextField
-		private var deleteButton:MinusBT;
-		private var autoCompleteBox:AutoCompleteBox;
-		private var brd:Shape;
-		private var _label:String = "";
+		//****************** Constructor ****************** ****************** ******************
 		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function AuthorOption(fID:int) {
 			
 			super(fID)
@@ -69,42 +82,31 @@ package view.filter {
 			TweenMax.to(deleteButton,.0,{tint:0xCCCCCC});
 
 		}
-
-		public function get id():int {
-			return _id;
-		}
 		
-		public function set id(value:int):void {
-			_id = value;
-		}
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
 		
-		public function get authorName():String {
-			return input.text;
-		}
-		
-		public function set authorName(value:String):void {
-			input.text = value;
-		}
-		
-		
-		public function get label():String {
-			return _label;
-		}
-		
-		public function get hasContent():Boolean {
-			return (input.text.length > 0) ? true : false;
-		}
-		
-		public function focusIn(e:FocusEvent = null):void {
-			if (input.text == "author name") {
-				input.text = "";
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _addField(e:Event):void {
+			if (input.text.length == 1) {
+				AuthorBox(this.parent.parent).addAuthor();
+				input.removeEventListener(Event.CHANGE, _addField);
 				
+			} else if (input.text.length == 0) {
+				//AuthorBox(this.parent.parent).deleteAuthorName(this);
 			}
-			
-			input.alpha = 1;
 		}
 		
-		private function _focusOff(e:FocusEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _focusOff(e:FocusEvent):void {
+			
 			if (input.text.length == 0) {
 				input.text = "author name";
 				input.alpha = .2;
@@ -116,50 +118,16 @@ package view.filter {
 				
 			}
 			
-			if (autoCompleteBox) {
-				TweenMax.to(autoCompleteBox, .3, {alpha:0, onComplete:removeAutoCompleteFocusOff});
-			}
+			if (autoCompleteBox) TweenMax.to(autoCompleteBox, .3, {alpha:0, onComplete:removeAutoCompleteFocusOff});
 			
 		}
 		
-		private function removeAutoCompleteFocusOff():void {
-			if (autoCompleteBox) {
-				this.removeChild(autoCompleteBox)
-				autoCompleteBox = null;
-			}				
-		}
-		
-		private function _addField(e:Event):void {
-			if (input.text.length == 1) {
-				AuthorBox(this.parent.parent).addAuthor();
-				input.removeEventListener(Event.CHANGE, _addField);
-				
-			} else if (input.text.length == 0) {
-				//AuthorBox(this.parent.parent).deleteAuthorName(this);
-			}
-		}
-		
-		public function set activeDeleteButton(value:Boolean):void {
-			if(value) {
-				deleteButton.buttonMode = true;
-				deleteButton.addEventListener(MouseEvent.CLICK, removeAuthorName);
-				TweenMax.to(deleteButton,.5,{removeTint:true});
-			} else {
-				deleteButton.buttonMode = false;
-				deleteButton.removeEventListener(MouseEvent.CLICK, removeAuthorName);
-				TweenMax.to(deleteButton,.5,{tint:0xCCCCCC});
-			}
-		}
-		
-		public function removeAuthorName(e:MouseEvent):void {
-			var box:AuthorBox = AuthorBox(this.parent.parent);
-			
-			//animation
-			TweenMax.to(this,.5,{x:this.x - 10, alpha:0, onComplete:box.deleteAuthorName, onCompleteParams:[this]});
-			TweenMax.to(deleteButton, .5, {rotation:-90});
-		}
-		
-		private function _typing(e:KeyboardEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _typing(e:KeyboardEvent):void {
 			
 			_label = input.text;
 			
@@ -220,17 +188,17 @@ package view.filter {
 									ghostInput.alpha = .2;
 									this.addChildAt(ghostInput,0);
 								}
-							
-								ghostInput.text = autoCompleteBox.getFirstOnTheList();									//preload the first autoComplete in the field
 								
-							} else {
-								if (ghostInput) {
-									this.removeChild(ghostInput);
-									ghostInput = null;
+								ghostInput.text = autoCompleteBox.getFirstOnTheList();				//preload the first autoComplete in the field
+								
+								} else {
+									if (ghostInput) {
+										this.removeChild(ghostInput);
+										ghostInput = null;
+									}
 								}
 							}
 							*/
-							
 							
 							TweenMax.to(autoCompleteBox, .5, {y:brd.y - autoCompleteBox.newHeight});
 							
@@ -253,6 +221,38 @@ package view.filter {
 			
 		}
 		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function removeAutoCompleteFocusOff():void {
+			if (autoCompleteBox) {
+				this.removeChild(autoCompleteBox)
+				autoCompleteBox = null;
+			}				
+		}
+		
+		
+		//****************** PUBLIC EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		public function focusIn(e:FocusEvent = null):void {
+			if (input.text == "author name") input.text = "";
+			input.alpha = 1;
+		}
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
 		public function doQuery(e:Event = null):void {
 			
 			if (autoCompleteBox) {
@@ -275,24 +275,104 @@ package view.filter {
 				
 				
 				var queryTarget:Array = [autoCompleteBox.searchTarget];
-				if (autoCompleteBox.searchTarget == "") {
-					queryTarget = ["author","title"]
-				}
+				if (autoCompleteBox.searchTarget == "") queryTarget = ["author","title"];
 				
 			} else {
 				query = "~all"
 			}
-			/*
-			if (query != "") {
-				citeLensController.searchBibliography(query, queryTarget);
-			}
-			*/
+			
+			//if (query != "") citeLensController.searchBibliography(query, queryTarget);
 			
 			if (autoCompleteBox) {
 				this.removeChild(autoCompleteBox)
 				autoCompleteBox = null;
 			}
 			
+		}
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		public function removeAuthorName(e:MouseEvent):void {
+			var box:AuthorBox = AuthorBox(this.parent.parent);
+			
+			//animation
+			TweenMax.to(this,.5,{x:this.x - 10, alpha:0, onComplete:box.deleteAuthorName, onCompleteParams:[this]});
+			TweenMax.to(deleteButton, .5, {rotation:-90});
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		public function set activeDeleteButton(value:Boolean):void {
+			if(value) {
+				deleteButton.buttonMode = true;
+				deleteButton.addEventListener(MouseEvent.CLICK, removeAuthorName);
+				TweenMax.to(deleteButton,.5,{removeTint:true});
+			} else {
+				deleteButton.buttonMode = false;
+				deleteButton.removeEventListener(MouseEvent.CLICK, removeAuthorName);
+				TweenMax.to(deleteButton,.5,{tint:0xCCCCCC});
+			}
+		}
+		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get id():int {
+			return _id;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set id(value:int):void {
+			_id = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get authorName():String {
+			return input.text;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set authorName(value:String):void {
+			input.text = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get label():String {
+			return _label;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get hasContent():Boolean {
+			return (input.text.length > 0) ? true : false;
 		}
 
 

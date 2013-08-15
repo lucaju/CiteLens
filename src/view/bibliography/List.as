@@ -1,102 +1,79 @@
 package view.bibliography {
 	
 	//imports
-	//import com.greensock.BlitMask;
-	import com.greensock.TweenMax;
 	
-	import events.CiteLensEvent;
+	import com.greensock.TweenMax;
 	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
+	import controller.CiteLensController;
+	
+	import events.CiteLensEvent;
+	
 	import model.RefBibliographic;
 	
-	import view.assets.ShadowLine;
-	import view.util.scroll.Scroll;
-	import view.style.TXTFormat;
+	import mvc.AbstractView;
+	import mvc.IController;
 	
-	public class List extends BibliographyView {
+	import view.assets.ShadowLine;
+	import view.style.TXTFormat;
+	import view.util.scroll.Scroll;
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
+	public class List extends AbstractView {
 		
-		//properties
-		private var origWidth:Number;
-		private var origHeight:Number;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var _filtered:Boolean = false;
-		private var _empty:Boolean = false;
-		private var emptyTF:TextField;
+		private var origWidth				:Number;
+		private var origHeight				:Number;
 		
-		private var item:ItemRef;
-		private var selectedItem:ItemRef;
+		protected var _filtered				:Boolean = false;
+		protected var _empty				:Boolean = false;
+		protected var emptyTF				:TextField;
 		
-		private var itemsArray:Array;
-		private var actualItemsArray:Array;
-		private var filteredItemsArray:Array;
-		private var partialItemsArray:Array;
+		protected var item					:ItemRef;
+		protected var selectedItem			:ItemRef;
+		
+		protected var itemsArray			:Array;
+		protected var actualItemsArray		:Array;
+		protected var filteredItemsArray	:Array;
+		protected var partialItemsArray		:Array;
 		
 		
-		private var container:Sprite;
-		private var containerMask:Sprite;
-		//private var containerMask:BlitMask;
+		protected var container				:Sprite;
+		protected var containerMask			:Sprite;
+		//protected var containerMask		:BlitMask;
 		
-		private var scroll:Scroll;
+		protected var scroll				:Scroll;
 		
-		public function List() {
-			
-			super();
-			
+		protected var margin				:uint = 2;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		
+		/**
+		 * 
+		 * @param c
+		 * 
+		 */
+		public function List(c:IController) {
+			super(c);
 		}
 		
-		public function get filtered():Boolean {
-			return _filtered;
-		}
 		
-		public function set filtered(value:Boolean):void {
-			_filtered = value;
-		}
+		//****************** INITIALIZE ****************** ****************** ******************
 		
-		public function get empty():Boolean {
-			return _empty;
-		}
-		
-		public function set empty(value:Boolean):void {
-			
-			if (value) 	{
-				emptyTF = new TextField();
-				emptyTF.antiAliasType = "advanced";
-				emptyTF.autoSize = "left";
-				emptyTF.selectable = false;
-				emptyTF.text = "no results";
-				emptyTF.setTextFormat(TXTFormat.getStyle("Empty Style"));
-				emptyTF.x = (this.width/2) - (emptyTF.width)/2;
-				emptyTF.y = 200;
-				
-				
-				this.addChild(emptyTF);
-				
-				TweenMax.from(emptyTF, .5, {alpha:0, delay:1});
-				
-			} else {
-				this.removeChild(emptyTF);
-				emptyTF = null;
-			}
-			
-			_empty = value;
-		}
-		
-		public function getTotalCount():int {
-			return itemsArray.length;
-		}
-		
-		public function getActualCount():int {
-			if (actualItemsArray) {
-				return actualItemsArray.length;
-			} else {
-				return 0;
-			}
-		}
-		
-		override public function initialize():void {
+		/**
+		 * 
+		 * 
+		 */
+		public function initialize():void {
 			
 			//events
 			this.addEventListener(CiteLensEvent.SORT, sort);
@@ -104,7 +81,7 @@ package view.bibliography {
 			//global size
 			//origWidth = Global.globalWidth/5;
 			//origHeight = Global.globalHeight - 50;
-			origWidth = this.parent.width - super.margin;
+			origWidth = this.parent.width - margin;
 			origHeight = this.parent.height - 64;			
 			
 			
@@ -130,7 +107,16 @@ package view.bibliography {
 			
 		}
 		
-		private function list():void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function list():void {
+			
+			var control:CiteLensController = CiteLensController(this.getController());
 			
 			//init
 			ItemRef.origWidth = this.parent.width;
@@ -139,14 +125,14 @@ package view.bibliography {
 			var posY:Number = 0;
 			
 			//get number of itens
-			var bibTotal:int = citeLensController.getBibliographyLenght();
+			var bibTotal:int = control.getBibliographyLenght();
 			
 			//loop - populate
 			
 			for (var i:int = 0; i< bibTotal; i++) {
 				
 				//create item
-				item = new ItemRef(citeLensController.getBibByIndex(i), i);
+				item = new ItemRef(control.getBibByIndex(i), i);
 				item.y = posY;
 				
 				item.addEventListener(MouseEvent.CLICK, _itemClick);
@@ -173,15 +159,15 @@ package view.bibliography {
 			
 		}
 		
-		private function applyScrollMask():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function applyScrollMask():void {
 			
 			if (container.height > origHeight) {
 				
 				if (!scroll) {
-
-					//mask for container
-					//containerMask = new BlitMask(container, container.x, container.y, origWidth, origHeight, true);
-					//containerMask.disableBitmapMode();
 					
 					containerMask = new Sprite();
 					containerMask.graphics.beginFill(0xFFFFFF,0);
@@ -190,12 +176,24 @@ package view.bibliography {
 					container.mask = containerMask
 					
 					//add scroll system
-					scroll = new Scroll();
-					addChild(scroll);
-					scroll.x = this.parent.width - 10;
-					scroll.y = 0;
 					
+					//add scroll system
+					scroll = new Scroll();
+					//scroll.gestureInput = "gestouch";
+					scroll.target = container;
 					scroll.maskContainer = containerMask;
+					this.addChild(scroll);
+					//scroll.init();
+					scroll.x = this.parent.width - 9;
+					
+				/*	scroll = new Scroll();
+					this.addChild(scroll);
+					scroll.target = container;
+					scroll.maskContainer = containerMask;
+					scroll.x = this.parent.width - 10;
+					scroll.y = 0;*/
+					
+					
 				}
 				
 				//update container
@@ -216,47 +214,33 @@ package view.bibliography {
 			}
 		}
 		
-		public function filter(filterResult:Array, type:String, reset:Boolean = false):void {
-			
-			switch (type) {
-				
-				case "search":
-					narrowBySearch(filterResult);
-					break;
-				
-				case "filter":
-					narrowByFilter(filterResult, reset)
-					break;
-				
-			}
-			
-		}
 		
-		private function narrowByFilter(filterResult:Array, reset:Boolean):void {
-
+		
+		/**
+		 * 
+		 * @param filterResult
+		 * @param reset
+		 * 
+		 */
+		protected function narrowByFilter(filterResult:Array, reset:Boolean):void {
+			
 			if (!reset) {
 				if (filterResult.length > 0) {
 					filteredItemsArray = new Array();
 					
 					for each (var item:ItemRef in itemsArray) {
 						for each (var ref:RefBibliographic in filterResult) {
-							if (item.uniqueID == ref.uniqueID) {
-								filteredItemsArray.push(item);
-							}
+							if (item.uniqueID == ref.uniqueID) filteredItemsArray.push(item);
 						}
 					}
 					
 					///replace list
 					actualItemsArray = filteredItemsArray
-						
-					if (empty) {
-						empty = false;
-					}
+					
+					if (empty) empty = false;
 					
 				} else {
-					if (!empty) {
-						empty = true;
-					}
+					if (!empty) empty = true;
 				}
 				
 				filtered = true;
@@ -266,16 +250,19 @@ package view.bibliography {
 				filteredItemsArray = null;
 				filtered = false;
 				
-				if (empty) {
-					empty = false;
-				}
+				if (empty) empty = false;
 			}
 			
 			updateAnimation();
 			
 		}
 		
-		private function narrowBySearch(filterResult:Array):void {
+		/**
+		 * 
+		 * @param filterResult
+		 * 
+		 */
+		protected function narrowBySearch(filterResult:Array):void {
 			if (filterResult[0] == "~all") {
 				
 				var posY:Number = 0;
@@ -290,7 +277,7 @@ package view.bibliography {
 				filteredItemsArray = null;
 				
 			} else {
-			
+				
 				//trace (filterResult.length)
 				
 				partialItemsArray = new Array();
@@ -310,18 +297,18 @@ package view.bibliography {
 								
 								for each (var titl:Object in titles) {
 								
-									var titleName:String = titl.name;
-									
-									if (titleName.toLowerCase() == filter.label.toLowerCase()) {
-										partialItemsArray.push(item);
-										hit = true;
-										//trace ("**Tit")
-										break;
-									}
-									
-									
-									//trace ("----Title")
+								var titleName:String = titl.name;
+								
+								if (titleName.toLowerCase() == filter.label.toLowerCase()) {
+									partialItemsArray.push(item);
+									hit = true;
+									//trace ("**Tit")
+									break;
 								}
+								
+								
+								//trace ("----Title")
+							}
 								
 								
 								break;
@@ -332,16 +319,16 @@ package view.bibliography {
 								
 								for each (var author:Object in authors) {
 								
-									var fullName:String = author.firstName + " " + author.lastName;
+								var fullName:String = author.firstName + " " + author.lastName;
 								
-									if (fullName.toLowerCase() == filter.label.toLowerCase()) {
-										partialItemsArray.push(item);
-										hit = true;
-										//trace ("**Auth")
-										break;
-									}
-									//trace ("----Author")
+								if (fullName.toLowerCase() == filter.label.toLowerCase()) {
+									partialItemsArray.push(item);
+									hit = true;
+									//trace ("**Auth")
+									break;
 								}
+								//trace ("----Author")
+							}
 								
 								
 								break;
@@ -372,7 +359,11 @@ package view.bibliography {
 			
 		}
 		
-		private function updateAnimation():void {
+		/**
+		 * 
+		 * 
+		 */
+		protected function updateAnimation():void {
 			
 			var nonListedArray:Array;
 			
@@ -380,7 +371,7 @@ package view.bibliography {
 				
 				//hide non listed items
 				nonListedArray = itemsArray.filter(nonListedFilter);
-	
+				
 				for each (item in nonListedArray) {
 					TweenMax.to(item,1,{autoAlpha:0, y:0});
 				}
@@ -395,7 +386,7 @@ package view.bibliography {
 					} else {
 						TweenMax.to(filteredItem,2,{y:posY, autoAlpha:1});
 					}
-	
+					
 					posY += filteredItem.height;
 					i++;
 				}
@@ -407,12 +398,20 @@ package view.bibliography {
 				}
 				
 			}
-				
+			
 			//move the list to the top
 			container.y = 0;
 		}
 		
-		private function nonListedFilter(element:*, index:int, arr:Array):Boolean {
+		/**
+		 * 
+		 * @param element
+		 * @param index
+		 * @param arr
+		 * @return 
+		 * 
+		 */
+		protected function nonListedFilter(element:*, index:int, arr:Array):Boolean {
 			
 			var itemToHide:Boolean = false;
 			
@@ -428,29 +427,12 @@ package view.bibliography {
 			return itemToHide;
 		}
 		
-		private function _itemClick(e:MouseEvent):void {
-			
-			var itemCLicked:ItemRef = ItemRef(e.currentTarget);
-			
-			if (selectedItem == itemCLicked) {
-				itemCLicked.deselect();
-				selectedItem = null;
-				
-			} else if (selectedItem) {
-				selectedItem.deselect();
-				itemCLicked.select();
-				selectedItem = itemCLicked;
-				updateListByItemCliked(selectedItem)
-			} else {
-				itemCLicked.select();
-				selectedItem = itemCLicked;
-				updateListByItemCliked(selectedItem)
-			}
-			
-			
-		}
-		
-		private function updateListByItemCliked(itemCLicked:ItemRef):void {
+		/**
+		 * 
+		 * @param itemCLicked
+		 * 
+		 */
+		protected function updateListByItemCliked(itemCLicked:ItemRef):void {
 			
 			var diff:int = 100;
 			
@@ -474,11 +456,92 @@ package view.bibliography {
 		}
 		
 		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _itemClick(e:MouseEvent):void {
+			
+			var itemCLicked:ItemRef = ItemRef(e.currentTarget);
+			
+			if (selectedItem == itemCLicked) {
+				itemCLicked.deselect();
+				selectedItem = null;
+				
+			} else if (selectedItem) {
+				selectedItem.deselect();
+				itemCLicked.select();
+				selectedItem = itemCLicked;
+				updateListByItemCliked(selectedItem)
+			} else {
+				itemCLicked.select();
+				selectedItem = itemCLicked;
+				updateListByItemCliked(selectedItem)
+			}
+			
+			
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getTotalCount():int {
+			return itemsArray.length;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getActualCount():int {
+			if (actualItemsArray) {
+				return actualItemsArray.length;
+			} else {
+				return 0;
+			}
+		}
+		
+		/**
+		 * 
+		 * @param filterResult
+		 * @param type
+		 * @param reset
+		 * 
+		 */
+		public function filter(filterResult:Array, type:String, reset:Boolean = false):void {
+			
+			switch (type) {
+				
+				case "search":
+					narrowBySearch(filterResult);
+					break;
+				
+				case "filter":
+					narrowByFilter(filterResult, reset)
+					break;
+				
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * @param parameter
+		 * @param asc
+		 * 
+		 */
 		public function sort(parameter:String, asc:Boolean):void {
 			
-			if (parameter == "author") {
-				parameter = "authorship"
-			}
+			if (parameter == "author") parameter = "authorship";
 			
 			if (parameter == "") {
 				actualItemsArray.sortOn("id");
@@ -498,6 +561,66 @@ package view.bibliography {
 			
 			//move the list to the top
 			TweenMax.to(container,0,{y:0});
+		}
+		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get filtered():Boolean {
+			return _filtered;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set filtered(value:Boolean):void {
+			_filtered = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get empty():Boolean {
+			return _empty;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set empty(value:Boolean):void {
+			
+			if (value) 	{
+				emptyTF = new TextField();
+				emptyTF.antiAliasType = "advanced";
+				emptyTF.autoSize = "left";
+				emptyTF.selectable = false;
+				emptyTF.text = "no results";
+				emptyTF.setTextFormat(TXTFormat.getStyle("Empty Style"));
+				emptyTF.x = (this.width/2) - (emptyTF.width)/2;
+				emptyTF.y = 200;
+				
+				
+				this.addChild(emptyTF);
+				
+				TweenMax.from(emptyTF, .5, {alpha:0, delay:1});
+				
+			} else {
+				this.removeChild(emptyTF);
+				emptyTF = null;
+			}
+			
+			_empty = value;
 		}
 
 	}

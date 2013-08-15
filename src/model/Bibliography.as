@@ -1,19 +1,31 @@
 package model {
 	
-	//imports
-	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class Bibliography {
 		
-		//properties
-		private var data:XMLList
+		//****************** Properties ****************** ****************** ******************
 		
-		private var ref:RefBibliographic;
-		private var refCollection:Array;
+		protected var data				:XMLList
 		
-		private var xmlns:Namespace;
-		private var xsi:Namespace;
-		private var teiH:Namespace;
+		protected var ref				:RefBibliographic;
+		protected var refCollection		:Array;
 		
+		protected var xmlns				:Namespace;
+		protected var xsi				:Namespace;
+		protected var teiH				:Namespace;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fullData
+		 * 
+		 */
 		public function Bibliography(fullData:XML) {
 			//namespaces
 			
@@ -50,7 +62,16 @@ package model {
 				
 		}
 		
-		private function addRef(item:XML, _noteUniqueID:String):void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param item
+		 * @param _noteUniqueID
+		 * 
+		 */
+		protected function addRef(item:XML, _noteUniqueID:String):void {
 			
 			/// Namespace
 			default xml namespace = xmlns;
@@ -99,10 +120,9 @@ package model {
 				}
 			}
 			
+			
 			//in case of this is a new reference, continue and add to the collection
 			if (!repeatedRef) {
-				
-				
 				
 				//create new bibliographic reference
 				
@@ -121,16 +141,11 @@ package model {
 				// -- Add info
 				
 				//test for unique id
-				if (item.@teiH::id != "") {
-					ref.uniqueID = item.@teiH::id;
-				}
+				if (item.@teiH::id != "") ref.uniqueID = item.@teiH::id;
 				
 				//test for tittle
-				
 				if (item.hasOwnProperty("title")) {
 					var titles:XMLList = item.descendants("title");
-					
-					
 					
 					for each(var title:XML in titles) {
 						
@@ -164,14 +179,15 @@ package model {
 				}
 				
 				//test for language
-				if (item.@teiH::lang != "") {
-					ref.language = item.@teiH::lang;
-				}
+				if (item.@teiH::lang.toString().length > 0) ref.language = item.@teiH::lang;
+				
+				//degub Language
+				if (item.@teiH::lang.toString().length == 0) ref.language = "**";
+				
 				
 				//test for publisher
-				if (item.hasOwnProperty("publisher")) {
-					ref.publisher = item.publisher;
-				}
+				if (item.hasOwnProperty("publisher")) ref.publisher = item.publisher;
+				
 				
 				//test for pubplace
 				if (item.hasOwnProperty("pubPlace")) {
@@ -181,18 +197,22 @@ package model {
 				}
 				
 				//test for country
-				var ntei:Namespace = new Namespace("http://www.example.org/ns/nonTEI");
 				
-				if (item.ntei::pubCountry != "") {
+				var ntei:Namespace = new Namespace("http://www.example.org/ns/nonTEI");
+				if (item.ntei::pubCountry.toString().length > 0) {
 					for each(var country:XML in item.ntei::pubCountry) {
 						ref.addCountry(country);
 					}
 				}
+				
+				//degub country
+				else {
+					ref.addCountry("Other");
+				}
 			
 				//test for date
-				if (item.hasOwnProperty("date")) {
-					ref.date = item.date;
-				}
+				if (item.hasOwnProperty("date")) ref.date = item.date;
+				
 				
 				//test for series information
 				if (item.hasOwnProperty("series")) {
@@ -202,21 +222,17 @@ package model {
 				}
 				
 				//test for scope		
-				if (item.@biblScope) {
-					ref.scope = item.biblScope.text();
-				}
-		
-
-				//test for source role
-				if (item.@sourceRole != "") {
-					ref.sourceRole = item.@sourceRole;
-				}
+				if (item.@biblScope) ref.scope = item.biblScope.text();
 				
+				//test for source role
+				if (item.@sourceRole != "") ref.sourceRole = item.@sourceRole;
 				
 				//test for type
-				if (item.@type != "") {
-					ref.type = item.@type;
-				}
+				if (item.hasOwnProperty("@type")) ref.type = item.@type;
+				
+				//debug type
+				if (!item.hasOwnProperty("@type")) ref.type = "*other";
+				
 					
 				//----add connected note
 				
@@ -228,32 +244,55 @@ package model {
 				
 				//furtherReading
 				furtherReading = item.@furtherReading;
-				if (furtherReading == "") {
-					furtherReading = "false";
-				}
+				if (furtherReading == "") furtherReading = "false";
 				
 				ref.addNote(noteID, noteUniqueID, reason, contentType, furtherReading)
 				
 			}
+			
 			ref = null
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get length():int {
 			return refCollection.length;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getBibligraphy():Array {
 			return refCollection.concat();
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		public function getRefByIndex(value:int):RefBibliographic {
 			return refCollection[value];
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function traceRef(value:int):void {
 			ref = refCollection[value];
 			trace ("ID:" + ref.id)
-			trace ("UniqueID:" + ref.uniqueID + "-")
+			trace ("UniqueID:" + ref.uniqueID)
 			trace ("Main Title: "+ref.title)
 			if (ref.titles.length > 0) {
 				trace ("Titles:" + ref.titles.length)

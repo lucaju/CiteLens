@@ -13,27 +13,41 @@ package view {
 	import view.style.TXTFormat;
 	
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	final public class Header extends CiteLensView {
 		
-		//properties
-		private var url:URLRequest;
-		private var loader:Loader
+		//****************** Properties ****************** ****************** ******************
 		
-		private var logo:Sprite;
+		protected var logo			:Sprite;
 		
-		private var menu:Array = new Array("compare", "contextualize")
-		private var button:Button;
+		protected var menu			:Array = new Array("compare", "contextualize")
+		protected var button		:Button;
 		
-		private var titleHeader:TextField;
+		protected var titleHeader	:TextField;
 		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function Header() {
-			
 			super(citeLensController);
-			
 			initialize();
 		}
 		
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		override public function initialize():void {
 			
 			//---------- LOGO
@@ -42,9 +56,8 @@ package view {
 			logo.y = 0;
 			this.addChild(logo);
 			
-			url = new URLRequest("images/logo.swf");
-			loader = new Loader();
-			
+			var url:URLRequest = new URLRequest("images/logo.swf");
+			var loader:Loader = new Loader();
 			loader.load(url);
 			logo.addChild(loader);
 			
@@ -77,7 +90,7 @@ package view {
 				button.border = true;
 				
 				//make the first option selected
-				if (i == 0) { button.status = "selected"; }
+				if (i == 0) button.status = "selected";
 				
 				this.addChild(button);
 				
@@ -116,6 +129,9 @@ package view {
 			this.addChild(titleHeader);
 		}
 		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
 		/**
 		 * Swithc Focus - _switchFocus
 		 * 
@@ -124,7 +140,7 @@ package view {
 		 * @param e
 		 * 
 		 */
-		private function _switchFocus(e:MouseEvent):void {
+		protected function _switchFocus(e:MouseEvent):void {
 			
 			//deselect all
 			for each (button in menu) {
@@ -135,7 +151,6 @@ package view {
 			button = Button(e.target);
 			button.status = "selected";
 		}
-	
 	
 	}
 }

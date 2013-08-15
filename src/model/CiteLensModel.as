@@ -7,39 +7,57 @@ package model {
 	
 	import flashx.textLayout.elements.TextFlow;
 	
+	import model.library.Country;
+	import model.library.Language;
+	import model.library.PubType;
+	
 	import mvc.Observable;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class CiteLensModel extends Observable {
 		
-		//properties
-		private var urlLoader:URLLoader;
-		private var urlRequest:URLRequest;
-		private var file:String;
-		private var data:XML;
-		private var document:Document;
-		private var bibliography:Bibliography;
-		private var notes:Notes;
-		private var session:Session;
-		private var bodyModel:DocBodyModel;
-		private var _plainTex:String;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var data					:XML;
+		protected var document				:Document;
+		protected var bibliography			:Bibliography;
+		protected var notes					:Notes;
+		protected var session				:Session;
+		protected var bodyModel				:DocBodyModel;
+		protected var _plainTex				:String;
+		
+		protected var traceBibliography	:Boolean = false;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function CiteLensModel() {
-			
 			super();
 			
 			//define name
 			this.name = "citelens";
 			
 			//load data
-			file = "resources/CareOfTheDead_chap1-inProgress.xml";
+			var file:String = "resources/CareOfTheDead_chap1-revised.xml";
 			
-			urlRequest = new URLRequest(file);
+			var urlRequest:URLRequest = new URLRequest(file);
 			
-			urlLoader = new URLLoader();
+			var urlLoader:URLLoader = new URLLoader();
 			urlLoader.addEventListener(Event.COMPLETE,loadXMLComplete);
 			urlLoader.load(urlRequest);
 			
 		}
+		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
 		
 		/**
 		 * Load XML Complete - loadXMLcomplete
@@ -48,7 +66,7 @@ package model {
 		 * @param e
 		 * 
 		 */
-		private function loadXMLComplete(e:Event):void {
+		protected function loadXMLComplete(e:Event):void {
 			
 			data = new XML(e.target.data);
 			
@@ -64,12 +82,14 @@ package model {
 			
 			
 			//---------test bibliograpy
-			/*
+			
 			//trace (bibliography.length)
-			for (var i:int = 0; i<bibliography.length; i++) {
-				bibliography.traceRef(i);
+			if (traceBibliography) {
+				for (var i:int = 0; i<bibliography.length; i++) {
+					bibliography.traceRef(i);
+				}
 			}
-			*/
+			
 			
 			/*
 			var bibs:Array = bibliography.getBibligraphy();
@@ -107,119 +127,258 @@ package model {
 		}
 		
 		
-		//---------- DOCUMENT INFORMATION
+		//****************** DOCUMENT INFORMATION ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getDocInfo():RefBibliographic {
-			var ref:RefBibliographic = document.getDocRef();
-			return ref;
+			return document.getDocRef();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getXML():XML {
 			return data;
 		}
+
 		
-		//---------- BIBLIOGRAPHY INFORMATION
+		//****************** BIBLIOGRAPHY INFORMATION ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getBibliographyLenght():int {
-			var bibTotal:int = bibliography.length;
-			return bibTotal;
+			return bibliography.length;
 		}
 		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
 		public function getBibByIndex(value:int):RefBibliographic {
-			var bib:RefBibliographic = bibliography.getRefByIndex(value);
-			return bib;
+			return bibliography.getRefByIndex(value);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getBibliography():Array {
 			return bibliography.getBibligraphy();;
 		}
 		
-		//---------- READER
 		
+		//****************** READER ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getAllParagraphs():XML {
-			var allP:XML = bodyModel.getAllParagraphsXML();
-			return allP;
+			return bodyModel.getAllParagraphsXML();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getFlowConvertText():TextFlow {
-			var textFlow:TextFlow = bodyModel.getFlowConvertText();
-			return textFlow;
+			return bodyModel.getFlowConvertText();
 		}
 		
-		//---------- COLOR CODE COLUMN
+		
+		//****************** COLOR CODE COLUMN ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPlainText():String {
 			return bodyModel.getPlainText();;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPlainTextLength():int {
 			return bodyModel.getPlainTextLength();;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getRefsId():Array {
 			return bodyModel.getRefsId();
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @return 
+		 * 
+		 */
 		public function getRefLocationByID(id:String):Object {
 			return bodyModel.getRefLocationByID(id);
 		}
 		
-		//-------- SESSION
 		
-		public function getLanguages():Array {
-			return session.getLanguages();
+		//****************** SESSION ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getLanguages(showAll:Boolean):Array {
+			return session.getLanguages(showAll);
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @return 
+		 * 
+		 */
 		public function getLanguageByID(id:int):Language {
 			return session.getLanguageByID(id);
 		}
 		
-		public function getCountries():Array {
-			return session.getCountries();
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getCountries(showAll:Boolean):Array {
+			return session.getCountries(showAll);
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @return 
+		 * 
+		 */
 		public function getCountryByID(id:int):Country {
 			return session.getCountryByID(id);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getPubTypes():Array {
 			return session.getPubTypes();
 		}
 		
+		/**
+		 * 
+		 * @param id
+		 * @return 
+		 * 
+		 */
 		public function getPubTypeByID(id:int):PubType {
 			return session.getPubTypeByID(id);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getCitationFunctions():Array {
 			return session.getCitationFunctions();
 		}
 		
-		//-------- SESSION - FILTER
 		
+		//****************** SESSION - FILTER ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		public function addFilter(filterID:int):void {
 			session.addFilter(filterID);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param data
+		 * 
+		 */
 		public function updateFilter(filterID:int, data:Object):void {
 			session.updateFilter(filterID, data);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		public function removeFilter(filterID:int):void {
 			session.removeFilter(filterID);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function filterHasSelectedOptions(filterID:int, type:String):Boolean {
-			var checked:Boolean = session.filterHasSelectedOptions(filterID, type);	
-			return checked;
+			return session.filterHasSelectedOptions(filterID, type);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @param option
+		 * @return 
+		 * 
+		 */
 		public function checkSelectedFilterOption(filterID:int, type:String, option:Object):Boolean {
-			var checked:Boolean = session.checkSelectedFilterOption(filterID, type, option);
-			return checked;
+			return session.checkSelectedFilterOption(filterID, type, option);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function getFilterOptionsByType(filterID:int, type:String):Array {
-			var filterOptions:Array = session.getFilterOptionsByType(filterID, type);
-			return filterOptions;
+			return session.getFilterOptionsByType(filterID, type);
 		}
 		
+		/**
+		 * 
+		 * @param filterID
+		 * @return 
+		 * 
+		 */
 		public function getFilterByID(filterID:int):Filter {
 			return session.getFilterByID(filterID);
 		}

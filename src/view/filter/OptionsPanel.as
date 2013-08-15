@@ -7,40 +7,59 @@ package view.filter {
 	import flash.text.TextField;
 	
 	import model.CitationFunction;
-	import model.Country;
-	import model.Language;
-	import model.PubType;
+	import model.library.Country;
+	import model.library.Language;
+	import model.library.PubType;
 	
 	import view.CiteLensView;
 	import view.assets.Button;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class OptionsPanel extends CiteLensView  {
 		
-		//properties
-		internal var maxW:int = 155; // 185 original
-		internal var margin:Number = 7;
+		//****************** Properties ****************** ****************** ******************
 		
-		internal var filterID:int;
+		internal var maxW					:int	 = 155; 		// 185 original
+		internal var margin					:Number	 = 7;
 		
-		private var checkSelectedOptions:Boolean;								// switch: Filter active or inactive
+		internal var filterID				:int;
 		
-		private var optionBoxesArray:Array;
+		protected var checkSelectedOptions	:Boolean;				// switch: Filter active or inactive
 		
-		private var languagesBox:OptionBox;
-		private var countriesBox:OptionBox;
-		private var pubTypeBox:OptionBox;
-		private var periodBox:OptionBox;
-		private var functionBox:OptionBox;
-		private var authorBox:OptionBox;
+		protected var optionBoxesArray		:Array;
 		
+		protected var languagesBox			:OptionBox;
+		protected var countriesBox			:OptionBox;
+		protected var pubTypeBox			:OptionBox;
+		protected var periodBox				:OptionBox;
+		protected var functionBox			:OptionBox;
+		protected var authorBox				:OptionBox;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param fID
+		 * 
+		 */
 		public function OptionsPanel(fID:int) {
-			
 			super(citeLensController);
 			filterID = fID;
-			
 		}
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param active
+		 * 
+		 */
 		public function init(active:Boolean):void {
 			
 			optionBoxesArray = new Array();
@@ -114,11 +133,19 @@ package view.filter {
 			
 			authorBox.init(active);
 			optionBoxesArray.push(authorBox);
-			
-			
+				
 		}
 		
-		private function buildLabel(l:String):TextField {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param l
+		 * @return 
+		 * 
+		 */
+		protected function buildLabel(l:String):TextField {
 			var label:TextField = new TextField();
 			label.selectable = false;
 			label.mouseEnabled = false;
@@ -132,6 +159,34 @@ package view.filter {
 			return label;
 		}
 		
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _click(e:MouseEvent):void {
+			var button:Button = Button(e.target);
+			
+			//select option clicked
+			if (button.status == "selected") {
+				button.status = "active";
+			} else {
+				button.status = "selected";
+			}
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param target
+		 * @param value
+		 * 
+		 */
 		public function moveBoxes(target:*, value:Number):void {
 			//find the slice point
 			for (var i:int = 0; i < optionBoxesArray.length; i++) {
@@ -152,21 +207,11 @@ package view.filter {
 			FilterPanel(this.parent).resizeBorder(value);
 		}
 		
-		private function _click(e:MouseEvent):void {
-			var button:Button = Button(e.target);
-			
-			//select option clicked
-			if (button.status == "selected") {
-				button.status = "active";
-			} else {
-				button.status = "selected";
-			}
-		}
-		
-		//********
-		//public function 
-		
-		//getter
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function getSelectedOptions():Object {
 			var data:Object = new Object();
 			
@@ -182,7 +227,12 @@ package view.filter {
 			return data;
 		}
 		
-		private function traceSelectedOption(data:Object):void {
+		/**
+		 * 
+		 * @param data
+		 * 
+		 */
+		protected function traceSelectedOption(data:Object):void {
 			
 			//Language
 			trace ("LANGUAGES:")

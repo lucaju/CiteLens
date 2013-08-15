@@ -9,36 +9,50 @@ package view.bibliography {
 	
 	import model.RefBibliographic;
 	
-	import view.style.*;
+	import view.style.ColorSchema;
+	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class ItemRef extends Sprite {
 		
-		//properties
-		private static var _origWidth:Number;
-		private var _id:int;
-		private var _uniqueID:String;
-		private var base:Sprite;
-		private var bg:Sprite;
-		private var line:Sprite;
-		private var textTF:TextField;
-		private var countTF:TextField;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var margin:Number = 3;
-		private var noteAreaWidth:Number = 12;
+		protected static var _origWidth		:Number;
+		protected var _id					:int;
+		protected var _uniqueID				:String;
+		protected var base					:Sprite;
+		protected var bg					:Sprite;
+		protected var line					:Sprite;
+		protected var textTF				:TextField;
+		protected var countTF				:TextField;
 		
-		public var authorship:String;
-		private var _title:String;
-		public var date:int;
+		protected var margin				:Number = 3;
+		protected var noteAreaWidth			:Number = 12;
 		
-		private var refBibl:RefBibliographic;
+		public var authorship				:String;
+		protected var _title				:String;
+		public var date						:int;
 		
+		protected var refBibl				:RefBibliographic;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param refBib
+		 * @param i
+		 * 
+		 */
 		public function ItemRef(refBib:RefBibliographic, i:int = 0) {
 			
 			refBibl = refBib;
 			id = i;
 			_uniqueID = refBib.uniqueID;
-			
-			super();
 		
 			//Text Field
 			textTF = new TextField();
@@ -143,15 +157,10 @@ package view.bibliography {
 				
 				//trace (refBib.notes)
 				
+				//debug
 				for each (var note:Object in refBib.notes) {
-					
-					if (note.reason == "") {
-						addBullet("reason");
-					}
-					
-					if (note.contentType == "") {
-						addBullet("contentType");
-					}
+					if (note.reason == "") addBullet("reason");
+					if (note.contentType == "") addBullet("contentType");
 				}
 				
 			}
@@ -164,7 +173,15 @@ package view.bibliography {
 			
 		}
 		
-		private function addBullet(type:String):void {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param type
+		 * 
+		 */
+		protected function addBullet(type:String):void {
 			
 			var color:uint;
 			
@@ -194,20 +211,38 @@ package view.bibliography {
 			this.addChild(bullet);
 		}
 		
-		private function _over(e:MouseEvent):void {
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _over(e:MouseEvent):void {
 			TweenLite.to(base, .3, {alpha: .4})
 		}
 		
-		private function _out(e:MouseEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _out(e:MouseEvent):void {
 			TweenLite.to(base, .5, {alpha: 0})
 		}
 		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function select():void {
 			
 			//text color
-			if (countTF) {
-				TweenLite.to(countTF, 0, {tint: 0xFFFFFF})
-			}
+			if (countTF) TweenLite.to(countTF, 0, {tint: 0xFFFFFF})
 			TweenLite.to(textTF, 0, {tint: 0xFFFFFF})
 			
 			//ng
@@ -221,54 +256,102 @@ package view.bibliography {
 			TweenLite.to(base, .3, {alpha: .6})
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		public function deselect():void {
 			this.removeChild(bg);
 			TweenLite.to(base, .5, {alpha: 0})
 				
 			//text color
-			if (countTF) {
-				TweenLite.to(countTF, .3, {removeTint: true})
-			}
+			if (countTF) TweenLite.to(countTF, .3, {removeTint: true})
 			TweenLite.to(textTF, .3, {removeTint: true})
 		}
 		
 
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public static function set origWidth(value:Number):void {
 			_origWidth = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get title():String {
 			return _title;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set title(value:String):void {
 			_title = value;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get titles():Array {
 			return refBibl.titles;
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get authors():Array {
 			return refBibl.authors;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get id():int {
 			return _id;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set id(value:int):void {
 			_id = value;
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get uniqueID():String {
 			return _uniqueID;
 		}
 
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set uniqueID(value:String):void {
 			_uniqueID = value;
 		}
-
 
 	}
 }

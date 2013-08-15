@@ -1,31 +1,44 @@
 package view.bibliography {
 	
-	import events.CiteLensEvent;
-	
+	//Imports
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
-	import view.assets.Button;
-	import view.style.*;
+	import events.CiteLensEvent;
 	
+	import view.assets.Button;
+	import view.style.TXTFormat;
+	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class SortByBar extends BibliographyView {
 		
-		//properties
-		private var _target:*;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var labelTF:TextField;
+		protected var _target			:*;
 		
-		private var menu:Array = new Array("author", "title", "date");
-		private var selectedOption:String = "";
+		protected var labelTF			:TextField;
+		
+		protected var menu				:Array	 = new Array("author", "title", "date");
+		protected var selectedOption	:String	 = "";
 			
-		private var button:Button;
+		protected var button			:Button;
 		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function SortByBar() {
-			
 			super();
-			
 		}
 		
+		
+		//****************** Initialize ****************** ****************** ******************
 		
 		override public function initialize():void {
 			
@@ -38,7 +51,6 @@ package view.bibliography {
 			labelTF.x = 3;
 			labelTF.y = -1;
 			this.addChild(labelTF);
-			
 			
 			
 			//---------- MENU
@@ -64,6 +76,9 @@ package view.bibliography {
 			
 		}
 		
+		
+		//****************** PROTECTED EVETNS ****************** ****************** ******************
+		
 		/**
 		 * Swithc Focus - _switchFocus
 		 * 
@@ -72,9 +87,7 @@ package view.bibliography {
 		 * @param e
 		 * 
 		 */
-		private function _click(e:MouseEvent):void {
-			
-			
+		protected function _click(e:MouseEvent):void {
 			
 			//deselect all
 			for each (button in menu) {

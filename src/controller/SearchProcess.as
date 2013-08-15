@@ -3,32 +3,66 @@ package controller {
 	//imports
 	import model.RefBibliographic;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class SearchProcess {
 		
-		//properties
-		private var partialString:String;
-		private var target:Array;
-		private var dic:Array;
-		private var numMax:uint = 6;
-		private var autoComplete:Boolean;
+		//****************** Properties ****************** ****************** ******************
 		
+		protected var partialString			:String;
+		protected var target				:Array;
+		protected var dic					:Array;
+		protected var numMax				:uint = 6;
+		protected var autoComplete			:Boolean;
+		
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * @param autoC
+		 * 
+		 */
 		public function SearchProcess(value:String, autoC:Boolean = false) {
 			
-			//
 			partialString = value;
 			autoComplete = autoC;
 			target = new Array();
 			
 		}
 		
+		
+		//****************** GETTERS // SETTER ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function set dictionary(value:Array):void {
 			dic = value;
 		}
 		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
 		public function addTarget(value:String):void {
 			target.push(value);
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get result():Array {
 			
 			var finalResult:Array = new Array();
@@ -100,7 +134,15 @@ package controller {
 			return finalResult;
 		}
 		
-		private function parseAuthor():Array {
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		protected function parseAuthor():Array {
 			var result:Array = new Array();
 			
 			//label:String - type:String
@@ -166,7 +208,7 @@ package controller {
 			return result;
 		}
 		
-		private function parseTitle():Array {
+		protected function parseTitle():Array {
 			var result:Array = new Array();
 			
 			//label:String - type:String

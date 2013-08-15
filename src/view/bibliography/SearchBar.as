@@ -14,24 +14,40 @@ package view.bibliography {
 	import view.assets.autoComplete.AutoCompleteBox;
 	import view.style.TXTFormat;
 	
+	/**
+	 * 
+	 * @author lucaju
+	 * 
+	 */
 	public class SearchBar extends BibliographyView {
 		
-		//properties
-		private var labelTF:TextField;
-		private var inputTF:TextField;
-		private var inputBG:Shape;
-		private var autoCompleteBox:AutoCompleteBox;
+		//****************** Properties ****************** ****************** ******************
 		
-		private var w:Number;
+		protected var labelTF			:TextField;
+		protected var inputTF			:TextField;
+		protected var inputBG			:Shape;
+		protected var autoCompleteBox	:AutoCompleteBox;
 		
-		private var eraseBT:CrossBT;
+		protected var w					:Number;
 		
+		protected var eraseBT			:CrossBT;
+		
+		//****************** Constructor ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function SearchBar() {
-			
 			super();
-			
 		}
 		
+		//****************** Initialize ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
 		override public function initialize():void {
 			
 			w = this.parent.width - 12;						//inputBG width 
@@ -66,14 +82,27 @@ package view.bibliography {
 
 		}
 		
-		private function _focusIn(e:FocusEvent):void {
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _focusIn(e:FocusEvent):void {
 			if (inputTF.text == "search") {
 				inputTF.text = "";
 				inputTF.alpha = 1;
 			}
 		}
 		
-		private function _focusOff(e:FocusEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _focusOff(e:FocusEvent):void {
 			if (inputTF.text.length == 0) {
 				//focus = false;
 				inputTF.text = "search";
@@ -94,18 +123,14 @@ package view.bibliography {
 				TweenMax.to(autoCompleteBox, .3, {alpha:0, delay: .5, onComplete:removeAutoCompleteFocusOff});
 			}
 			
-			
-			
 		}
 		
-		private function removeAutoCompleteFocusOff():void {
-			if (autoCompleteBox) {
-				this.removeChild(autoCompleteBox)
-				autoCompleteBox = null;
-			}				
-		}
-		
-		private function _typing(e:KeyboardEvent):void {
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function _typing(e:KeyboardEvent):void {
 			
 			switch (e.keyCode) {					//enter or return
 				case 13:
@@ -113,15 +138,11 @@ package view.bibliography {
 					break;
 				
 				case 38:							//up
-					if (autoCompleteBox) {
-						autoCompleteBox.keyboardSelection("up");
-					}
+					if (autoCompleteBox) autoCompleteBox.keyboardSelection("up");
 					break;
 				
 				case 40:						//down
-					if (autoCompleteBox) {
-						autoCompleteBox.keyboardSelection("down");
-					}
+					if (autoCompleteBox) autoCompleteBox.keyboardSelection("down");
 					break;
 				
 				default:
@@ -178,42 +199,14 @@ package view.bibliography {
 
 		}
 		
-		public function doQuery(e:Event = null):void {
-			
-				
-			
-			if (autoCompleteBox) {
-				var query:String = autoCompleteBox.searchQuery;
-				if (query == "") {
-					query = inputTF.text;
-				} else {
-					inputTF.text = query;
-				}
-			
-				var queryTarget:Array = [autoCompleteBox.searchTarget];
-				if (autoCompleteBox.searchTarget == "") {
-					queryTarget = ["author","title"]
-				}
-				
-			} else {
-				query = "~all"
-			}
-			
-			citeLensController.searchBibliography(query, queryTarget);
-			
-			
-			
-			if (autoCompleteBox) {
-				this.removeChild(autoCompleteBox)
-				autoCompleteBox = null;
-			}
-			
-			
-			
-		}
 		
-		private function eraseClick(e:MouseEvent):void {
-
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function eraseClick(e:MouseEvent):void {
+			
 			//remove info in the inout fiels
 			inputTF.text = "search";
 			inputTF.alpha = .2;
@@ -234,6 +227,53 @@ package view.bibliography {
 			
 		}
 		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function removeAutoCompleteFocusOff():void {
+			if (autoCompleteBox) {
+				this.removeChild(autoCompleteBox)
+				autoCompleteBox = null;
+			}				
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		public function doQuery(e:Event = null):void {
+			
+			if (autoCompleteBox) {
+				var query:String = autoCompleteBox.searchQuery;
+				if (query == "") {
+					query = inputTF.text;
+				} else {
+					inputTF.text = query;
+				}
+			
+				var queryTarget:Array = [autoCompleteBox.searchTarget];
+				if (autoCompleteBox.searchTarget == "") queryTarget = ["author","title"];
+				
+			} else {
+				query = "~all"
+			}
+			
+			citeLensController.searchBibliography(query, queryTarget);
+			
+			if (autoCompleteBox) {
+				this.removeChild(autoCompleteBox)
+				autoCompleteBox = null;
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
 		public function reset():void {
 			
 			//focus = false;
@@ -247,9 +287,8 @@ package view.bibliography {
 				eraseBT = null;
 			}
 			
-			if (autoCompleteBox) {
-				TweenMax.to(autoCompleteBox, .3, {alpha:0, delay: .5, onComplete:removeAutoCompleteFocusOff});
-			}
+			if (autoCompleteBox) TweenMax.to(autoCompleteBox, .3, {alpha:0, delay: .5, onComplete:removeAutoCompleteFocusOff});
 		}
+		
 	}
 }
