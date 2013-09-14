@@ -1,77 +1,54 @@
 package model.library {
 	
-	//imports
-	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	
 	/**
 	 * 
 	 * @author lucaju
 	 * 
 	 */
-	public class LanguageLibrary {
+	public class LanguageLibrary { //extends EventDispatcher {
 		
 		//****************** Constructor ****************** ****************** ******************
 		
 		static private var library:Array;
 		
-			
-		//****************** INITIALIZE ****************** ****************** ******************
 		
-		/**
-		 * 
-		 * 
-		 */
-		static public function init():void {
-			//load data
-			var file:String = "model/library/languages.xml";
-			
-			var urlRequest:URLRequest = new URLRequest(file);
-			
-			var urlLoader:URLLoader = new URLLoader();
-			urlLoader.addEventListener(Event.COMPLETE,processData);
-			urlLoader.load(urlRequest);
-			
-			file = null;
-			urlRequest = null;
-			urlLoader = null;
-		}
-		
-		
-		//****************** STATIC PROTECTED METHODS ****************** ****************** ******************
+		//****************** PROTECTED METHODS ****************** ****************** ******************
 		
 		/**
 		 * 
 		 * @param event
 		 * 
 		 */
-		static protected function processData(event:Event):void {
+		static public function processData(xml:XML):void {
 			
-			library = new Array();
+			if (!library) {
 			
-			var xml:XML = new XML(event.target.data);
-			var languages:XMLList = xml.children();
-			xml = null;
-			
-			var language:Language;
-			
-			for each (var langXML:XML in languages) {
-				language = new Language(library.length,
-					langXML.attribute("name"),
-					langXML.attribute("iso639-1"),
-					langXML.attribute("iso639-2"));
+				library = new Array();
 				
+				//var xml:XML = new XML(event.target.data);
+				var languages:XMLList = xml.children();
+				xml = null;
+				
+				var language:Language;
+				
+				for each (var langXML:XML in languages) {
+					language = new Language(library.length,
+						langXML.attribute("name"),
+						langXML.attribute("iso639-1"),
+						langXML.attribute("iso639-2"));
+					
+					library.push(language);
+				}
+				
+				//add other
+				language = new Language(library.length, "Other", "**","***");
 				library.push(language);
+				
+				//clean
+				langXML = null;
+				languages = null;
 			}
 			
-			//add other
-			language = new Language(library.length, "Other", "**","***");
-			library.push(language);
-			
-			//clean
-			langXML = null;
-			languages = null;
 		}
 		
 		/**
