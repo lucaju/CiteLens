@@ -1,42 +1,15 @@
 package model.library {
 	
-	//imports
-	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	
 	/**
 	 * 
 	 * @author lucaju
 	 * 
 	 */
-	public class CountryLibrary {
+	public class CountryLibrary { //extends EventDispatcher {
 		
 		//****************** static Properties ****************** ****************** ******************
 		
 		static private var library:Array;
-		
-		
-		//****************** INITIALIZE ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * 
-		 */
-		static public function init():void {
-			 //load data
-			 var file:String = "model/library/countries.xml";
-			 
-			 var urlRequest:URLRequest = new URLRequest(file);
-			 
-			 var urlLoader:URLLoader = new URLLoader();
-			 urlLoader.addEventListener(Event.COMPLETE,processData);
-			 urlLoader.load(urlRequest);
-			 
-			 file = null;
-			 urlRequest = null;
-			 urlLoader = null;
-		}
 		
 		
 		//****************** STATIC PROTECTED METHODS ****************** ****************** ******************
@@ -46,32 +19,35 @@ package model.library {
 		 * @param event
 		 * 
 		 */
-		static protected function processData(event:Event):void {
+		static public function processData(xml:XML):void {
 			
-			library = new Array();
+			if (!library) {
 			
-			var xml:XML = new XML(event.target.data);
-			var countries:XMLList = xml.children();
-			xml = null;
-			
-			var country:Country;
-			
-			for each (var countryXML:XML in countries) {
-				country = new Country(library.length,
-									  countryXML.attribute("name"),
-									  countryXML.attribute("alpha-2"),
-									  countryXML.attribute("alpha-3"));
+				library = new Array();
 				
+				//var xml:XML = new XML(event.target.data);
+				var countries:XMLList = xml.children();
+				xml = null;
+				
+				var country:Country;
+				
+				for each (var countryXML:XML in countries) {
+					country = new Country(library.length,
+										  countryXML.attribute("name"),
+										  countryXML.attribute("alpha-2"),
+										  countryXML.attribute("alpha-3"));
+					
+					library.push(country);
+				}
+				
+				//add other
+				country = new Country(library.length, "Other", "**","***");
 				library.push(country);
+				
+				//clean
+				countryXML = null;
+				countries = null;
 			}
-			
-			//add other
-			country = new Country(library.length, "Other", "**","***");
-			library.push(country);
-			
-			//clean
-			countryXML = null;
-			countries = null;
 			
 		}
 		
