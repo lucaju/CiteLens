@@ -161,6 +161,19 @@ package model {
 		
 		/**
 		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		public function getTitleByLevel(value:String):String {
+			for each (var title:Object in _titles) {
+				if (title.level == value) return title.name;
+			}
+			return null;
+		}
+		
+		/**
+		 * 
 		 * @param last
 		 * @param first
 		 * 
@@ -485,10 +498,10 @@ package model {
 		 * @param furtherReading
 		 * 
 		 */
-		public function addNote(noteID:int, UniqueID:String, reason:String, contentType:String, furtherReading:String):void {
+		public function addNote(noteID:int, uniqueID:String, reason:String, contentType:String, furtherReading:String):void {
 			_note = new Object();
 			_note.id = noteID;
-			_note.UniqueID = noteID;
+			_note.uniqueID = uniqueID;
 			_note.reason = reason;
 			_note.contentType = contentType;
 			_note.furtherReading = furtherReading;

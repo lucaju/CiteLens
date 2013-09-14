@@ -1,14 +1,18 @@
 package model {
 	
 	//imports
+	import com.greensock.events.LoaderEvent;
+	import com.greensock.loading.LoaderMax;
+	import com.greensock.loading.XMLLoader;
+	
 	import flash.events.Event;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
 	
 	import flashx.textLayout.elements.TextFlow;
 	
 	import model.library.Country;
+	import model.library.CountryLibrary;
 	import model.library.Language;
+	import model.library.LanguageLibrary;
 	import model.library.PubType;
 	
 	import mvc.Observable;
@@ -30,7 +34,7 @@ package model {
 		protected var bodyModel				:DocBodyModel;
 		protected var _plainTex				:String;
 		
-		protected var traceBibliography	:Boolean = false;
+		protected var traceBibliography		:Boolean = false;
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -45,15 +49,50 @@ package model {
 			//define name
 			this.name = "citelens";
 			
-			//load data
-			var file:String = "resources/CareOfTheDead_chap1-revised.xml";
 			
-			var urlRequest:URLRequest = new URLRequest(file);
+			//load xmls
+			//create a LoaderMax named "mainQueue" and set up onProgress, onComplete and onError listeners
+			var dataQueu:LoaderMax = new LoaderMax({name:"mainQueue", onProgress:progressHandler, onComplete:completeHandler, onError:errorHandler});
 			
-			var urlLoader:URLLoader = new URLLoader();
-			urlLoader.addEventListener(Event.COMPLETE,loadXMLComplete);
-			urlLoader.load(urlRequest);
+			//append several loaders
+			dataQueu.append( new XMLLoader("model/library/languages.xml", {name:"xmlLanguages"}) );
+			dataQueu.append( new XMLLoader("model/library/countries.xml", {name:"xmlCountries"}) );
+			dataQueu.append( new XMLLoader("resources/CareOfTheDead_chap1-revised.xml", {name:"xmlDoc"}) );
 			
+			dataQueu.prioritize("xmlLanguages");
+			dataQueu.load();
+			
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function progressHandler(event:LoaderEvent):void {
+			//trace("progress: " + event.target.progress);
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function completeHandler(event:LoaderEvent):void {
+			
+			LanguageLibrary.processData(LoaderMax.getContent("xmlLanguages"));
+			CountryLibrary.processData(LoaderMax.getContent("xmlCountries"));
+			
+			this.processXML(LoaderMax.getContent("xmlDoc"))
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function errorHandler(event:LoaderEvent):void {
+			//trace("error occured with " + event.target + ": " + event.text);
 		}
 		
 		
@@ -66,9 +105,9 @@ package model {
 		 * @param e
 		 * 
 		 */
-		protected function loadXMLComplete(e:Event):void {
+		protected function processXML(data:XML):void {
 			
-			data = new XML(e.target.data);
+			//data = new XML(e.target.data);
 			
 			//grab the document header info
 			document = new Document(data);
@@ -82,13 +121,8 @@ package model {
 			
 			
 			//---------test bibliograpy
+			if (traceBibliography) BibliographyOutput.traceAll(bibliography);
 			
-			//trace (bibliography.length)
-			if (traceBibliography) {
-				for (var i:int = 0; i<bibliography.length; i++) {
-					bibliography.traceRef(i);
-				}
-			}
 			
 			
 			/*
@@ -178,6 +212,14 @@ package model {
 			return bibliography.getBibligraphy();;
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
+		public function getRefNotes(refID:String):Array {
+			return bibliography.getRefNotes(refID);
+		}
+		
 		
 		//****************** READER ****************** ****************** ******************
 		
@@ -227,6 +269,15 @@ package model {
 		 */
 		public function getRefsId():Array {
 			return bodyModel.getRefsId();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNoteSpanData():Array {
+			return bodyModel.getNoteSpanData();
 		}
 		
 		/**

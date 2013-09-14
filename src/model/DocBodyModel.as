@@ -21,13 +21,14 @@ package model {
 		protected var _arrayXML				:Array;
 		
 		protected var paragraphs			:XMLList;
+		protected var divs					:XMLList;
 		
 		protected var xmlns					:Namespace;
 		protected var xsi					:Namespace;
 		protected var teiH					:Namespace;
 		
 		protected var textFlow				:TextFlow;
-		protected var _plainTex				:String;
+		protected var plainTex				:String;
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -55,37 +56,8 @@ package model {
 			//define the default namespace
 			default xml namespace = xmlns;
 
-			paragraphs = data.text.body.div.descendants("p");
+			divs = data.text.body.descendants("div");
 			
-			_array = new Array();
-			_arrayXML = new Array();
-			
-			
-			//adding references
-			for each(var p:XML in paragraphs) {
-				addParagraph(p.toXMLString());
-				
-				/*
-				var a:XML
-				
-				if (p.hasSimpleContent()) {
-				//p.prependChild("<p>");
-				//p.appendChild("</p>");
-				
-				
-				var x:String = p.toXMLString();
-				//trace (x);
-				a = new XML(x);
-				//trace (a)
-				docBody.addParagraphXML(a);
-				} else {
-				
-				}
-				*/
-				
-				addParagraphXML(p);
-				
-			}
 			
 		}
 		
@@ -97,11 +69,7 @@ package model {
 		 * @param item
 		 * 
 		 */
-		public function addParagraph(item:String):void {
-				
-			//create new paragraph
-			paragraph = item;
-			
+		public function addParagraph(paragraph:String):void {		
 			//add to the list
 			_array.push(paragraph);
 		}
@@ -111,10 +79,7 @@ package model {
 		 * @param item
 		 * 
 		 */
-		public function addParagraphXML(item:XML):void {
-			
-			//create new paragraph
-			paragraphXML = item;
+		public function addParagraphXML(paragraphXML:XML):void {
 			//add to the list
 			_arrayXML.push(paragraphXML);
 		}
@@ -138,7 +103,7 @@ package model {
 		public function getParagraphXMLByIndex(value:int):XML {
 			return _arrayXML[value];
 		}
-	
+		
 		/**
 		 * 
 		 * @return 
@@ -146,63 +111,132 @@ package model {
 		 */
 		public function getAllParagraphsXML():XML {
 			
+			default xml namespace = xmlns;
+
+			//final xml
+			var resultXML:XML = <body></body>;
+			
+			var q:int = 0;
+			for each (var element:XML in divs.children()) {										// [pb,head,p,note,div,label]
+				
+				switch (element.localName()) {
+					
+					case "head":
+						resultXML.appendChild( headProcess(element) );
+						break;
+					
+					case "p":
+						resultXML.appendChild( paragraphProcess(element) );
+						break;
+					
+					case "label":
+						resultXML.appendChild( labelProcess(element) );
+						break;
+					
+				}
+			}
+			
+			
+			return resultXML;
+		}
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function headProcess(element:XML):XML {
+			
+			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
+			
+			//change name
+			if (element.@type == "chapter") {
+				element.setName("chapter");
+			} else if (element.@type == "chapterSection") {
+				element.setName("chapter_section");
+			}
+			//trace (element)
+			return element;
+		}
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function labelProcess(element:XML):XML {
+			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
+			element.setName("label");
+			return element;
+		}
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function paragraphProcess(element:XML):XML {
+			
 			//temp attribute
+			default xml namespace = xmlns;
 			var id:String
 			
-			//final xml
-			var xml:XML = <body></body>;
+			//adding id attibute
 			
-			//paragraph loop
-			for each(var p:XML in _arrayXML) {
-				
-				//adding id attibute
-				for each(var reference:XML in p.ref) {
+			for each(var reference:XML in element.descendants("ref")) {
+				if (reference.@type == "noteSpan") {
+					
+					//change tag name
+					reference.setName("note_span"); //comment?
 					
 					//add ID
 					id = reference.@corresp;  
 					id = id.substring(6);					//#note_xx -> xx
 					reference.@id = id;
-				
-					//changing footnote anchor tag name and adding id attibute
-					for each(var footnote:XML in reference.ref) {
-						
-						//change tag name
-						footnote.setName("noteLoc");
-						
-						//add ID
-						id = footnote.@target;  
-						id = id.substring(6);					//#note_xx -> xx
-						footnote.@id = id;	
+					
+					//add space before and after
+					reference.prependChild(" ");
+					reference.appendChild(" ");
+					
+					
+				} else if (reference.@type == "noteLoc") {
+					
+					//change tag name
+					reference.setName("note_loc");
+					
+					//test if next sibling is a reference: Add space
+					if (reference.parent() != null && reference.childIndex() < reference.parent().children().length( )-1) {
+						var nextNode:XML = reference.parent().*[reference.childIndex( )+1];
+						//if (nextNode.localName() == null) reference.appendChild(" ");
 					}
+					
+					//add ID
+					id = reference.@target;  
+					id = id.substring(6);					//#note_xx -> xx
+					reference.@id = id;
+					
+					
 				}
-				
-				//join paragraphs into one xml
-				if (p.hasSimpleContent()) {
-					
-					//var a:XML = <span></span>;
-					//a.appendChild(p);
-					//trace (a)
-					//trace ("---")
-					//p.prependChild(<p>);
-					//p.appendChild();
-					
-					//var x:String = p.toXMLString();
-					//trace (x);
-					//a = new XML(x);
-					//trace (a)
-					//docBody.addParagraphXML(a);
-					
-					p.appendChild(<span></span>);
-					xml.appendChild(p);
-					
-				} else {
-					xml.appendChild(p);
-				}
-				
 			}
 			
-			return xml;
+			//
+			if ( element.hasSimpleContent() ) element.appendChild(<span></span>);
+			
+			return element;
 		}
+		
+		
+		protected function noteProcess():void {
+			
+		}
+		
+		protected function pbProcess():void {
+			
+		}
+		
 		
 		/**
 		 * 
@@ -210,10 +244,7 @@ package model {
 		 * 
 		 */
 		public function getFlowConvertText():TextFlow {
-			
-			textFlow = new TextFlow();
-			textFlow = TextConverter.importToFlow(getAllParagraphsXML(),TextConverter.TEXT_FIELD_HTML_FORMAT);
-
+			if (!textFlow) textFlow = TextConverter.importToFlow(getAllParagraphsXML(), TextConverter.TEXT_FIELD_HTML_FORMAT);
 			return textFlow;
 		}
 		
@@ -223,9 +254,11 @@ package model {
 		 * 
 		 */
 		public function getPlainText():String {
-			
-			_plainTex = TextConverter.export(textFlow,TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
-			return _plainTex;
+			if (!plainTex) {
+				if (!textFlow) this.getFlowConvertText();
+				plainTex = TextConverter.export(textFlow, TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
+			}
+			return plainTex;	
 		}
 		
 		/**
@@ -234,9 +267,30 @@ package model {
 		 * 
 		 */
 		public function getPlainTextLength():int {
-			getPlainText();
-			return _plainTex.length;
+			if (!plainTex) this.getPlainText();
+			return plainTex.length;
 		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		/*public function getRefsId():Array {
+			
+			var i:int = 1;
+			
+			var refsId:Array = new Array()
+			var refs:Array = textFlow.getElementsByTypeName("ref");
+			
+			for each (var ref:FlowElement in refs) {
+				ref.id = i.toString();	//add id to the element
+				refsId.push(ref.id);
+				i++;
+			}
+			
+			return refsId;
+		}*/
 		
 		/**
 		 * 
@@ -245,18 +299,41 @@ package model {
 		 */
 		public function getRefsId():Array {
 			
-			var i:int = 1;
-			
 			var refsId:Array = new Array()
-			var refs:Array = textFlow.getElementsByTypeName("ref");
+			var refs:Array = textFlow.getElementsByTypeName("note_span");
+			
 			for each (var ref:FlowElement in refs) {
-				
-				ref.id = i.toString();	//add id to the element
 				refsId.push(ref.id);
-				i++
 			}
 			
 			return refsId;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNoteSpanData():Array {
+			
+			var noteSpanArray:Array = new Array();
+			var noteSpan:Object;						//{id,start,end,numChar}
+			
+			
+			var refs:Array = textFlow.getElementsByTypeName("note_span");
+			
+			for each (var ref:FlowElement in refs) {
+				
+				var refLength:int = ref.getText().length;
+				var posStart:int = ref.getAbsoluteStart();
+				var posEnd:int = posStart + refLength;
+				
+				noteSpan = {id: ref.id, start:posStart, end:posEnd, numChar:refLength};
+				
+				noteSpanArray.push(noteSpan);
+			}
+			
+			return noteSpanArray;
 		}
 		
 		/**
@@ -266,6 +343,11 @@ package model {
 		 * 
 		 */
 		public function getRefLocationByID(id:String):Object {
+			
+			
+			var element:FlowElement = textFlow.getElementByID(id);
+			//trace (element.getText())
+			
 			//trace (textFlow.getElementByID(id).getText())
 			//trace (id)
 			//trace("---")
@@ -275,11 +357,12 @@ package model {
 			
 			//trace (">>" + id)
 			
-			if (id != "80" && id != "7") {
+			//!!!!!!!!!!!!!!!!!!!!!
+			//if (id != "80" && id != "7") {
 				pos.start = textFlow.getElementByID(id).getAbsoluteStart();
 				pos.end = pos.start + textFlow.getElementByID(id).getText().length;
 				
-			}
+			//}
 			
 			return pos;
 		}

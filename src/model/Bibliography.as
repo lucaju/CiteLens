@@ -30,14 +30,12 @@ package model {
 			//namespaces
 			
 			//xmlns = new Namespace(fullData.namespace());
-			//trace (xmlns.prefix, xmlns.uri)
 			
 			var namespaces:Array = fullData.namespaceDeclarations();
 			xsi = namespaces[0];
 			xmlns = namespaces[1];
 			
 			//define namespace of lang and id attributes
-			//trace(item.attributes()[1].name());
 			teiH = new Namespace('http://www.w3.org/XML/1998/namespace');
 						
 			//define the default namespace
@@ -52,11 +50,7 @@ package model {
 			//adding references
 			for each(var note:XML in data) {
 				for each (var bib:XML in note.descendants("bibl")) {
-					
-					addRef(bib, note.@teiH::id);
-					
-					//trace (bib)
-					
+					this.addRef(bib, note.@teiH::id);
 				}
 			}
 				
@@ -199,6 +193,8 @@ package model {
 				//test for country
 				
 				var ntei:Namespace = new Namespace("http://www.example.org/ns/nonTEI");
+				
+				
 				if (item.ntei::pubCountry.toString().length > 0) {
 					for each(var country:XML in item.ntei::pubCountry) {
 						ref.addCountry(country);
@@ -212,7 +208,7 @@ package model {
 			
 				//test for date
 				if (item.hasOwnProperty("date")) ref.date = item.date;
-				
+		
 				
 				//test for series information
 				if (item.hasOwnProperty("series")) {
@@ -246,7 +242,49 @@ package model {
 				furtherReading = item.@furtherReading;
 				if (furtherReading == "") furtherReading = "false";
 				
-				ref.addNote(noteID, noteUniqueID, reason, contentType, furtherReading)
+				ref.addNote(noteID, noteUniqueID, reason, contentType, furtherReading);
+					
+				
+				var a:String = "";
+				a.toLowerCase()
+				
+				/// if it is a book section, try to get more information in the parent publication (book) if it is available
+				if (ref.type == "bookSection") {
+					
+					if (ref.date == 0 || 
+						ref.countries[0].toLowerCase() == "other" ||
+						ref.publisher == null ||
+						ref.pubPlaces.length == 0) {
+					
+						var titleM:String = ref.getTitleByLevel("m");
+						
+						var refParent:RefBibliographic = this.getRefByTitle(titleM, "m");
+						
+						if (refParent) {
+						
+							if (ref.date == 0 && refParent.date != 0) ref.date = refParent.date;
+							
+							if (ref.countries[0].toLowerCase() == "other" && refParent.countries[0].toLowerCase() != "other") {
+								for (var i:int; i < refParent.countries.length; i++) {
+									ref.countries[i] = refParent.countries[i];
+								}
+							}
+							
+							if (ref.publisher == null && refParent.publisher != null) ref.publisher = refParent.publisher;
+							
+							if (ref.pubPlaces.length == 0 && refParent.pubPlaces.length > 0) {
+								for each (var place:String in refParent.pubPlaces) {
+									ref.addPubPlace(place);
+								}
+							}
+						}
+						
+
+					}
+					
+					
+				}
+	
 				
 			}
 			
@@ -287,51 +325,40 @@ package model {
 		/**
 		 * 
 		 * @param value
+		 * @return 
 		 * 
 		 */
-		public function traceRef(value:int):void {
-			ref = refCollection[value];
-			trace ("ID:" + ref.id)
-			trace ("UniqueID:" + ref.uniqueID)
-			trace ("Main Title: "+ref.title)
-			if (ref.titles.length > 0) {
-				trace ("Titles:" + ref.titles.length)
-				for (var i:int = 0; i<ref.titles.length; i++) {
-					trace ("id: " + ref.titles[i].id + " - Level: " + ref.titles[i].level + " - Title: " + ref.titles[i].name);
-				}
+		public function getRefByUniqueID(uniqueID:String):RefBibliographic {
+			for each (var ref:RefBibliographic in refCollection) {
+				if (ref.uniqueID == uniqueID) return ref;
 			}
-			trace ("Authors: "+ref.getAuthorship(true))
-			trace ("Language: "+ref.language)
-			trace ("Publisher: "+ref.publisher)
-			if (ref.pubPlaces.length > 0) {
-				trace ("Publication Place:" + ref.pubPlaces.length)
-				for (i = 0; i<ref.pubPlaces.length; i++) {
-					trace (ref.pubPlaces[i]);
-				}
+			return null;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		public function getRefByTitle(title:String, level:String = "a"):RefBibliographic {
+			for each (var ref:RefBibliographic in refCollection) {
+				if (ref.getTitleByLevel(level) == title) return ref;
 			}
-			if (ref.countries.length > 0) {
-				trace ("Countries:" + ref.countries.length)
-				for (i = 0; i<ref.countries.length; i++) {
-					trace (ref.countries[i]);
-				}
+			return null;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function getRefNotes(refID:String):Array {
+			var notesIdsArray:Array;
+			var ref:RefBibliographic = this.getRefByUniqueID(refID);
+			if (ref) {
+				return ref.notes;
 			}
-			trace ("Date: "+ref.date)
-			if (ref.series.length > 0) {
-				trace ("Series:" + ref.series.length)
-				for (i = 0; i<ref.series.length; i++) {
-					trace ("-- id: " + ref.series[i].id + " - Title: " + ref.series[i].title + " - Type: " + ref.series[i].type + " - Bibliography Scope: " + ref.series[i].bibScope);
-				}
-			}
-			trace ("Scope: "+ref.scope)
-			trace ("Source Role: "+ref.sourceRole)
-			trace ("Type: "+ref.type)
-			if (ref.notes.length > 0) {
-				trace ("Notes: " + ref.notes.length)
-				for (i=0; i<ref.notes.length; i++) {
-					trace ("-- id: " + ref.notes[i].id + " - Reason: " + ref.notes[i].reason + " - Content Type: " + ref.notes[i].contentType+ " - Further Reading: " + ref.notes[i].furtherReading);
-				}
-			}
-			trace ("--------");
+			return null;
 		}
 
 	}

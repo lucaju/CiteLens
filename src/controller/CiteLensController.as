@@ -93,6 +93,29 @@ package controller {
 		
 		/**
 		 * 
+		 * 
+		 */
+		public function getRefNotes(refID:String):Array {
+			return citeLensModel.getRefNotes(refID);
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function getRefNotesIDs(refID:String):Array {
+			var refNotes:Array = citeLensModel.getRefNotes(refID);
+			
+			var notesIDs:Array = new Array();
+			for each (var note:Object in refNotes) {
+				notesIDs.push(note.uniqueID);
+			}
+			
+			return notesIDs;
+		}
+		
+		/**
+		 * 
 		 * @param newList
 		 * @param reset
 		 * 
@@ -142,7 +165,7 @@ package controller {
 				params.type = "search";
 				params.filterResult = results;
 				
-				dispatchEvent(new CiteLensEvent(CiteLensEvent.FILTER, params));
+				this.dispatchEvent(new CiteLensEvent(CiteLensEvent.FILTER, params));
 				
 				return null;
 			} else {
@@ -199,6 +222,15 @@ package controller {
 		 */
 		public function getRefsId():Array {
 			return citeLensModel.getRefsId();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNoteSpanData():Array {
+			return citeLensModel.getNoteSpanData();
 		}
 		
 		/**

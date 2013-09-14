@@ -16,6 +16,7 @@ package model {
 		protected var _periods			:Array;
 		protected var _functions		:Array;
 		protected var _authors			:Array;
+		
 		protected var _empty			:Boolean = false;
 		
 		
@@ -99,6 +100,7 @@ package model {
 				_authors = [];
 			}
 			
+			//Emptyness
 			if (filterCount == 0) {
 				empty = true;
 			} else {
@@ -123,6 +125,13 @@ package model {
 			}
 		}
 		
+		/**
+		 * 
+		 * @param type
+		 * @param option
+		 * @return 
+		 * 
+		 */
 		public function checkSelectedOption(type:String, option:Object):Boolean {
 			
 			var typeCollection:Array = getOptionsByType(type);
@@ -134,6 +143,12 @@ package model {
 			return false;
 		}
 		
+		/**
+		 * 
+		 * @param type
+		 * @return 
+		 * 
+		 */
 		public function getOptionsByType(type:String):Array {
 			var collection:Array;
 			

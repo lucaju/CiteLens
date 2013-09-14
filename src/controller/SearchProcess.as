@@ -27,10 +27,10 @@ package controller {
 		 * @param autoC
 		 * 
 		 */
-		public function SearchProcess(value:String, autoC:Boolean = false) {
+		public function SearchProcess(value:String, autoComp:Boolean = false) {
 			
 			partialString = value;
-			autoComplete = autoC;
+			autoComplete = autoComp;
 			target = new Array();
 			
 		}

@@ -2,22 +2,23 @@ package {
 	
 	//imports
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
+	
 	import flash.events.Event;
 	
 	import controller.CiteLensController;
-	
-	import model.library.CountryLibrary;
-	import model.library.LanguageLibrary;
 	
 	import model.CiteLensModel;
 	
 	import net.hires.debug.Stats;
 	
-	import util.Global;
-	
 	import settings.Settings;
 	
+	import util.Global;
+	
 	import view.CiteLensView;
+	
 	
 	[SWF(width="1150", height="650", backgroundColor="#ffffff", frameRate="30")]
 	
@@ -29,7 +30,7 @@ package {
 		protected var citeLensController			:CiteLensController;			//Controller - CiteLens Controller
 		protected var citeLensView					:CiteLensView;					//View - CiteLens View
 		
-		protected var configure						:Settings;					//Settings
+		protected var configure						:Settings;						//Settings
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -39,6 +40,9 @@ package {
 		 */
 		public function CiteLens() {
 			
+			stage.align = StageAlign.TOP_LEFT;
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			
 			//settings
 			setting();
 			
@@ -46,10 +50,6 @@ package {
 			Global.globalWidth = stage.stageWidth;
 			Global.globalHeight = stage.stageHeight;
 			
-			//load libraries (Should load this firts, and then start models - do it in the future)
-			CountryLibrary.init();
-			LanguageLibrary.init();
-		
 			//Starting models
 			citeLensModel = new CiteLensModel();
 			citeLensModel.addEventListener(Event.COMPLETE, _init);

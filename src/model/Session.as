@@ -6,6 +6,11 @@ package model {
 	import model.library.Language;
 	import model.library.LanguageLibrary;
 	import model.library.PubType;
+	import model.citation.CitationContentType;
+	import model.citation.CitationFunction;
+	import model.citation.CitationCategory;
+	import model.citation.CitationReason;
+	import model.citation.CitationType;
 	
 	/**
 	 * 
@@ -18,7 +23,7 @@ package model {
 		
 		protected var bibliography				:Bibliography
 		
-		protected var languageCollection			:Array;
+		protected var languageCollection		:Array;
 		protected var countryCollection			:Array;
 		protected var pubTypeCollection			:Array;
 		protected var citationFunctionLibrary	:Array;
@@ -63,8 +68,6 @@ package model {
 				//-------Language
 				//test for repetition
 				for each (language in languageCollection) {
-					
-					//trace (ref.language)
 					
 					if (langInReference.name.toLowerCase() == language.name.toLowerCase() ||			//test name
 						langInReference.name.toLowerCase() == language.iso6391.toLowerCase() ||			//or iso 6391
@@ -127,29 +130,34 @@ package model {
 			}
 			
 			//-------Functions of Citation
-			citationFunction = new CitationFunction("Primary Source",CitationFunction.SIMPLE);
-			citationFunction.addOption("Fact", false)
-			citationFunction.addOption("Opinion", false);
+			citationFunction = new CitationFunction(CitationType.PRIMARY,CitationCategory.SIMPLE);
+			citationFunction.addOption(CitationContentType.FACT)
+			citationFunction.addOption(CitationContentType.OPINION);
 			citationFunctionLibrary.push(citationFunction);
 			
-			citationFunction = new CitationFunction("Secondary Source",CitationFunction.COMPLEX);
-			citationFunction.addSubFunction("Support");
-			citationFunction.addOptionToSubFunction("Support","Fact", false);
-			citationFunction.addOptionToSubFunction("Support","Opinion", false);
-			citationFunction.addSubFunction("Reject");
-			citationFunction.addOptionToSubFunction("Reject","Fact", false);
-			citationFunction.addOptionToSubFunction("Reject","Opinion", false);
-			citationFunction.addSubFunction("Neither");
-			citationFunction.addOptionToSubFunction("Neither","Fact", false);
-			citationFunction.addOptionToSubFunction("Neither","Opinion", false);
-			citationFunction.addSubFunction("Both");
-			citationFunction.addOptionToSubFunction("Both","Fact", false);
-			citationFunction.addOptionToSubFunction("Both","Opinion", false);
+			
+			citationFunction = new CitationFunction(CitationType.SECONDARY,CitationCategory.COMPLEX);
+			
+			citationFunction.addSubFunction(CitationReason.SUPPORT);
+			citationFunction.addOptionToSubFunction(CitationReason.SUPPORT,CitationContentType.FACT);
+			citationFunction.addOptionToSubFunction(CitationReason.SUPPORT,CitationContentType.OPINION);
+			
+			citationFunction.addSubFunction(CitationReason.REJECT);
+			citationFunction.addOptionToSubFunction(CitationReason.REJECT,CitationContentType.FACT);
+			citationFunction.addOptionToSubFunction(CitationReason.REJECT,CitationContentType.OPINION);
+			
+			citationFunction.addSubFunction(CitationReason.NEITHER);
+			citationFunction.addOptionToSubFunction(CitationReason.NEITHER,CitationContentType.FACT);
+			citationFunction.addOptionToSubFunction(CitationReason.NEITHER,CitationContentType.OPINION);
+			
+			citationFunction.addSubFunction(CitationReason.BOTH);
+			citationFunction.addOptionToSubFunction(CitationReason.BOTH,CitationContentType.FACT);
+			citationFunction.addOptionToSubFunction(CitationReason.BOTH,CitationContentType.OPINION);
 			citationFunctionLibrary.push(citationFunction);
 			
-			citationFunction = new CitationFunction("Further Reading",CitationFunction.SIMPLE);
-			citationFunction.addOption("Yes", false)
-			citationFunction.addOption("No", false);
+			citationFunction = new CitationFunction(CitationType.FURTHER_READING,CitationCategory.SIMPLE);
+			citationFunction.addOption("Yes")
+			citationFunction.addOption("No");
 			citationFunctionLibrary.push(citationFunction);
 		
 		}
@@ -174,7 +182,6 @@ package model {
 		 * 
 		 */
 		public function updateFilter(id:uint, data:Object):void {
-			//trace(data);
 			if (filters[id] == null) addFilter(id);
 			filters[id].update(data);
 		}
