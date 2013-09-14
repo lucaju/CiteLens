@@ -8,9 +8,12 @@ package view.filter {
 	
 	import events.CiteLensEvent;
 	
-	import model.CitationFunction;
+	import model.citation.CitationType;
+	import model.citation.CitationCategory;
+	import model.citation.CitationFunction;
 	
 	import view.assets.Button;
+	import view.assets.ButtonStatus;
 	import view.style.ColorSchema;
 	
 	/**
@@ -18,25 +21,25 @@ package view.filter {
 	 * @author lucaju
 	 * 
 	 */
-	public class FunctionOption extends OptionBox {
+	public class FunctionOption extends AbstractPanel {
 		
 		//****************** Properties ****************** ****************** ******************
 		
 		protected var _id				:int;																								//Function Option ID
-		protected var _type				:String;
+		protected var _category			:String;
 		protected var _label			:String;
 		protected var _options			:Array;
 		protected var _subFunctions		:Array;
 		protected var _selected			:Boolean;
 		protected var _subItemLevel		:int	 = 0;
-		private var posX				:Number	 = 90;
+		protected var posX				:Number	 = 100;
 
 		protected var labelContainer	:Sprite;
 		protected var functionButton	:Button;	
 		protected var functionOption	:FunctionOption
 		protected var line				:Sprite;
 		protected var sepLine			:Sprite;
-		private var button				:Button;	
+		protected var button			:Button;	
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -48,9 +51,9 @@ package view.filter {
 		 * @param type_
 		 * 
 		 */
-		public function FunctionOption(labelString:String, fID:int, id_:int = -1, type_:String = CitationFunction.UNIQUE) {
+		public function FunctionOption(source:FilterPanels,labelString:String, id_:int = -1, type_:String = CitationCategory.UNIQUE) {
 			
-			super(fID);
+			super(source);
 			
 			//Save id
 			if (_id != -1) id = id_;
@@ -59,19 +62,20 @@ package view.filter {
 			_label = labelString;
 			
 			//type
-			type = type_;
+			category = type_;
 			
 			//If unique
-			if (type == CitationFunction.UNIQUE) selected = false;
+			if (category == CitationCategory.UNIQUE) selected = false;
 			
 			//Container
 			labelContainer = new Sprite();
 			this.addChild(labelContainer);
 			
 			//button
-			functionButton = new Button(labelString.toLowerCase(),"General Label");
+			functionButton = new Button(labelString,"Button Style",ColorSchema.getColor("gray"));
+			//button = new Button(lbl,"Button Style",ColorSchema.getColor("gray"));
 			labelContainer.addChild(functionButton);
-			functionButton.addEventListener(MouseEvent.CLICK, _functionClick);
+			functionButton.addEventListener(MouseEvent.CLICK, functionClick);
 			
 			//spaces
 			posY = this.height + 2;
@@ -79,60 +83,12 @@ package view.filter {
 		}
 		
 		
-		//****************** PROTECTED EVENTS ****************** ****************** ******************
-		
-		protected function _functionClick(e:MouseEvent):void {
-			
-			var button:Button = Button(e.target);
-			
-			if (!selected) {
-				switchClick(button, "selected")
-			} else {
-				switchClick(button, "active");
-			}
-			
-			switch (type) {
-				
-				case CitationFunction.SIMPLE:
-					(selected) ? hideFactOpinion() : showFactOpinion();
-					break;
-				
-				case CitationFunction.COMPLEX:
-					(selected) ? hideSubFunctions() : showSubFunctions();
-					break;
-				
-			}
-			
-		}
+		//****************** PROTECTED METHODS ****************** ****************** ******************
 		
 		/**
 		 * 
-		 * @param e
 		 * 
 		 */
-		protected function factOpinionClick(e:MouseEvent = null):void {
-			
-			var option:Object;
-			
-			var targetButton:Button = Button(e.target);
-			
-			//deselect
-			if (targetButton.status != "selected") {
-				for each (option in optionArray) {
-					button = option.bt;
-					button.status = "active";
-					option.selected = false;
-				}
-			}
-			
-			//option click
-			if (e) _click(e);
-			
-		}
-		
-		
-		//****************** PROTECTED METHODS ****************** ****************** ******************
-		
 		protected function showSubFunctions():void {
 			
 			optionArray = new Array;
@@ -141,7 +97,7 @@ package view.filter {
 			for each (var item:CitationFunction in subFunctions) {
 				
 				//Functions
-				functionOption = new FunctionOption(item.label, filterID, item.id, item.type);
+				functionOption = new FunctionOption(source, item.label, item.id, item.category);
 				functionOption.subItemLevel = 1;
 				functionOption.options = item.options;
 				
@@ -153,7 +109,7 @@ package view.filter {
 				if (item.value == true) functionOption.selected;
 				
 				optionArray.push({id:item.id, label:item.label, bt:functionOption, source:item}); //original id:item.label
-					
+				
 				//update position
 				posY = this.height + 2;
 				
@@ -174,9 +130,9 @@ package view.filter {
 				}
 				
 			}
-
+			
 			//expand main box
-			FunctionBox(this.parent.parent).expandHeight(this, expandedHeight);
+			FunctionPanel(this.parent.parent).expandHeight(this, expandedHeight);
 			
 			//change expenad state
 			selected = true;
@@ -189,7 +145,7 @@ package view.filter {
 		 * 
 		 */
 		protected function hideSubFunctions():void {
-
+			
 			var contractedHeight:Number = 0;
 			
 			for (var i:int = 0; i < optionArray.length; i++) {
@@ -208,7 +164,7 @@ package view.filter {
 			removeSubOptions();
 			
 			//expand main box
-			FunctionBox(this.parent.parent).contactHeight(this, contractedHeight);
+			FunctionPanel(this.parent.parent).contractHeight(this, contractedHeight);
 		}
 		
 		/**
@@ -248,14 +204,14 @@ package view.filter {
 				var optLabel:String = options[i].label		
 				optLabel = optLabel.slice(0,1);
 				
-				button = new Button(optLabel,"Button Style");
+				button = new Button(optLabel.toUpperCase(),"Button Style");
 				button.x = posX - (subItemLevel * 30);
 				this.addChild(button);
 				
 				button.addEventListener(MouseEvent.CLICK, factOpinionClick);
 				
 				//check if the button is selected
-				if (options[i].value == true) switchClick(button, "selected");
+				if (options[i].value == true) switchClick(button, ButtonStatus.SELECTED);
 				
 				optionArray.push({label:options[i].label, bt:button, selected:options[i].value});
 				
@@ -267,15 +223,15 @@ package view.filter {
 				
 			}
 			
-			if (label == "Further Reading") {
+			if (label == CitationType.FURTHER_READING) {
 				button = optionArray[0].bt;
-				button.status = "selected";
+				button.status = ButtonStatus.SELECTED;
 				optionArray[0].selected = true;
 			}	
 			
 			selected = true;
 			
-			triggerEvent()
+			triggerEvent();
 			
 		}
 		
@@ -335,17 +291,15 @@ package view.filter {
 				for each (sub in func.optionArray) {
 					var subBT:FunctionOption = sub.bt;
 					
-					
-					
 					if (subBT.selected == true) {
 						anySubSelected = true;
 						break;
 					}
+					
 				}
-				if (!anySubSelected) {
-					FunctionOption(this.parent).selected = false;
-				}
+				
 			}
+			
 		}
 		
 		/**
@@ -355,9 +309,61 @@ package view.filter {
 		protected function triggerEvent():void {
 			//dispatch visualization change
 			var obj:Object = new Object()
-			obj.filterID = filterID;
+			obj.filterID = source.filterID;
 			
 			dispatchEvent(new CiteLensEvent(CiteLensEvent.CHANGE_VISUALIZATION,obj));
+		}
+		
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		protected function functionClick(e:MouseEvent):void {
+			
+			var button:Button = Button(e.target);
+			
+			if (!this.selected) {
+				switchClick(button, ButtonStatus.SELECTED)
+			} else {
+				switchClick(button, ButtonStatus.ACTIVE);
+			}
+			
+			switch (category) {
+				
+				case CitationCategory.SIMPLE:
+					(selected) ? hideFactOpinion() : showFactOpinion();
+					break;
+				
+				case CitationCategory.COMPLEX:
+					(selected) ? hideSubFunctions() : showSubFunctions();
+					break;
+				
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		protected function factOpinionClick(event:MouseEvent = null):void {
+			
+			var targetButton:Button = Button(event.target);
+			
+			//deselect
+			if (targetButton.status != ButtonStatus.SELECTED) {
+				
+				for each (var option:Object in optionArray) {
+					var button:Button = option.bt;
+					button.status = ButtonStatus.ACTIVE;
+					option.selected = false;
+				}
+				
+			}
+			
+			//option click
+			if (event) _click(event);
+			
 		}
 		
 		
@@ -371,7 +377,7 @@ package view.filter {
 			var currentXPos:Number = 0;	
 			
 			line = new Sprite();
-			line.graphics.lineStyle(1,ColorSchema.getColor("filter"+filterID));
+			line.graphics.lineStyle(1,ColorSchema.getColor("filter"+source.filterID));
 			line.graphics.beginFill(0x000000);
 			
 			while(currentXPos < lineW) {
@@ -431,8 +437,8 @@ package view.filter {
 		 * @return 
 		 * 
 		 */
-		public function get type():String {
-			return _type;
+		public function get category():String {
+			return _category;
 		}
 		
 		/**
@@ -440,8 +446,8 @@ package view.filter {
 		 * @param value
 		 * 
 		 */
-		public function set type(value:String):void {
-			_type = value;
+		public function set category(value:String):void {
+			_category = value;
 		}
 		
 		/**
@@ -478,8 +484,8 @@ package view.filter {
 		 */
 		public function set selected(value:Boolean):void {
 			_selected = value;
-			if (functionButton){
-				(_selected) ? functionButton.status = "selected" : functionButton.status = "active";
+			if (functionButton) {
+				(_selected) ? functionButton.status = ButtonStatus.SELECTED : functionButton.status = ButtonStatus.ACTIVE;
 			}
 		}
 		
@@ -538,7 +544,9 @@ package view.filter {
 						break;
 					}
 				}
+				
 				if (testSelected) break;
+				
 			}
 		}
 		

@@ -4,10 +4,14 @@ package view.filter {
 	import com.greensock.TweenMax;
 	
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFieldType;
 	
 	import view.assets.MinusBT;
 	import view.style.ColorSchema;
@@ -18,7 +22,7 @@ package view.filter {
 	 * @author lucaju
 	 * 
 	 */
-	public class PeriodOption extends OptionBox {
+	public class PeriodOption extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
 		
@@ -30,6 +34,7 @@ package view.filter {
 		protected var inputToTF			:TextField;
 		protected var deleteButton		:MinusBT;
 		
+		protected var _empty				:Boolean = false;
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -39,9 +44,7 @@ package view.filter {
 		 * @param id_
 		 * 
 		 */
-		public function PeriodOption(fID:int, id_:int) {
-			
-			super(fID)
+		public function PeriodOption(id_:int) {
 			
 			id = id_;
 			/*
@@ -55,6 +58,7 @@ package view.filter {
 			*/
 			//field from
 			inputFromTF = buildInput();
+			inputFromTF.y = -1;
 			//inputFromTF.x = fromLabel.x + fromLabel.width + 4;
 			this.addChild(inputFromTF);
 			
@@ -70,6 +74,7 @@ package view.filter {
 			//field to
 			inputToTF = buildInput();
 			inputToTF.x = toLabel.x + toLabel.width + 7;
+			inputToTF.y = -1;
 			this.addChild(inputToTF);
 			
 			border = buildBorder(inputToTF);
@@ -77,7 +82,7 @@ package view.filter {
 			this.addChild(border);
 			
 			//add button
-			deleteButton = new MinusBT(ColorSchema.getColor("red"));
+			deleteButton = new MinusBT(ColorSchema.RED);
 			deleteButton.x = inputToTF.x + inputToTF.width + 4 + deleteButton.width;
 			deleteButton.y = deleteButton.height - 2;
 			this.addChild(deleteButton);
@@ -107,8 +112,9 @@ package view.filter {
 			var TF:TextField = new TextField();
 			TF.selectable = false;
 			TF.mouseEnabled = false;
-			TF.autoSize = "left";
-			TF.antiAliasType = "Advanced";
+			TF.autoSize = TextFieldAutoSize.LEFT;
+			TF.antiAliasType = AntiAliasType.ADVANCED;
+			TF.embedFonts = true;
 			TF.alpha = .2;
 			TF.text = l;
 			TF.setTextFormat(TXTFormat.getStyle("Period Label"));
@@ -124,12 +130,13 @@ package view.filter {
 		protected function buildInput():TextField {
 			var input:TextField = new TextField();
 			
-			input.antiAliasType = "Advanced";
-			input.type = "input";
+			input.embedFonts = true;
+			input.antiAliasType = AntiAliasType.ADVANCED;
+			input.type = TextFieldType.INPUT;
 			input.defaultTextFormat = TXTFormat.getStyle("Input Period");
 			input.maxChars = 4;
 			input.width = 45;
-			input.height = 15;
+			input.height = 16;
 			input.text = "year";
 			input.alpha = .2;
 			input.restrict = "0-9"; 
@@ -151,14 +158,30 @@ package view.filter {
 			brd.graphics.endFill();
 			return brd;
 		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		protected function resetFields():void {
+			inputFromTF.text = "year";
+			inputFromTF.alpha = .2;
+			inputToTF.text = "year";
+			inputToTF.alpha = .2;
+			toLabel.alpha = .2;
+			
+			activeDeleteButton = false;
+			inputFromTF.addEventListener(Event.CHANGE, _addField);		
+			inputToTF.addEventListener(Event.CHANGE, _addField);
+		}
 
 		
 		//****************** PUBLIC METHODS ****************** ****************** ******************
 		
 		/*
 		public function setFromLabelText(value:String):void {
-		fromLabel.text = value;
-		fromLabel.setTextFormat(TXTFormat.getStyle("Period Label","filter"+filterID));
+			fromLabel.text = value;
+			fromLabel.setTextFormat(TXTFormat.getStyle("Period Label","filter"+filterID));
 		}
 		*/
 		
@@ -189,7 +212,7 @@ package view.filter {
 		 */
 		public function _addField(e:Event):void {
 			if (inputFromTF.text.length == 1 || inputToTF.text.length == 1) {
-				PeriodBox(this.parent.parent).addPeriodRange();
+				PeriodPanel(this.parent.parent).addPeriodRange();
 				inputFromTF.removeEventListener(Event.CHANGE, _addField);		
 				inputToTF.removeEventListener(Event.CHANGE, _addField);
 				
@@ -204,7 +227,7 @@ package view.filter {
 		 * 
 		 */
 		public function removePeriodRange(e:MouseEvent):void {
-			var box:PeriodBox = PeriodBox(this.parent.parent);
+			var box:PeriodPanel = PeriodPanel(this.parent.parent);
 			
 			//animation
 			TweenMax.to(this,.5,{x:this.x - 10, alpha:0, onComplete:box.deletePeriodRange, onCompleteParams:[this]});
@@ -232,18 +255,13 @@ package view.filter {
 		 */
 		protected function _focusOff(e:FocusEvent):void {
 			if (inputFromTF.text.length == 0 && inputToTF.text.length == 0) {
-				inputFromTF.text = "year";
-				inputFromTF.alpha = .2;
-				inputToTF.text = "year";
-				inputToTF.alpha = .2;
-				toLabel.alpha = .2;
-				
-				activeDeleteButton = false;
-				inputFromTF.addEventListener(Event.CHANGE, _addField);		
-				inputToTF.addEventListener(Event.CHANGE, _addField);
-				
-				dispatchEvent(new FocusEvent(FocusEvent.FOCUS_OUT)); 
+				empty = true;
+				this.resetFields();
+				//this.dispatchEvent(new FocusEvent(FocusEvent.FOCUS_OUT)); 	
+			} else {
+				empty = false;
 			}
+			
 		}
 		
 		//****************** GETTERS // SETTERS ****************** ****************** ******************
@@ -290,6 +308,25 @@ package view.filter {
 			inputFromTF.text = date.from;
 			inputToTF.text = date.to;
 		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get empty():Boolean {
+			return _empty;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set empty(value:Boolean):void {
+			_empty = value;
+		}
+
 
 	}
 }

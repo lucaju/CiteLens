@@ -1,14 +1,18 @@
 package view.filter {
 	
 	//imports
+	import controller.CiteLensController;
 	import com.greensock.TweenMax;
 	
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldType;
 	
 	import view.assets.MinusBT;
 	import view.assets.autoComplete.AutoCompleteBox;
@@ -20,11 +24,13 @@ package view.filter {
 	 * @author lucaju
 	 * 
 	 */
-	public class AuthorOption extends OptionBox {
+	public class AuthorOption extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
 		
 		static public var instances			:int = 0;
+		
+		protected var source				:AuthorPanel;
 		
 		protected var _id					:int;
 		protected var input					:TextField;
@@ -42,22 +48,24 @@ package view.filter {
 		 * @param fID
 		 * 
 		 */
-		public function AuthorOption(fID:int) {
+		public function AuthorOption(source:AuthorPanel) {
 			
-			super(fID)
+			this.source = source;
 			
 			id = instances++;
 			
 			//input
 			input = new TextField();
 			
-			input.antiAliasType = "Advanced";
-			input.type = "input";
+			input.antiAliasType = AntiAliasType.ADVANCED;
+			input.type = TextFieldType.INPUT;
+			input.embedFonts = true;
 			input.defaultTextFormat = TXTFormat.getStyle("Input Author Name");
 			input.width = 120;
-			input.height = 15;
+			input.height = 16;
 			input.text = "author name";
 			input.alpha = .2;
+			input.y = -1;
 			this.addChild(input);
 			
 			input.addEventListener(Event.CHANGE, _addField);		//add another field if the user start to type in the current field
@@ -74,7 +82,7 @@ package view.filter {
 			this.addChild(brd);
 			
 			//add button
-			deleteButton = new MinusBT(ColorSchema.getColor("red"));
+			deleteButton = new MinusBT(ColorSchema.RED);
 			deleteButton.x = brd.x + brd.width + 2 + deleteButton.width;
 			deleteButton.y = deleteButton.height - 2;
 			this.addChild(deleteButton);
@@ -92,7 +100,7 @@ package view.filter {
 		 */
 		protected function _addField(e:Event):void {
 			if (input.text.length == 1) {
-				AuthorBox(this.parent.parent).addAuthor();
+				AuthorPanel(this.parent.parent).addAuthor();
 				input.removeEventListener(Event.CHANGE, _addField);
 				
 			} else if (input.text.length == 0) {
@@ -153,7 +161,7 @@ package view.filter {
 					if (input.length > 0) {
 						
 						//autocomplete
-						var autoCompList:Array = citeLensController.searchBibliography(input.text, ["author"],true);
+						var autoCompList:Array = CiteLensController(source.getController()).searchBibliography(input.text, ["author"],true);
 						
 						if (autoCompList.length > 0) {
 							
@@ -281,7 +289,10 @@ package view.filter {
 				query = "~all"
 			}
 			
-			//if (query != "") citeLensController.searchBibliography(query, queryTarget);
+			if (query != "") {
+				CiteLensController(source.getController()).searchBibliography(query, queryTarget);
+				source.updatePanel();
+			}
 			
 			if (autoCompleteBox) {
 				this.removeChild(autoCompleteBox)
@@ -296,7 +307,7 @@ package view.filter {
 		 * 
 		 */
 		public function removeAuthorName(e:MouseEvent):void {
-			var box:AuthorBox = AuthorBox(this.parent.parent);
+			var box:AuthorPanel = AuthorPanel(this.parent.parent);
 			
 			//animation
 			TweenMax.to(this,.5,{x:this.x - 10, alpha:0, onComplete:box.deleteAuthorName, onCompleteParams:[this]});
