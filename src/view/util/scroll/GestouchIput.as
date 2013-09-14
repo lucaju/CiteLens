@@ -31,8 +31,6 @@ package view.util.scroll {
 		 */
 		public function GestouchIput(_source:Scroll) {
 			
-			trace ("??")
-			
 			source = _source;
 			
 			panGesture = new PanGesture(source.target.parent);
