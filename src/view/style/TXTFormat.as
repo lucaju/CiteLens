@@ -2,7 +2,9 @@ package view.style {
 	
 	//imports
 	import flash.text.TextFormat;
-
+	import flash.text.TextFormatAlign;
+	
+	import font.HelveticaNeue;
 	
 	/**
 	 * 
@@ -34,7 +36,7 @@ package view.style {
 		static public function getStyle(styleName:String = "standard", statusColor:String = "standard"):TextFormat {
 			
 			var style:TextFormat = new TextFormat();
-			style.font = "Helvetica Neue";
+			style.font = HelveticaNeue.REGULAR;
 			style.color = ColorSchema.getColor(statusColor);
 			style.leading = 2;
 			
@@ -42,34 +44,32 @@ package view.style {
 				
 				case "Main Button Style":
 					
-					style.bold = true;
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 12;
 					break;
 				
 				case "Title Header":
 					
-					style.bold = true;
+					style.font = HelveticaNeue.MEDIUM;
 					style.leading = 2;
 					style.size = 12;
 					break;
 				
 				case "Author Header":
 					
+					//style.font = HelveticaNeue.MEDIUM;
 					style.size = 12;
-					//style.bold = true;
 					//style.align = "right";
 					//style.color = ColorSchema.getColor("gray");
 					break;
 				
 				case "General Label":
-					
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 11;
-					style.bold = true;
 					break;
 				
 				case "Button Style":
-					
-					style.bold = true;
+					style.font = HelveticaNeue.BOLD;
 					style.size = 11;
 					break;
 				
@@ -77,7 +77,7 @@ package view.style {
 				
 				case "Item List Title":
 					
-					style.italic = true;
+					style.font = HelveticaNeue.ITALIC;
 					style.size = 11;
 					break;
 				
@@ -89,15 +89,21 @@ package view.style {
 				case "Item List Date":
 					
 					style.size = 11;
-					style.bold = false;
 					break;
 				
 				case "Item List Note Count":
 					
-					style.bold = true;
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 11;
-					style.align = "center";
-					style.bold = true;
+					style.align = TextFormatAlign.CENTER;
+					break;
+				
+				case "Item List Note Info":
+					
+					style.font = HelveticaNeue.REGULAR;
+					style.size = 11;
+					style.leading = 4;
+					style.color = ColorSchema.white;
 					break;
 				
 				case "AutoComplete Text":
@@ -107,14 +113,14 @@ package view.style {
 				
 				case "AutoComplete Bold":
 					
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 11;
-					style.bold = true;
 					break;
 				
 				case "Count Total":
 					
+					style.font = HelveticaNeue.BOLD;
 					style.size = 9;
-					style.bold = true;
 					break;
 				
 				
@@ -122,29 +128,30 @@ package view.style {
 				
 				case "filter header":
 					
-					style.bold = true;
-					style.size = 12;
+					style.font = HelveticaNeue.MEDIUM;
+					style.size = 11;
 					style.color = 0xFFFFFF;
-					style.align = "center";
+					style.align = TextFormatAlign.CENTER;
 					break;
 				
 				case "filter header result":
 					
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 12;
 					style.color = 0xFFFFFF;
 					break;
 				
 				case "Period Label":
 					
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 11;
-					style.bold = true;
 					//style.align = "right";
 					break;
 				
 				case "Input Period":
 					
 					style.size = 11;
-					style.align = "center";
+					style.align = TextFormatAlign.CENTER;
 					style.letterSpacing = .7;
 					break;
 				
@@ -153,8 +160,9 @@ package view.style {
 					break;
 				
 				case "Empty Style":
+					
+					style.font = HelveticaNeue.MEDIUM;
 					style.size = 16;
-					style.bold = true;
 					style.color = 0xCCCCCC;
 					break;
 				
