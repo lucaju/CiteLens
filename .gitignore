@@ -1,6 +1,5 @@
 CiteLens.app
 CiteLens.air
-bin-debug/resources/CareOfTheDead_chap1-inProgress.xml
 
 .DS_Store
 
@@ -12,8 +11,18 @@ bin-debug/.DS_Store
 
 src/.DS_Store
 
-src/.DS_Store
-
 src/view/util/.DS_Store
 
 src/view/util/scroll/.DS_Store
+
+Apps/.DS_Store
+
+src/images/.DS_Store
+
+bin-debug/model/.DS_Store
+
+src/view/assets/.DS_Store
+
+src/view/util/.DS_Store
+
+src/model/.DS_Store
