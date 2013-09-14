@@ -31,11 +31,12 @@ package mvc {
 		/**
 		 * Returns the default controller for this view.
 		 */
-		/*
+		
 		public function defaultController (model:Observable):IController {
 			return null;
 		}
-		*/
+		
+		
 		/**
 		 * Sets the model this view is observing.
 		 */
@@ -65,14 +66,14 @@ package mvc {
 		 */
 		public function getController ():IController {
 			// If a controller hasn't been defined yet...
-			/*
+			
 			if (controller === null) {
 				// ...make one. Note that defaultController() is normally overridden 
 				// by the AbstractView subclass so that it returns the appropriate
 				// controller for the view.
 				setController(defaultController(getModel()));
 			}
-			*/
+			
 			return controller;
 		}
 		

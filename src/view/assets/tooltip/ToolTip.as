@@ -6,8 +6,9 @@ package view.assets.tooltip {
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
-	import flash.text.TextFormat;
+	import flash.text.TextFieldAutoSize;
 	
 	import view.style.TXTFormat;
 	
@@ -26,12 +27,11 @@ package view.assets.tooltip {
 		protected var minHeight			:Number 		= 20;			// Balloom min height
 		protected var round				:Number 		= 10;			// Round corners
 		protected var margin			:Number 		= 2;			// Margin size
-		protected var _arrowDirection	:String		 = "bottom";		// Arrow point direction
+		protected var _arrowDirection	:String			 = "bottom";		// Arrow point direction
 
 		protected var shapeBox			:Balloon;						//Shape of the balloon;
 		
 		protected var titleTF			:TextField;						// Title Textfield
-		protected var titleStyle		:TextFormat	 = new TextFormat("Arial Narrow", 12, 0x646363,true,null,null,null,null,"center");
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -79,8 +79,10 @@ package view.assets.tooltip {
 			
 			//----------title
 			titleTF = new TextField();
+			titleTF.antiAliasType = AntiAliasType.ADVANCED;
+			titleTF.embedFonts = true;
 			titleTF.selectable = false;
-			titleTF.autoSize = "center";
+			titleTF.autoSize = TextFieldAutoSize.CENTER;
 			titleTF.text = " " + data.title + " ";
 			titleTF.setTextFormat(TXTFormat.getStyle("General Label"));
 			

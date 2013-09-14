@@ -4,8 +4,11 @@ package view.bibliography {
 	import com.greensock.TweenLite;
 	
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	import model.RefBibliographic;
 	
@@ -24,20 +27,29 @@ package view.bibliography {
 		protected static var _origWidth		:Number;
 		protected var _id					:int;
 		protected var _uniqueID				:String;
-		protected var base					:Sprite;
+		
 		protected var bg					:Sprite;
+		protected var content				:Sprite
+		protected var contentMask			:Sprite;
+		
+		protected var _originalHeight		:Number;
+		
 		protected var line					:Sprite;
 		protected var textTF				:TextField;
 		protected var countTF				:TextField;
 		
-		protected var margin				:Number = 3;
-		protected var noteAreaWidth			:Number = 12;
+		internal var margin					:Number = 3;
+		internal var noteAreaWidth			:Number = 12;
 		
 		public var authorship				:String;
 		protected var _title				:String;
 		public var date						:int;
 		
+		protected var _selected				:Boolean = false;
+		
 		protected var refBibl				:RefBibliographic;
+		
+		protected var citationInfo			:ItemCitationInfo;
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -49,6 +61,12 @@ package view.bibliography {
 		 * 
 		 */
 		public function ItemRef(refBib:RefBibliographic, i:int = 0) {
+			
+			this.mouseChildren = false;
+			this.buttonMode = true;
+			
+			content = new Sprite();
+			this.addChild(content);
 			
 			refBibl = refBib;
 			id = i;
@@ -62,11 +80,13 @@ package view.bibliography {
 			textTF.multiline = true;
 			textTF.mouseEnabled = false;
 			textTF.wordWrap = true;
-			textTF.autoSize = "left";
-			textTF.antiAliasType = "Advanced";
+			textTF.autoSize = TextFieldAutoSize.LEFT;
+			textTF.antiAliasType = AntiAliasType.ADVANCED;
 			textTF.width = _origWidth - ( 2 * margin ) - noteAreaWidth;
 			
-			this.addChild(textTF);
+			textTF.embedFonts = true;
+			
+			content.addChild(textTF);
 			
 			//content style divider
 			var partial:int = 0;
@@ -110,42 +130,22 @@ package view.bibliography {
 			line.graphics.moveTo(1, 0);
 			line.graphics.lineTo(_origWidth - 3, 0);
 			line.graphics.endFill();
-			addChild(line);
+			content.addChild(line);
 			
 			bg = new Sprite();
-			bg.graphics.beginGradientFill("linear",[0xBBBBBB,0xEEEEEE],[1,1],[0,255]);
-			bg.graphics.drawRect(0,0,255,10);
+			bg.graphics.beginFill(0xFFFFFF);;
+			bg.graphics.drawRect(0,0,_origWidth,textTF.height + 5);
 			bg.graphics.endFill();
-			bg.alpha = .2
-			bg.width = textTF.height + 5;
-			bg.height = _origWidth
-			bg.rotation = -90;
-			bg.y = bg.height;
 			
-			addChildAt(bg,0);
-			
-			//base
-			base = new Sprite();
-			//base.graphics.beginFill(0x648EC9,.5);
-			base.graphics.beginGradientFill("linear",[0x000000,0xFFFFFF],[.3,.3],[100,200]);
-			base.graphics.drawRect(0,0,255,10);
-			base.graphics.endFill();
-		
-			base.width = textTF.height + 5;
-			base.height = _origWidth
-			base.rotation = -90;
-			base.y = base.height;
-			
-			base.alpha = 0;
-			addChild(base);
-			
+			content.addChildAt(bg,0);
 			
 			if (refBib.notes.length > 0) {
 				//text
 				countTF = new TextField();
 				countTF.selectable = false;
-				countTF.antiAliasType = "Advanced";
-				countTF.autoSize = "left";
+				countTF.antiAliasType = AntiAliasType.ADVANCED;
+				countTF.autoSize = TextFieldAutoSize.LEFT;
+				countTF.embedFonts = true;
 				
 				countTF.text = refBib.notes.length.toString();
 				countTF.setTextFormat(TXTFormat.getStyle("Item List Note Count"));
@@ -153,7 +153,7 @@ package view.bibliography {
 				countTF.x = margin;
 				countTF.y = margin;
 				
-				this.addChild(countTF);
+				content.addChild(countTF);
 				
 				//trace (refBib.notes)
 				
@@ -165,7 +165,18 @@ package view.bibliography {
 				
 			}
 			
+			//mask
+			contentMask = new Sprite();
+			contentMask.graphics.beginFill(0xFFFFFF);
+			contentMask.graphics.drawRect(0,0,_origWidth,this.height);
+			contentMask.graphics.endFill();
+			
+			this.addChild(contentMask);		
+			content.mask = contentMask;
+			
 			//textTF.cacheAsBitmap = true;
+			
+			originalHeight = this.height;
 			
 			//interaction
 			this.addEventListener(MouseEvent.MOUSE_OVER, _over);
@@ -220,7 +231,7 @@ package view.bibliography {
 		 * 
 		 */
 		protected function _over(e:MouseEvent):void {
-			TweenLite.to(base, .3, {alpha: .4})
+			TweenLite.to(bg, .4, {alpha:.2, tint: ColorSchema.LIGHT_GREY})
 		}
 		
 		/**
@@ -229,7 +240,7 @@ package view.bibliography {
 		 * 
 		 */
 		protected function _out(e:MouseEvent):void {
-			TweenLite.to(base, .5, {alpha: 0})
+			TweenLite.to(bg, .2, {alpha: 1, removeTint: true})
 		}
 		
 		
@@ -241,19 +252,18 @@ package view.bibliography {
 		 */
 		public function select():void {
 			
+			selected = true;
+			
 			//text color
-			if (countTF) TweenLite.to(countTF, 0, {tint: 0xFFFFFF})
-			TweenLite.to(textTF, 0, {tint: 0xFFFFFF})
+			if (countTF) TweenLite.to(countTF, 0, {tint: ColorSchema.white});
+			TweenLite.to(textTF, 0, {tint: ColorSchema.white});
 			
-			//ng
-			bg = new Sprite();
-			bg.graphics.beginFill(ColorSchema.getColor("red"));
-			bg.graphics.drawRect(0,0,_origWidth,textTF.height + 5);
-			bg.graphics.endFill();
-
-			this.addChildAt(bg,0);
+			//animation
+			TweenLite.to(contentMask, 1, {height: this.height});
+			TweenLite.to(bg, 1, {alpha:1, height: this.height, tint: ColorSchema.RED});
 			
-			TweenLite.to(base, .3, {alpha: .6})
+			this.removeEventListener(MouseEvent.MOUSE_OVER, _over);
+			this.removeEventListener(MouseEvent.MOUSE_OUT, _out);
 		}
 		
 		/**
@@ -261,14 +271,60 @@ package view.bibliography {
 		 * 
 		 */
 		public function deselect():void {
-			this.removeChild(bg);
-			TweenLite.to(base, .5, {alpha: 0})
-				
+			
+			//deselect
+			selected = false;
+			removeCitationInfo();
+			
+			//animation
+			TweenLite.to(bg, 1, {height: this.originalHeight, removeTint: true});
+			TweenLite.to(contentMask, 1, {height: this.originalHeight});
+			
 			//text color
-			if (countTF) TweenLite.to(countTF, .3, {removeTint: true})
-			TweenLite.to(textTF, .3, {removeTint: true})
+			if (countTF) TweenLite.to(countTF, .3, {removeTint: true});
+			TweenLite.to(textTF, .3, {removeTint: true});
+				
+			this.addEventListener(MouseEvent.MOUSE_OVER, _over);
+			this.addEventListener(MouseEvent.MOUSE_OUT, _out);
 		}
 		
+		/**
+		 * 
+		 * @param citeInfo
+		 * 
+		 */
+		public function addCitationInfo(citeInfo:Array):void {
+			if (!citationInfo) {
+				citationInfo = new ItemCitationInfo(this, citeInfo);
+				citationInfo.x = margin + noteAreaWidth;
+				citationInfo.y = this.height;
+				content.addChild(citationInfo);
+				TweenLite.from(citationInfo,1,{y:citationInfo.y-5, alpha:0});
+			}
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getCitationsIDs():Array {
+			if (!citationInfo) {
+				return citationInfo.citations;
+			}
+			return null;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function removeCitationInfo():void {
+			if (citationInfo) {
+				content.removeChild(citationInfo);
+				citationInfo = null;
+			}
+		}
 
 		//****************** GETTERS // SETTERS ****************** ****************** ******************
 		
@@ -279,6 +335,15 @@ package view.bibliography {
 		 */
 		public static function set origWidth(value:Number):void {
 			_origWidth = value;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public static function get origWidth():Number {
+			return _origWidth;
 		}
 
 		/**
@@ -352,6 +417,43 @@ package view.bibliography {
 		public function set uniqueID(value:String):void {
 			_uniqueID = value;
 		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get selected():Boolean {
+			return _selected;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set selected(value:Boolean):void {
+			_selected = value;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get originalHeight():Number {
+			return _originalHeight;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set originalHeight(value:Number):void {
+			_originalHeight = value;
+		}
+
 
 	}
 }

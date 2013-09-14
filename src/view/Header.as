@@ -4,10 +4,20 @@ package view {
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.Event;
 	import flash.net.URLRequest;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	
+	import controller.CiteLensController;
 	
 	import model.RefBibliographic;
+	
+	import mvc.AbstractView;
+	import mvc.IController;
+	
+	import util.DeviceInfo;
 	
 	import view.assets.Button;
 	import view.style.TXTFormat;
@@ -18,7 +28,7 @@ package view {
 	 * @author lucaju
 	 * 
 	 */
-	final public class Header extends CiteLensView {
+	final public class Header extends AbstractView {
 		
 		//****************** Properties ****************** ****************** ******************
 		
@@ -36,8 +46,8 @@ package view {
 		 * 
 		 * 
 		 */
-		public function Header() {
-			super(citeLensController);
+		public function Header(c:IController) {
+			super(c);
 			initialize();
 		}
 		
@@ -48,7 +58,7 @@ package view {
 		 * 
 		 * 
 		 */
-		override public function initialize():void {
+		public function initialize():void {
 			
 			//---------- LOGO
 			logo = new Sprite();
@@ -56,8 +66,16 @@ package view {
 			logo.y = 0;
 			this.addChild(logo);
 			
-			var url:URLRequest = new URLRequest("images/logo.swf");
+			var file:String;
+			if (DeviceInfo.os() != "Mac") {
+				file = "images/logo@2x.png"
+			} else {
+				file = "images/logo.png";
+			}
+			
+			var url:URLRequest = new URLRequest(file);
 			var loader:Loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onComplete);
 			loader.load(url);
 			logo.addChild(loader);
 			
@@ -66,7 +84,9 @@ package view {
 			//intro sentence
 			var intro:TextField = new TextField();
 			intro.selectable = false;
-			intro.autoSize = "left";
+			intro.antiAliasType = AntiAliasType.ADVANCED;
+			intro.embedFonts = true;
+			intro.autoSize = TextFieldAutoSize.LEFT;
 			intro.text = "I would like to";
 			intro.setTextFormat(TXTFormat.getStyle("Author Header"));
 			
@@ -105,11 +125,13 @@ package view {
 			
 			
 			//---------- DOCUMENT TITLE
-			var doc:RefBibliographic = citeLensController.getDocumentSummary();
+			var doc:RefBibliographic = CiteLensController(this.getController()).getDocumentSummary();
 			
 			titleHeader = new TextField();
 			titleHeader.selectable = false;
-			titleHeader.autoSize = "left";
+			titleHeader.autoSize = TextFieldAutoSize.LEFT;
+			titleHeader.antiAliasType = AntiAliasType.ADVANCED;
+			titleHeader.embedFonts = true;
 			
 			titleHeader.text = "citations of ";
 			var span1:int = titleHeader.length;
@@ -127,8 +149,7 @@ package view {
 			titleHeader.x = posX;
 			titleHeader.y = 17;
 			this.addChild(titleHeader);
-		}
-		
+		}		
 		
 		//****************** PROTECTED METHODS ****************** ****************** ******************
 		
@@ -151,6 +172,17 @@ package view {
 			button = Button(e.target);
 			button.status = "selected";
 		}
+		
+		//****************** PROTECTED Events ****************** ****************** ******************
 	
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function onComplete(event:Event):void {
+			if (DeviceInfo.os() != "Mac") logo.scaleX = logo.scaleY = .5;
+		}
+		
 	}
 }

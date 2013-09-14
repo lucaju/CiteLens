@@ -10,15 +10,13 @@ package view.assets.autoComplete {
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.GlowFilter;
 	
-	import view.CiteLensView;
-	
 	
 	/**
 	 * 
 	 * @author lucaju
 	 * 
 	 */
-	public class AutoCompleteBox extends CiteLensView {
+	public class AutoCompleteBox extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
 		
@@ -51,14 +49,10 @@ package view.assets.autoComplete {
 		 * 
 		 */
 		public function AutoCompleteBox() {
-			
-			super(citeLensController);
-			
 			_content = new Array();
 			listArray = new Array();
 			bg = new Sprite();
 		}
-		
 		
 		//****************** Initialize ****************** ****************** ******************
 		

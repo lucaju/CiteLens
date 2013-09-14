@@ -2,21 +2,23 @@ package view.reader {
 	
 	import com.greensock.TweenMax;
 	
-	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
+	import flash.text.engine.FontLookup;
 	
 	import controller.CiteLensController;
 	
+	import events.CiteLensEvent;
+	
+	import flashx.textLayout.compose.TextFlowLine;
 	import flashx.textLayout.container.ContainerController;
+	import flashx.textLayout.conversion.ConversionType;
+	import flashx.textLayout.conversion.TextConverter;
 	import flashx.textLayout.edit.SelectionManager;
 	import flashx.textLayout.elements.FlowElement;
-	import flashx.textLayout.elements.ParagraphElement;
-	import flashx.textLayout.elements.SpanElement;
 	import flashx.textLayout.elements.TextFlow;
-	
-	import view.PanelHeader;
-	
+	import flashx.textLayout.events.TextLayoutEvent;
 	
 	/**
 	 * 
@@ -27,24 +29,11 @@ package view.reader {
 		
 		//****************** Properties ****************** ****************** ******************
 		
-		protected var citeLensController		:CiteLensController				//controller
-		
-		protected var p							:XML;
-		protected var paragraph					:ParagraphElement;
-		protected var span						:SpanElement
-		protected var paragraphArray			:Array;
+		protected var target					:ReaderWindow;
 		protected var readerFlow				:TextFlow;
-		protected var header					:PanelHeader;					//header
-		protected var container					:Sprite;
 		protected var containerController		:ContainerController;
 		
-		protected var border					:Shape;
-		
-		protected var w							:int	 = 275;
-		protected var h							:int	 = 538;
-			
-		protected var marginW					:uint	 = 10;
-		protected var marginH					:uint	 = 3;
+		protected var dimensions				:Rectangle;
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -53,44 +42,15 @@ package view.reader {
 		 * @param value
 		 * 
 		 */
-		public function Reader(value:CiteLensController):void {
-			citeLensController = value;
+		public function Reader(_target:ReaderWindow):void {
+			
+			target = _target;
+			
 		}
 		
-		
 		//****************** Initialize ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * 
-		 */
-		public function initialize():void {
 			
-			//border
-			border = new Shape();
-			border.graphics.lineStyle(2,0xCCCCCC,1,true);
-			border.graphics.beginFill(0xFFFFFF,0);
-			border.graphics.drawRoundRect(0,0,w, h, 10);
-			border.graphics.endFill();
-			
-			this.addChild(border);
-			
-			//header
-			header = new PanelHeader();
-			header.setDimensions(this.width-1);
-			header.init();
-			addChildAt(header,0);
-			
-			//make it mini
-			/*
-			textStyle.fontSize = 1;
-			textStyle.fontWeight = "bold";
-			textStyle.lineHeight = 2;
-			textStyle.fontWeight = "bold";
-			textStyle.paragraphSpaceBefore = 0;
-			textStyle.paragraphSpaceAfter = 3;
-			*/
-			
+		public function init():void {
 			
 			// --- Textflow
 			// To built one you have 2 options
@@ -99,72 +59,60 @@ package view.reader {
 			// 2. it is possible to create a loop and build one element (div, paragraph, span, link) at a time. I found that way more compicated and time consuming for this project.
 			
 			//defining the container for the text flow
-			container = new Sprite();
-			container.x = marginW;
-			container.y = header.height + marginH;
+			var container:Sprite = new Sprite();
 			this.addChild(container);
 			
-			// import xml from the doc model
-			//var xml:XML = citeLensController.getAllParagraphs();
+			///FLOW
+			readerFlow = CiteLensController(target.getController()).getFlowConvertText();
 			
-			//readerFlow = new TextFlow();
-			
-			//trace (xml)
-			
-			//readerFlow = TextConverter.importToFlow(xml,TextConverter.TEXT_FIELD_HTML_FORMAT)
-			readerFlow = citeLensController.getFlowConvertText();
-				
-			containerController = new ContainerController(container, w - (2*marginW), h - (2*marginH) - header.height)
-			
-			
+			containerController = new ContainerController(container, dimensions.width, dimensions.height)
 				
 			readerFlow.flowComposer.addController(containerController); // make it mini - change the width to 20
 			readerFlow.hostFormat = TextReaderStyle.getStyle("body");
+			//readerFlow.fontLookup = FontLookup.EMBEDDED_CFF;
 			readerFlow.flowComposer.updateAllControllers();
 			
+			//-----debug - output the xml of the text flow
+			var outXML:XML = TextConverter.export(readerFlow,TextConverter.TEXT_LAYOUT_FORMAT, ConversionType.XML_TYPE) as XML;
+			//trace(outXML);
+			
 			// -------select and change the stlyle in tag throught the flow
-			
-			
-			// change notes style
-			var notes:Array = readerFlow.getElementsByTypeName("ref");
-			for each (var note:FlowElement in notes) {
-				note.format = TextReaderStyle.getStyle("noteSpan");
-			}
-			
-			// change footnote anchor style
-			var footnoteAnchors:Array = readerFlow.getElementsByTypeName("noteloc");
-			for each (var footnoteAnchor:FlowElement in footnoteAnchors) {
-				footnoteAnchor.format = TextReaderStyle.getStyle("superScript");
-			}
-			
-			
-			// ----------change style in on span
-			/*
-			var a:FlowElement = readerFlow.getElementByID("96")
-			a.setStyle("color", 0x0FF00A);
-			*/
-			
+			this.changeElementStyleByName("chapter","chapter");
+			this.changeElementStyleByName("chapter_section","chapterSection");
+			this.changeElementStyleByName("label","label");
+			this.changeElementStyleByName("note_span","noteSpan");
+			this.changeElementStyleByName("note_loc","superScript");
 			
 			//!!!!!!!!!!!!!!!selectable
 			readerFlow.interactionManager = new SelectionManager();
 			//readerFlow.interactionManager = new EditManager();
 			
 			// ----- always remember to update controler after any change
-			readerFlow.flowComposer.updateAllControllers()
-		
-			
-			//-----debug - output the xml of the text flow
-			//var outXML:XML = TextConverter.export(readerFlow,TextConverter.TEXT_LAYOUT_FORMAT, ConversionType.XML_TYPE) as XML;
-			//trace(outXML);
+			readerFlow.flowComposer.updateAllControllers();
 			
 			//IMPORTANT !!!!
 			//Text for Color Code Column export from here
 			//var outString:String = TextConverter.export(readerFlow,TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
 			
+			readerFlow.addEventListener(TextLayoutEvent.SCROLL, scroll);
 		}
 		
+		//****************** PUBLIC METHODS - Dimensions ****************** ****************** ******************
 		
-		//****************** PUBLIC METHODS ****************** ****************** ******************
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function scroll(event:TextLayoutEvent):void {
+			var data:Object = new Object();
+			data.verticalPosition = containerController.verticalScrollPosition
+			data.totalHeight = Math.ceil(containerController.getContentBounds().height);
+			
+			this.dispatchEvent(new CiteLensEvent(CiteLensEvent.READER_SCROLL, data));
+		}
+		
+		//****************** PUBLIC METHODS - Dimensions ****************** ****************** ******************
 		
 		/**
 		 * 
@@ -173,8 +121,7 @@ package view.reader {
 		 * 
 		 */
 		public function setDimensions(valueW:Number, valueH:Number):void {
-			w = valueW;
-			h = valueH;
+			dimensions = new Rectangle(0,0,valueW,valueH);
 		}
 		
 		/**
@@ -183,24 +130,14 @@ package view.reader {
 		 * @param valueH
 		 * 
 		 */
-		public function updateDimension(valueW:Number, valueH:Number = 0):void {
+		public function updateDimension(width:Number, height:Number):void {
 			
 			//reader
 			var actualReaderBounds:Rectangle = containerController.getContentBounds();
-			var readerDomension:Array = [actualReaderBounds.width, actualReaderBounds.height];
+			var readerDimension:Array = [actualReaderBounds.width, actualReaderBounds.height];
 			
-			// new values
-			 w = w + valueW;
-			 h = h + valueH;
-			 
-			 var NewReaderW:Number = w - (2*marginW);
-			 var NewReaderH:Number = h - (2*marginH) - header.height;
+			TweenMax.to(readerDimension, .5, {endArray:[width,height], onUpdate:resize, onUpdateParams:[readerDimension],delay:.3});
 			
-			TweenMax.to(readerDomension, .5, {endArray:[NewReaderW,NewReaderH], onUpdate:resize, onUpdateParams:[readerDomension],delay:.3});
-			
-			//boders
-			TweenMax.to(border, .5, {width:border.width + valueW, delay:.3});
-			TweenMax.to(header, .5, {width:header.width + valueW, delay:.3});
 		}
 		
 		/**
@@ -211,6 +148,132 @@ package view.reader {
 		public function resize(value:Array):void {
 			containerController.setCompositionSize(value[0],value[1]);
 			readerFlow.flowComposer.updateAllControllers();
+			
+			this.dispatchEvent(new Event(Event.RESIZE));
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function getCurrentVerticalPosition():Number {
+			return containerController.verticalScrollPosition;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function setVerticalPosition(value:Number):void {
+			containerController.verticalScrollPosition = value;;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function getVisibleHeight():Number {
+			return containerController.compositionHeight;
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function getMaxHeight():Number {
+			return Math.ceil(containerController.getContentBounds().height);
+			
+		}
+
+		
+		//****************** PUBLIC METHODS - TEXT ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param elementName
+		 * @param styleName
+		 * 
+		 */
+		public function changeElementStyleByName(elementName:String, styleName:String):void {
+			var elementArray:Array = readerFlow.getElementsByTypeName(elementName);
+			for each (var element:FlowElement in elementArray) {
+				element.format = TextReaderStyle.getStyle(styleName);
+			}
+			readerFlow.flowComposer.updateAllControllers();
+		}
+		
+		/**
+		 * 
+		 * @param elementName
+		 * @param styleName
+		 * 
+		 */
+		public function highlightElementByID(elementID:*, styleName:String = "selectedNoteSpan"):void {
+			
+			//remove highlights
+			this.clearHighlightElements();
+			
+			var firtsElementId:String;
+			var element:FlowElement;
+			
+			if (elementID is String) {
+				firtsElementId = elementID;
+				element = readerFlow.getElementByID(elementID);
+				if (element) element.format = TextReaderStyle.getStyle(styleName);
+			
+			} if (elementID is Array) {
+				for each (var id:String in elementID) {
+					if(elementID.indexOf(id) == 0) firtsElementId = id;
+					element = readerFlow.getElementByID(id);
+					if (element) element.format = TextReaderStyle.getStyle(styleName);
+				}
+			
+			}
+			
+			this.scrollToHighlightedElement(firtsElementId);
+			
+			readerFlow.flowComposer.updateAllControllers();
+		}
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function clearHighlightElements():void {
+			this.changeElementStyleByName("note_span","noteSpan");
+			readerFlow.flowComposer.updateAllControllers();
+		}
+		
+		/**
+		 * 
+		 * @param elementID
+		 * 
+		 */
+		public function scrollToHighlightedElement(elementID:String):void {
+			
+			//get element
+			var element:FlowElement = readerFlow.getElementByID(elementID);
+			
+			//get Absolute start
+			var absolueStart:int = element.getAbsoluteStart();
+			
+			//get line
+			var line:TextFlowLine = readerFlow.flowComposer.findLineAtPosition(absolueStart);
+			
+			//update scroll
+			containerController.verticalScrollPosition = line.y;
+	
+		}
+
+		//****************** GETTERS // SETTER ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get textFlow():TextFlow {
+			return readerFlow;
 		}
 	}
 }

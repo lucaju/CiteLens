@@ -5,6 +5,7 @@ package view.bibliography {
 	import com.greensock.TweenMax;
 	
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
@@ -38,7 +39,7 @@ package view.bibliography {
 		protected var emptyTF				:TextField;
 		
 		protected var item					:ItemRef;
-		protected var selectedItem			:ItemRef;
+		protected var _selectedItem			:ItemRef;
 		
 		protected var itemsArray			:Array;
 		protected var actualItemsArray		:Array;
@@ -363,7 +364,7 @@ package view.bibliography {
 		 * 
 		 * 
 		 */
-		protected function updateAnimation():void {
+		protected function updateAnimation(filter:Boolean = true):void {
 			
 			var nonListedArray:Array;
 			
@@ -382,14 +383,21 @@ package view.bibliography {
 				for each (var filteredItem:ItemRef in actualItemsArray) {
 					
 					if (i == actualItemsArray.length-1) {
-						TweenMax.to(filteredItem,2,{y:posY, autoAlpha:1, onUpdate:applyScrollMask});
+						TweenMax.to(filteredItem,1,{y:posY, autoAlpha:1, onUpdate:applyScrollMask});
 					} else {
-						TweenMax.to(filteredItem,2,{y:posY, autoAlpha:1});
+						TweenMax.to(filteredItem,1,{y:posY, autoAlpha:1});
 					}
 					
-					posY += filteredItem.height;
+					
+					if (filteredItem.selected) {
+						posY += filteredItem.height;
+					} else {
+						posY += filteredItem.originalHeight;
+					}
+					
 					i++;
 				}
+				
 			} else {
 				nonListedArray = actualItemsArray;
 				
@@ -400,7 +408,7 @@ package view.bibliography {
 			}
 			
 			//move the list to the top
-			container.y = 0;
+			if (filter) container.y = 0;
 		}
 		
 		/**
@@ -463,26 +471,51 @@ package view.bibliography {
 		 * @param e
 		 * 
 		 */
-		protected function _itemClick(e:MouseEvent):void {
+		protected function _itemClick(event:MouseEvent):void {
 			
-			var itemCLicked:ItemRef = ItemRef(e.currentTarget);
+			event.stopImmediatePropagation();
+			
+			var itemCLicked:ItemRef = ItemRef(event.currentTarget);
 			
 			if (selectedItem == itemCLicked) {
 				itemCLicked.deselect();
-				selectedItem = null;
+				_selectedItem = null;
 				
 			} else if (selectedItem) {
 				selectedItem.deselect();
+				this.addItemCitationInfo(itemCLicked);
 				itemCLicked.select();
-				selectedItem = itemCLicked;
+				_selectedItem = itemCLicked;
 				updateListByItemCliked(selectedItem)
 			} else {
+				this.addItemCitationInfo(itemCLicked);
 				itemCLicked.select();
-				selectedItem = itemCLicked;
+				_selectedItem = itemCLicked;
 				updateListByItemCliked(selectedItem)
 			}
 			
+			this.updateAnimation(false);
+			this.dispatchEvent(new Event(Event.SELECT,true));
 			
+		}
+		
+		/**
+		 * 
+		 * @param ref
+		 * 
+		 */
+		protected function addItemCitationInfo(ref:ItemRef):void {
+			var notes:Array = CiteLensController(this.getController()).getRefNotes(ref.uniqueID);
+			ref.addCitationInfo(notes);
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getSelectedItemID():String {
+			return (selectedItem) ? selectedItem.uniqueID : null;
 		}
 		
 		
@@ -622,6 +655,16 @@ package view.bibliography {
 			
 			_empty = value;
 		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get selectedItem():ItemRef {
+			return _selectedItem;
+		}
+
 
 	}
 }

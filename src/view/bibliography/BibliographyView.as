@@ -1,20 +1,22 @@
 package view.bibliography {
 	
 	//imports
+	import controller.CiteLensController;
 	import flash.display.Shape;
 	
 	import events.CiteLensEvent;
 	
-	import util.Global;
+	import mvc.AbstractView;
+	import mvc.IController;
 	
-	import view.CiteLensView;
+	import util.Global;
 	
 	/**
 	 * 
 	 * @author lucaju
 	 * 
 	 */
-	public class BibliographyView extends CiteLensView {
+	public class BibliographyView extends AbstractView {
 		
 		//****************** Properties ****************** ****************** ******************
 		
@@ -40,8 +42,8 @@ package view.bibliography {
 		 * 
 		 * 
 		 */
-		public function BibliographyView() {	
-			super(citeLensController);
+		public function BibliographyView(c:IController) {	
+			super(c);
 		}
 		
 		
@@ -51,7 +53,7 @@ package view.bibliography {
 		 * 
 		 * 
 		 */
-		override public function initialize():void {
+		public function initialize():void {
 			
 			//global size
 			origWidth = Global.globalWidth/5;
@@ -67,7 +69,7 @@ package view.bibliography {
 			this.addChild(border);
 			
 			//search bar container			
-			searchBar = new SearchBar();
+			searchBar = new SearchBar(this);
 			searchBar.x = margin;
 			searchBar.y = 2 * margin;
 			addChild(searchBar);
@@ -93,7 +95,7 @@ package view.bibliography {
 			countBar.y = border.height -18;
 			
 			///listening
-			citeLensController.addEventListener(CiteLensEvent.FILTER, updateList)
+			CiteLensController(this.getController()).addEventListener(CiteLensEvent.FILTER, updateList)
 			this.addEventListener(CiteLensEvent.SORT, listSort);
 				
 		}
@@ -138,7 +140,7 @@ package view.bibliography {
 			
 			list.filter(filterResult, filterType, reset);
 				
-			countBar.update(filterResult.length);
+			countBar.update(filterResult.length, reset);
 			
 			//reset search input
 			if (params.type == "filter") searchBar.reset();
@@ -157,6 +159,15 @@ package view.bibliography {
 		public function setDimensions(valueW:Number, valueH:Number):void {
 			wMax = valueW;
 			hMax = valueH;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getSelectedItemID():String {
+			return list.getSelectedItemID();
 		}
 		
 	}

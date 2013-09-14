@@ -1,14 +1,19 @@
 package view.bibliography {
 	
 	//imports
+	import controller.CiteLensController;
+	
 	import com.greensock.TweenMax;
 	
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldType;
 	
 	import view.assets.CrossBT;
 	import view.assets.autoComplete.AutoCompleteBox;
@@ -19,11 +24,11 @@ package view.bibliography {
 	 * @author lucaju
 	 * 
 	 */
-	public class SearchBar extends BibliographyView {
+	public class SearchBar extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
 		
-		protected var labelTF			:TextField;
+		protected var target			:BibliographyView;
 		protected var inputTF			:TextField;
 		protected var inputBG			:Shape;
 		protected var autoCompleteBox	:AutoCompleteBox;
@@ -38,8 +43,8 @@ package view.bibliography {
 		 * 
 		 * 
 		 */
-		public function SearchBar() {
-			super();
+		public function SearchBar(_target:BibliographyView) {
+			target = _target;
 		}
 		
 		//****************** Initialize ****************** ****************** ******************
@@ -48,7 +53,7 @@ package view.bibliography {
 		 * 
 		 * 
 		 */
-		override public function initialize():void {
+		public function initialize():void {
 			
 			w = this.parent.width - 12;						//inputBG width 
 			
@@ -58,7 +63,9 @@ package view.bibliography {
 			inputTF.width = w - 16;
 			inputTF.height = 16;
 			inputTF.alpha = .2;
-			inputTF.type = "input";
+			inputTF.type = TextFieldType.INPUT;
+			inputTF.embedFonts = true;
+			inputTF.antiAliasType = AntiAliasType.ADVANCED;
 			inputTF.defaultTextFormat = TXTFormat.getStyle("General Label");
 			inputTF.text = "search";
 			
@@ -160,7 +167,7 @@ package view.bibliography {
 						}
 						
 						//autocomplete
-						var autoCompList:Array = citeLensController.searchBibliography(inputTF.text, ["author","title"],true);
+						var autoCompList:Array = CiteLensController(target.getController()).searchBibliography(inputTF.text, ["author","title"],true);
 						
 						if (autoCompList.length > 0) {
 							
@@ -261,7 +268,7 @@ package view.bibliography {
 				query = "~all"
 			}
 			
-			citeLensController.searchBibliography(query, queryTarget);
+			CiteLensController(target.getController()).searchBibliography(query, queryTarget);
 			
 			if (autoCompleteBox) {
 				this.removeChild(autoCompleteBox)

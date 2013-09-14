@@ -6,7 +6,6 @@ package view {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
 	
 	import controller.CiteLensController;
 	
@@ -18,9 +17,9 @@ package view {
 	import util.DeviceInfo;
 	
 	import view.bibliography.BibliographyView;
-	import view.filter.FilterPanel;
-	import view.mini.ColorColumns;
-	import view.reader.Reader;
+	import view.columnViz.ColumnViz;
+	import view.filter.FilterWindow;
+	import view.reader.ReaderWindow;
 	
 	
 	/**
@@ -32,20 +31,21 @@ package view {
 		
 		//****************** Properties ****************** ****************** ******************
 		
-		static public var citeLensController		:CiteLensController				//controller
+		//static public var citeLensController		:CiteLensController				//controller
 		
-		protected var header						:Header;						//Header
-		protected var filterPanel					:FilterPanel;					//flter panel
-		protected var elementsArray					:Array;
-		protected var filterPanelArray				:Array;							//Filter panel collection
-		protected var filterVisualArray				:Array;							//Filter panel collection
-		protected var bibiographyView				:BibliographyView;				//Bibliography List
-		protected var readerView					:Reader;						//Reader
-		protected var viz							:ColorColumns;					//Mini Nav
+		protected var elementsArray					:Array;					//List of elements
+		protected var _filterWindowArray				:Array;					//List of Filter Windows
+		protected var _filterVizArray				:Array;					//List of Filter Visualization
 		
-		protected var gap							:int 	= 5;					//gap between elements
+		protected var header						:Header;
+		protected var _bibiographyView				:BibliographyView;
+		protected var _readerView					:ReaderWindow;
+		protected var mainViz						:ColumnViz;
+		
+		protected var _gap							:int 	= 5;			//gap between elements
 		protected var posMainY						:Number = 60;
 		
+		protected var _vizGrouping					:Boolean = false;
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -58,7 +58,7 @@ package view {
 			super(c);
 			
 			//define controller
-			citeLensController = CiteLensController(c);
+			//citeLensController = CiteLensController(c);
 		}
 		
 		
@@ -70,18 +70,29 @@ package view {
 		 */
 		public function initialize():void {
 			
-			elementsArray = new Array()
+			//****************** INITIAL ****************** 
 			
-			//--------------header---------------
-			//add Header to the main view
-			header = new Header();
+			elementsArray = new Array();
+			_filterVizArray = new Array();
+			
+			CiteLensViewAdjustLayout.target = this;
+			
+			var posX:Number;
+			
+			//****************** HEADER ****************** 
+			
+			header = new Header(this.getController());
 			this.y = 20;
 			this.addChild(header);
 			
 			
-			//--------------Main---------------
-			//add Bibliography list;
-			bibiographyView = new BibliographyView();
+			//****************** Main ****************** 
+			
+			
+			//****************** Bibliography list;
+			
+			_bibiographyView = new BibliographyView(this.getController());
+			bibiographyView.name = "bibliography";
 			
 			if (DeviceInfo.os() != "Mac") {
 				bibiographyView.setDimensions(186,670)
@@ -97,42 +108,47 @@ package view {
 			
 			elementsArray[0] = bibiographyView;
 			
-			//filter panels
-			filterPanelArray = new Array();
+			bibiographyView.addEventListener(Event.SELECT, bibiographySelect);
 			
-			var posX:Number = bibiographyView.x + bibiographyView.width + gap + gap;
+			//****************** Filter Windows
 			
-			//add filter panels
+			_filterWindowArray = new Array();
 			var numFilterPanel:int;
+			
+			posX = bibiographyView.x + bibiographyView.width + gap + gap;
+			
 			if (DeviceInfo.os() != "Mac") {
 				numFilterPanel = 2;
 			} else {
 				numFilterPanel = 3;
 			}
 			
+			//Loop filters
+			var filterWindow:FilterWindow;
+			
 			for (var i:int = 1; i <= numFilterPanel; i++) {
 				
-				//panel
-				filterPanel = new FilterPanel(i);
-				filterPanel.y = posMainY
-				filterPanel.x = posX;
-				this.addChild(filterPanel);
+				filterWindow = new FilterWindow(this.getController(),i);
+				filterWindow.y = posMainY
+				filterWindow.x = posX;
+				this.addChild(filterWindow);
 				
-				filterPanel.init();
+				filterWindow.init();
+				filterWindow.open();
 				
-				filterPanel.openPanel();
+				filterWindowArray[i] = filterWindow;
+				elementsArray[i] = filterWindow;
 				
-				filterPanel.addEventListener(CiteLensEvent.CHANGE_VISUALIZATION, updateViualization);
+				filterWindow.addEventListener(CiteLensEvent.CHANGE_VISUALIZATION, updateViualization);
 				
-				
-				filterPanelArray[i] = filterPanel;
-				elementsArray[i] = filterPanel;
-				
-				posX += filterPanel.width + gap;
+				posX += filterWindow.width + gap;
 			}
 			
-			//add Reader;
-			readerView = new Reader(citeLensController);
+			
+			//****************** Reader;
+			
+			_readerView = new ReaderWindow(this.getController());
+			readerView.name = "reader";
 			readerView.y = posMainY;
 			readerView.x = posX + gap;
 			
@@ -149,260 +165,30 @@ package view {
 			
 			posX += readerView.width + gap + gap;
 			
-			//add Mini Nav;
-			filterVisualArray = new Array();
-			
-			viz = new ColorColumns();
-			viz.id = 0;
-			viz.y = posMainY
-			viz.x = posX;
-			filterVisualArray.push(viz)
-			this.addChild(viz);
-			
-			if (DeviceInfo.os() != "Mac") {
-				viz.hMax = 670;
-				viz.wMax = 35;
-			}
-			
-			viz.initialize();
+			readerView.addEventListener(CiteLensEvent.READER_SCROLL, readerScrollHander);
 			
 			
-			var vizData:Array = citeLensController.getRefsId();
-			viz.updateViz(vizData);
+			//****************** Main Viz
 			
-			viz.addEventListener(CiteLensEvent.DRAG, drag);
+			mainViz = new ColumnViz(this.getController());
+			mainViz.name = "mainViz";
 			
-			elementsArray.push(viz);
+			mainViz.y = posMainY
+			mainViz.x = posX;
 			
-		}
-		
-		
-		//****************** PUBLIC METHODS ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * @param filterID
-		 * 
-		 */
-		public function addViualization(filterID:int):void {
-			//add Mini Nav;
-			viz = new ColorColumns(filterID); //filterID
-			viz.id = filterID;
-			viz.y = posMainY
-			viz.x = filterPanelArray[filterID].x + 153 + 2 + gap;
+			mainViz.roll.hTotal = readerView.getReaderMaxHeight();
+			
+			this.addChild(mainViz);
 			
 			if (DeviceInfo.os() != "Mac") {
-				viz.hMax = 670;
-				viz.wMax = 35;
+				mainViz.hMax = 670;
+				mainViz.wMax = 35;
 			}
 			
-			this.addChildAt(viz,0);
+			mainViz.initialize();
 			
-			viz.initialize()
-		
-			viz.addEventListener(CiteLensEvent.DRAG, drag);
+			elementsArray.push(mainViz);
 			
-			filterVisualArray[filterID] = viz;
-			
-			TweenMax.from(viz, .5, {alpha:0, delay: .3});
-			
-			//add in the elements list
-			for (var i:int = 0; i < elementsArray.length; i++) {
-				
-				if (elementsArray[i] is FilterPanel || elementsArray[i] is ColorColumns) {	
-					if (elementsArray[i].id == filterID) {
-						elementsArray.splice(i+1,0,viz);
-						move("add",i+2, viz.wMax + gap)
-						break;
-					}
-				}
-			}
-			
-		}
-		
-		/**
-		 * 
-		 * @param e
-		 * 
-		 */
-		public function updateViualization(e:CiteLensEvent):void {
-			
-			//defining panel
-			filterPanel = FilterPanel(e.currentTarget);
-			var filterID:int = filterPanel.id;
-			
-			if (e.parameters.reset) {
-				
-				//Update filter data model
-				citeLensController.removeFilter(filterID);
-				
-				//reseting options
-				filterPanel.resetPanel();
-				citeLensController.removeResults(filterID);
-				
-				//get bibliography results for bibliographic panel
-				var BiblData:Array = citeLensController.getFilterResults("bibl_id");
-				
-				//update bibliography
-				citeLensController.updateBiblList(BiblData, true);
-				
-				//removing visualization
-				viz = ColorColumns(filterVisualArray[filterID]);
-				
-				for (var i:int = 0; i < elementsArray.length; i++) {
-					
-					if (elementsArray[i] == viz) {	
-						elementsArray.splice(i,1);
-						move("remove",i, viz.wMax + gap)
-						break;
-					}
-				}
-				
-				TweenMax.to(viz, .3, {alpha:0, onComplete:removeObject, onCompleteParams:[viz]});
-				filterVisualArray[filterID] = null;
-				
-			} else {
-				
-				//collectiong data
-				var data:Object = filterPanel.getFilterData();
-				
-				//Update filter data model
-				citeLensController.updateFilter(filterID, data);
-				
-				//process filter
-				citeLensController.processFilter(filterID);
-				
-				//get bibliography results for citation fiter panel
-				var BiblFilterData:Array = citeLensController.getFilterResults("bibl_id", filterID);
-				
-				//update filter header
-				filterPanel.updateFilterPanel(BiblFilterData.length)
-				
-				//get bibliography results for bibliographic panel
-				BiblData = citeLensController.getFilterResults("bibl_id");
-				
-				//update bibliography
-				citeLensController.updateBiblList(BiblData);
-					
-				//viz
-				if (!(filterVisualArray[filterID] is ColorColumns)) addViualization(filterID);
-				
-				viz = ColorColumns(filterVisualArray[filterID]) 
-				var vizData:Array = citeLensController.getFilterResults("note_id", filterID)
-				viz.updateViz(vizData);
-			}
-			
-		}
-		
-		
-		//****************** PROTECTED METHODS ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * @param type
-		 * @param target
-		 * @param offset
-		 * 
-		 */
-		protected function move(type:String, target:int, offset:Number):void {
-			
-			switch (type) {
-				
-				case "add": 
-				
-					//move elements
-					for (var i:int = target; i < elementsArray.length; i++) {
-						if (i != elementsArray.length-1) {
-							TweenMax.to(elementsArray[i], .5, {x:elementsArray[i].x + offset, delay: .3});
-						}
-					}
-					
-					var newReaderWidth:Number = -offset;
-					readerView.updateDimension(newReaderWidth)
-					break;
-					
-				
-				case "move":
-					for  (i = 0; i < elementsArray.length; i++) {
-						if (i > 1 && i < elementsArray.length-2 && i!=target) {
-							TweenMax.to(elementsArray[i], .5, {x:elementsArray[i].x + offset});
-						}
-					}
-					break;
-				
-				case "remove": 
-					
-					//move elements
-					for (i = target; i < elementsArray.length; i++) {
-						if (i != elementsArray.length-1) {
-							TweenMax.to(elementsArray[i], .5, {x:elementsArray[i].x - offset, delay: .1});
-						}
-					}
-					
-					newReaderWidth = +offset;
-					readerView.updateDimension(newReaderWidth)
-					break;
-			}
-			
-		}
-		
-		
-		/**
-		 * 
-		 * @param e
-		 * 
-		 */
-		protected function drag(e:Event):void {
-			viz = ColorColumns(e.target);
-			
-			//defining positon
-			var originalX:Number = viz.originalPosition.x;
-			var originalY:Number = viz.originalPosition.y;
-			
-			//defining end point
-			var endPoint:Number = readerView.x - viz.width + gap;
-			//trace (endPoint)
-			
-			var boundaries:Rectangle
-			if (viz.id != 0) {
-				boundaries = new Rectangle(originalX,originalY,endPoint-originalX,0)
-			} else {
-				boundaries = new Rectangle(endPoint,originalY,originalX-endPoint,0)
-			}
-			
-			addEventListener(MouseEvent.MOUSE_MOVE, _displaceViz);
-			stage.addEventListener(MouseEvent.MOUSE_UP, dragStop);
-			
-			viz.startDrag(false, boundaries);
-		}
-		
-		/**
-		 * 
-		 * @param e
-		 * 
-		 */
-		protected function dragStop(e:MouseEvent):void {
-			viz.stopDrag();
-			removeEventListener(MouseEvent.MOUSE_MOVE, _displaceViz);
-			stage.removeEventListener(MouseEvent.MOUSE_UP, dragStop);
-		}
-		
-		/**
-		 * 
-		 * @param e
-		 * 
-		 */
-		protected function _displaceViz(e:MouseEvent):void {
-			var endPoint:Number = readerView.x - viz.width + gap;
-			
-			if (viz.x == endPoint && viz.endPoint == false) {
-				for (var i:int = 0; i < elementsArray.length; i++) {
-					if (elementsArray[i] == viz) {
-						move("move", i, -viz.width);
-						viz.endPoint = true;
-					}
-				}
-			}
 		}
 		
 		
@@ -416,6 +202,305 @@ package view {
 		private function removeObject(obj:DisplayObject):void {
 			this.removeChild(obj);
 		}
+		
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
+		protected function addViualization(filterID:int):ColumnViz {
+			
+			//get corresp filterWindow
+			var filterWindow:FilterWindow = this.getFilterWindowByID(filterID);
+			
+			if (!filterWindow.hasViz) {
+				
+				//add viz
+				var viz:ColumnViz = new ColumnViz(this.getController(), filterID); //filterID
+				viz.y = posMainY;
+				
+				viz.roll.hTotal = readerView.getReaderMaxHeight();
+				
+				if (DeviceInfo.os() != "Mac") {
+					viz.hMax = 670;
+					viz.wMax = 35;
+				}
+				
+				this.addChildAt(viz,0);
+				
+				filterWindow.addViz(viz);
+				filterVizArray.push(viz);
+				elementsArray.push(viz);
+				
+				viz.initialize();
+				
+				TweenMax.from(viz, .5, {alpha:0, delay: .3});
+				
+				//Adjust Layout
+				CiteLensViewAdjustLayout.vizAdded(filterWindow.id);
+				
+				//listeners
+				viz.addEventListener(MouseEvent.CLICK, vizClick);
+				
+				return viz;
+			}
+			
+			return null
+			
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		protected function RemoveVizByID(value:int):Boolean {
+			
+			for each (var viz:ColumnViz in filterVizArray) {
+				if (viz.id == value) {
+					filterVizArray.splice(filterVizArray.indexOf(viz),1);
+					elementsArray.splice(elementsArray.indexOf(viz),1);
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function bibiographySelect(event:Event):void {
+			
+			if (event.target.parent is BibliographyView) {
+				var bibliographyView:BibliographyView = event.target.parent as BibliographyView;
+				var selectedItemID:String = bibliographyView.getSelectedItemID();
+				
+				if (selectedItemID) {
+					
+					//get notes Ids
+					var notesIDs:Array = CiteLensController(this.getController()).getRefNotesIDs(selectedItemID);
+					
+					//highlight selected item in visualziation
+					mainViz.selectChunks(notesIDs);
+					
+					////highlight selected item in the reader
+					readerView.highlightElementByID(notesIDs);
+					
+				} else {
+					
+					//remove highlight selection in visualziation
+					mainViz.clearSelectedChunks();
+					
+					//remove highlight selection in the reader
+					readerView.clearHighlightElements();
+				}
+					
+			}
+				
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function vizClick(event:MouseEvent):void {
+			if  (filterVizArray.length > 1 || vizGrouping) {
+				_vizGrouping = !vizGrouping;
+				CiteLensViewAdjustLayout.moveFilters();
+			}
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function readerScrollHander(event:CiteLensEvent):void {
+			
+			mainViz.updateRoll(event.parameters);
+			
+			for each (var viz:ColumnViz in filterVizArray) {
+				viz.updateRoll(event.parameters);
+			}
+			
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		public function updateViualization(e:CiteLensEvent):void {
+			
+			var controler:CiteLensController = CiteLensController(this.getController());
+			
+			//defining window
+			var filterWindow:FilterWindow = FilterWindow(e.currentTarget) as FilterWindow;
+			var filterID:int = filterWindow.id;
+			var viz:ColumnViz;
+			
+			if (e.parameters.reset) {
+				
+				//Update filter data model
+				controler.removeFilter(filterID);
+				
+				//reseting options
+				filterWindow.reset();
+				controler.removeResults(filterID);
+				
+				//get bibliography results for bibliographic panel
+				var BiblData:Array = controler.getFilterResults("bibl_id");
+				
+				//update bibliography
+				controler.updateBiblList(BiblData, true);
+				
+				//viz
+				viz = filterWindow.viz;
+				
+				//remove viz and adjust layout
+				this.RemoveVizByID(filterID);
+				if (filterVizArray.length == 0) _vizGrouping = false;
+				CiteLensViewAdjustLayout.vizRemoved(filterWindow.id);
+				
+				//Animation
+				TweenMax.to(viz, .3, {alpha:0, onComplete:removeObject, onCompleteParams:[viz]});
+				
+			} else {
+				
+				//collectiong data
+				var data:Object = filterWindow.getFilterData();
+				
+				//Update filter data model
+				controler.updateFilter(filterID, data);
+				
+				//process filter
+				controler.processFilter(filterID);
+				
+				//get bibliography results for citation fiter window
+				var BiblFilterData:Array = controler.getFilterResults("bibl_id", filterID);
+				
+				//update filter header
+				filterWindow.updateFilterPanel(BiblFilterData.length);
+				
+				//get bibliography results for bibliographic panel
+				BiblData = controler.getFilterResults("bibl_id");
+				
+				//update bibliography
+				controler.updateBiblList(BiblData);
+				
+				//viz
+				if (!filterWindow.hasViz) {
+					viz = this.addViualization(filterID);
+				} else {
+					viz = filterWindow.viz;
+				}
+				
+				var vizData:Array = controler.getFilterResults("note_id", filterID);
+				viz.highlightChunks(vizData);
+				
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		public function getFilterWindowByID(value:int):FilterWindow {
+			for each (var filter:FilterWindow in filterWindowArray) {
+				if (filter.id == value) return filter;
+			}
+			return null;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		public function getVizByID(value:int):ColumnViz {
+			filterVizArray
+			for each (var viz:ColumnViz in filterVizArray) {
+				if (viz.id == value) return viz;
+			}
+			return null;
+		}
+		
+		
+		//****************** GETTERS // SETTERS ****************** ****************** ******************
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get bibiographyView():BibliographyView {
+			return _bibiographyView;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get gap():int {
+			return _gap;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get filterWindowArray():Array {
+			return _filterWindowArray;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get readerView():ReaderWindow {
+			return _readerView;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get vizGrouping():Boolean {
+			return _vizGrouping;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get filterVizArray():Array {
+			return _filterVizArray;
+		}
+
 		
 	}
 }

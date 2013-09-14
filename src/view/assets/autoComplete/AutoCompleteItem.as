@@ -3,7 +3,9 @@ package view.assets.autoComplete {
 	//imports
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	import view.style.ColorSchema;
 	import view.style.TXTFormat;
@@ -63,8 +65,11 @@ package view.assets.autoComplete {
 			//type
 			if (_showType) {
 				typeTF = new TextField();
+				typeTF.embedFonts = true;
+				typeTF.antiAliasType = AntiAliasType.ADVANCED;
 				typeTF.selectable = false;
-				typeTF.autoSize = "left";
+				typeTF.embedFonts = true;
+				typeTF.autoSize = TextFieldAutoSize.LEFT;
 				typeTF.x = 5;
 				typeTF.text = type + ": ";
 				typeTF.alpha = .2;
@@ -77,7 +82,9 @@ package view.assets.autoComplete {
 			labelTF.selectable = false;
 			labelTF.multiline = true;
 			labelTF.wordWrap = true;
-			labelTF.autoSize = "left";
+			labelTF.embedFonts = true;
+			labelTF.antiAliasType = AntiAliasType.ADVANCED;
+			labelTF.autoSize = TextFieldAutoSize.LEFT;
 			
 			if (_showType)	{
 				labelTF.width = itemWidth - typeTF.x - typeTF.width;
@@ -100,7 +107,7 @@ package view.assets.autoComplete {
 			
 			//bg
 			BG = new Sprite();
-			BG.graphics.beginFill(ColorSchema.getColor("red"),1);
+			BG.graphics.beginFill(ColorSchema.RED,1);
 			BG.graphics.drawRect(0,0,itemWidth, labelTF.height);
 			BG.graphics.endFill();
 			

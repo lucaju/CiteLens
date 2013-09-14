@@ -1,8 +1,11 @@
 package view.bibliography {
 	
 	//Imports
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	import events.CiteLensEvent;
 	
@@ -14,11 +17,9 @@ package view.bibliography {
 	 * @author lucaju
 	 * 
 	 */
-	public class SortByBar extends BibliographyView {
+	public class SortByBar extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
-		
-		protected var _target			:*;
 		
 		protected var labelTF			:TextField;
 		
@@ -31,21 +32,27 @@ package view.bibliography {
 		
 		/**
 		 * 
+		 * @param _target
 		 * 
 		 */
 		public function SortByBar() {
-			super();
 		}
 		
 		
 		//****************** Initialize ****************** ****************** ******************
 		
-		override public function initialize():void {
+		/**
+		 * 
+		 * 
+		 */
+		public function initialize():void {
 			
 			//label
 			labelTF = new TextField();
 			labelTF.selectable = false;
-			labelTF.autoSize = "left";
+			labelTF.autoSize = TextFieldAutoSize.LEFT;
+			labelTF.antiAliasType = AntiAliasType.ADVANCED;
+			labelTF.embedFonts = true;
 			labelTF.text = "sort by:";
 			labelTF.setTextFormat(TXTFormat.getStyle("General Label"));
 			labelTF.x = 3;
@@ -112,7 +119,7 @@ package view.bibliography {
 			params.option = selectedOption;
 			params.asc = true;
 			
-			dispatchEvent(new CiteLensEvent(CiteLensEvent.SORT, params));
+			this.dispatchEvent(new CiteLensEvent(CiteLensEvent.SORT, params));
 		}
 		
 	}

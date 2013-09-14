@@ -4,7 +4,9 @@ package view.bibliography {
 	import com.greensock.TweenMax;
 	
 	import flash.display.Sprite;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	import view.assets.ShadowLine;
 	import view.style.TXTFormat;
@@ -65,11 +67,13 @@ package view.bibliography {
 			
 			//label
 			TF.width = wider - 16;
-			TF.autoSize = "left";
+			TF.autoSize = TextFieldAutoSize.LEFT;
 			TF.selectable = false;
 			TF.height = 16;
 			TF.defaultTextFormat = TXTFormat.getStyle("Count Total");
 			TF.text = total.toString() + " references";
+			TF.embedFonts = true;
+			TF.antiAliasType = AntiAliasType.ADVANCED;
 			
 			TF.x = (this.width/2) - (TF.width/2);
 			
@@ -84,18 +88,19 @@ package view.bibliography {
 		 * @param p
 		 * 
 		 */
-		public function update(p:int):void {
+		public function update(p:int, reset:Boolean = false):void {
 			
-			if (partial != p) {
-			
-				partial = p;
+				if (reset && p == 0) {
+					partial = total;
+				} else {
+					partial = p;
+				}
 				
 				if (partial == total) {	
 					TweenMax.to(TF, .5, {y:"5", alpha: 0, onComplete:updateData});
 				} else {
 					TweenMax.to(TF, .5, {y:"-5", alpha: 0, onComplete:updateData});
 				}
-			}
 
 		}
 		

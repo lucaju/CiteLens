@@ -4,7 +4,9 @@ package view.assets {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.AntiAliasType;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
 	
 	import view.style.TXTFormat;
 	
@@ -29,7 +31,7 @@ package view.assets {
 		
 		protected var margin			:Number = .2; 				//Defined proportionaly in percentage
 		
-		protected var _status			:String = "active";
+		protected var _status			:String = ButtonStatus.ACTIVE;
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -53,7 +55,9 @@ package view.assets {
 			//label
 			labelTF = new TextField();
 			labelTF.selectable = false;
-			labelTF.autoSize = "left";
+			labelTF.autoSize = TextFieldAutoSize.LEFT;
+			labelTF.antiAliasType = AntiAliasType.ADVANCED;
+			labelTF.embedFonts = true;
 			labelTF.text = label;
 			labelTF.setTextFormat(TXTFormat.getStyle(style, status));
 			this.addChild(labelTF);
@@ -171,7 +175,7 @@ package view.assets {
 			_status = value;
 			labelTF.setTextFormat(TXTFormat.getStyle(style, status));
 			
-			if (status == "selected") {
+			if (status == ButtonStatus.SELECTED) {
 				//shape.alpha = 1;
 				shape.alpha = .1;
 				_border.alpha = .8;
