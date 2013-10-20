@@ -194,6 +194,14 @@ package controller {
 			return citeLensModel.getFlowConvertText();
 		}
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNotesAsTextFlow():TextFlow {
+			return citeLensModel.getNotesAsTextFlow();
+		}
 		
 		//****************** COLOR CODE  CONTROLS ****************** ****************** ******************
 		

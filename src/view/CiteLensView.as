@@ -40,6 +40,7 @@ package view {
 		protected var header						:Header;
 		protected var _bibiographyView				:BibliographyView;
 		protected var _readerView					:ReaderWindow;
+		protected var _footnoteView					:ReaderWindow;
 		protected var mainViz						:ColumnViz;
 		
 		protected var _gap							:int 	= 5;			//gap between elements
@@ -153,9 +154,9 @@ package view {
 			readerView.x = posX + gap;
 			
 			if (DeviceInfo.os() != "Mac") {
-				readerView.setDimensions(410,670);
+				readerView.setDimensions(410,584); // (410,670)
 			} else {
-				readerView.setDimensions(385,558);
+				readerView.setDimensions(385,392); //(385,472)  //(385,558) 
 			}
 			
 			this.addChild(readerView);
@@ -166,6 +167,27 @@ package view {
 			posX += readerView.width + gap + gap;
 			
 			readerView.addEventListener(CiteLensEvent.READER_SCROLL, readerScrollHander);
+			readerView.addEventListener(CiteLensEvent.READER_CLICK, readerClicklHander);
+			
+			
+			//****************** Footnote;
+			
+			_footnoteView = new ReaderWindow(this.getController());
+			footnoteView.name = "footnotes";
+			footnoteView.y = readerView.y + readerView.height + (gap/2);
+			footnoteView.x = readerView.x;
+			
+			if (DeviceInfo.os() != "Mac") {
+				footnoteView.setDimensions(410,80);
+			} else {
+				footnoteView.setDimensions(385,160);
+			}
+			
+			footnoteView.headerTitle = "Footnotes";
+			this.addChild(footnoteView);
+			footnoteView.initialize();
+			
+			elementsArray.push(footnoteView);
 			
 			
 			//****************** Main Viz
@@ -189,8 +211,7 @@ package view {
 			
 			elementsArray.push(mainViz);
 			
-		}
-		
+		}	
 		
 		//****************** PRIVATE METHODS ****************** ****************** ******************
 		
@@ -297,6 +318,11 @@ package view {
 					////highlight selected item in the reader
 					readerView.highlightElementByID(notesIDs);
 					
+					//get footnote reference
+					var footnotesIDs:Array = readerView.getFootnoteIDs(notesIDs);
+					
+					footnoteView.highlightElementByID(footnotesIDs,"selectedFootnote");
+					
 				} else {
 					
 					//remove highlight selection in visualziation
@@ -304,6 +330,7 @@ package view {
 					
 					//remove highlight selection in the reader
 					readerView.clearHighlightElements();
+					footnoteView.clearHighlightElements();
 				}
 					
 			}
@@ -336,6 +363,15 @@ package view {
 			}
 			
 		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function readerClicklHander(event:CiteLensEvent):void {
+			footnoteView.scrollToElement(event.parameters.footnoteID);
+		}	
 		
 		
 		//****************** PUBLIC METHODS ****************** ****************** ******************
@@ -482,6 +518,15 @@ package view {
 		public function get readerView():ReaderWindow {
 			return _readerView;
 		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get footnoteView():ReaderWindow {
+			return _footnoteView;
+		}
 
 		/**
 		 * 
@@ -500,6 +545,7 @@ package view {
 		public function get filterVizArray():Array {
 			return _filterVizArray;
 		}
+
 
 		
 	}

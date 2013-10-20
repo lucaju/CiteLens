@@ -374,157 +374,6 @@ package controller {
 						//if none of the subfunctions is selected, add them all;
 						if (selectedSubFuncs == 0) partialResults.push(bib);
 						
-						
-						/*
-						trace ("ei")
-						//trace (funcLabel)
-						
-						var support:CitationFunction = subFunctions[0];								//support
-						var reject:CitationFunction = subFunctions[1];								//reject
-						var neither:CitationFunction = subFunctions[2];								//neither
-						var both:CitationFunction = subFunctions[3];								//both
-						
-						
-						var supportFact:Object = support.options[0];								//support Fact
-						var supportOpinion:Object = support.options[1];								//support Opinion
-						
-						var rejectFact:Object = reject.options[0];									//reject Fact
-						var rejectOpinion:Object = reject.options[1];								//reject Opinion
-						
-						var neitherFact:Object = neither.options[0];								//neither Fact
-						var neitherOpinion:Object = neither.options[1];								//neither Opinion
-						
-						var bothFact:Object = neither.options[0];									//both Fact
-						var bothOpinion:Object = neither.options[1];								//both Opinion
-						
-						
-						trace (support.label + " clicked: " + support.value);
-						trace (reject.label + " clicked: " + reject.value);
-						trace (neither.label + " clicked: " + neither.value);
-						trace (both.label + " clicked: " + both.value);
-						trace ("*****")
-						
-						
-						trace (supportFact.label)
-						trace (supportOpinion.label)
-						
-						trace (rejectFact.label)
-						trace (rejectOpinion.label)
-						
-						trace (neitherFact.label)
-						trace (neitherOpinion.label)
-						
-						trace (bothFact.label)
-						trace (bothOpinion.label)
-						
-						trace ("@@@@@@@")
-						
-						
-						
-						trace (!support.value && !reject.value && !neither.value && !both.value)
-						
-						//No reason selected - Push all
-						if (!support.value && !reject.value && !neither.value && !both.value) {
-							//add all
-							partialResults.push(bib);
-							
-						}
-						
-						
-						//if SUPPORT is SELECTED
-						if (support.value) {	
-							
-							//test the for SUPPORT
-							if (note.reason == CitationReason.SUPPORT) {
-								
-								//support - FACT AND OPINION
-								if (!supportFact.value && !supportOpinion.value) {
-									//if BOTH are NOT SELECTED
-									partialResults.push(bib);
-								} else if (supportFact.value && !supportOpinion.value && note.contentType == CitationContentType.FACT) {
-									//if FACT is SELECTED and OPINION is NOT SELECTED
-									partialResults.push(bib);
-								} else if (!supportFact.value && supportOpinion.value && note.contentType == CitationContentType.OPINION) {
-									//if FACT is NOT SELECTED and OPINION is SELECTED
-									partialResults.push(bib);
-								} else if (supportFact.value && supportOpinion.value) {
-									//if BOTH YES and No are SELECTED
-									partialResults.push(bib);
-								}
-							}
-						}
-						
-						//if REJECT is SELECTED
-						if (reject.label) {
-							
-							//test the for REJECT
-							if (note.reason == CitationReason.REJECT) {
-								
-								//reject - FACT AND OPINION
-								if (!rejectFact.value && !rejectOpinion.value) {
-									//if BOTH are NOT SELECTED
-									partialResults.push(bib);
-								} else if (rejectFact.value && !rejectOpinion.value && note.contentType == CitationContentType.FACT) {
-									//if FACT is SELECTED and OPINION is NOT SELECTED
-									partialResults.push(bib);
-								} else if (!rejectFact.value && rejectOpinion.value && note.contentType == CitationContentType.OPINION) {
-									//if FACT is NOT SELECTED and OPINION is SELECTED
-									partialResults.push(bib);
-								} else if (rejectFact.value && rejectOpinion.value) {
-									//if BOTH YES and No are SELECTED
-									partialResults.push(bib);
-								}
-							}
-						}
-						
-						
-						//if NEITHER is SELECTED
-						if (neither.label) {
-							
-							//test the for NEITHER
-							if (note.reason == CitationReason.NEITHER) {
-								
-								//neither - FACT AND OPINION
-								if (!neitherFact.value && !neitherOpinion.value) {
-									//if BOTH are NOT SELECTED
-									partialResults.push(bib);
-								} else if (neitherFact.value && !neitherOpinion.value && note.contentType == CitationContentType.FACT) {
-									//if FACT is SELECTED and OPINION is NOT SELECTED
-									partialResults.push(bib);
-								} else if (!neitherFact.value && neitherOpinion.value && note.contentType == CitationContentType.OPINION) {
-									//if FACT is NOT SELECTED and OPINION is SELECTED
-									partialResults.push(bib);
-								} else if (neitherFact.value && neitherOpinion.value) {
-									//if BOTH YES and No are SELECTED
-									partialResults.push(bib);
-								}
-							}
-						}
-						
-						//if BOTH is SELECTED
-						if (both.label) {
-							
-							//test the for BOTH
-							if (note.reason == CitationReason.BOTH) {
-								
-								//both - FACT AND OPINION
-								if (!bothFact.value && !bothOpinion.value) {
-									//if BOTH are NOT SELECTED
-									partialResults.push(bib);
-								} else if (bothFact.value && !bothOpinion.value && note.contentType == CitationContentType.FACT) {
-									//if FACT is SELECTED and OPINION is NOT SELECTED
-									partialResults.push(bib);
-								} else if (!bothFact.value && bothOpinion.value && note.contentType == CitationContentType.OPINION) {
-									//if FACT is NOT SELECTED and OPINION is SELECTED
-									partialResults.push(bib);
-								} else if (bothFact.value && bothOpinion.value) {
-									//if BOTH YES and No are SELECTED
-									partialResults.push(bib);
-								}
-							}
-						}
-						*/
-						
 					}
 					
 				}
@@ -678,6 +527,9 @@ package controller {
 				var functions:Array = filter.getOptionsByType("function");
 				
 				if (functions.length > 0) {
+					
+					var ref:RefBibliographic;
+					var filteredBiblFunct:Array = new Array();
 				
 					for each(var citationFunction:CitationFunction in functions) {
 						
@@ -690,27 +542,55 @@ package controller {
 								
 								//****************** PRIMARY ******************
 								case CitationType.PRIMARY:
-									if (primaryON) filteredFunction = this.filterPrimaryRole(citationFunction, filteredBib);
+									if (primaryON) {
+										//filteredFunction = this.filterPrimaryRole(citationFunction, filteredBib);
+										
+										var primary:Array = this.filterPrimaryRole(citationFunction, filteredBib);
+										for each (ref in primary) {
+											filteredBiblFunct.push(ref);
+										}
+										
+									}
 									break;
 								
 								//****************** SECONDARY ******************
 								case CitationType.SECONDARY:
-									if (secondaryON) filteredFunction = this.filterSecondaryRole(citationFunction, filteredBib);
+									if (secondaryON) {
+										//filteredFunction = this.filterSecondaryRole(citationFunction, filteredBib);
+										
+										var secondary:Array = this.filterSecondaryRole(citationFunction, filteredBib);
+										for each (ref in secondary) {
+											filteredBiblFunct.push(ref);
+										}
+									
+									}
 									break;
 								
 								//****************** FURTHER READING ******************
 								case CitationType.FURTHER_READING:
-									if (furtherON) filteredFunction = this.filterFurtherReading(citationFunction, filteredBib);
+									if (furtherON) {
+										//filteredFunction = this.filterFurtherReading(citationFunction, filteredBib);
+									
+										var further:Array = this.filterFurtherReading(citationFunction, filteredBib);
+										for each (ref in further) {
+											filteredBiblFunct.push(ref);
+										}
+										
+									}
 									break;
 								
 							}
 							
 							//save
-							/*if (filteredFunction.length > 0)*/ filteredBib = filteredFunction;
+							/*if (filteredFunction.length > 0)*/ //filteredBib = filteredFunction;
 							
 						}
 						
 					}
+					
+					//trace (filteredBiblFunct.length)
+					//save
+					if (filteredBiblFunct.length > 0) filteredBib = filteredBiblFunct;
 					
 				}
 				

@@ -37,7 +37,7 @@ package view.reader {
 		 * @return 
 		 * 
 		 */
-		static public function getStyle(styleName:String, mini:Boolean = false, statusColor:String = "standard"):TextLayoutFormat {
+		static public function getStyle(styleName:String, statusColor:String = "standard"):TextLayoutFormat {
 			
 			var style:TextLayoutFormat = new TextLayoutFormat();
 			style.fontFamily = HelveticaNeueCFF.LIGHT;
@@ -53,11 +53,11 @@ package view.reader {
 			switch (styleName) {
 				
 				case "body":
-					style.textIndent = 20;
 					style.paddingLeft = 10;
 					style.paddingRight = 10;
-					//style.paddingTop = 10;
-					//style.paddingBottom = 10;
+					style.paddingTop = 10;
+					style.paddingBottom = 10;
+					style.color = ColorSchema.DARK_GREY;
 					break;
 				
 				case "chapter":
@@ -90,33 +90,34 @@ package view.reader {
 					break;
 				
 				case "noteSpan":
-					style.color = ColorSchema.DARK_GREY;
-					style.textIndent = 20;
+					style.color = ColorSchema.BLACK;
 					style.paddingLeft = 10;
 					style.paddingRight = 10;
 					break;
 				
 				case "selectedNoteSpan":
 					style.color = ColorSchema.RED;
-					style.textIndent = 20;
-					style.paddingLeft = 10;
-					style.paddingRight = 10;
 					break;
 				
 				case "superScript":
 					style.fontFamily = HelveticaNeueCFF.REGULAR;
 					style.fontSize = 8;
-					style.baselineShift = 6;
+					style.baselineShift = 3;
 					break;
 				
-			}
-			
-			if (mini) {
-				style.fontSize = 1;
-				style.fontWeight = "bold";
-				style.lineHeight = 2;
-				style.paragraphSpaceBefore = 0;
-				style.paragraphSpaceAfter = 3;
+				case "footnote":
+					style.fontFamily = HelveticaNeueCFF.LIGHT;
+					style.fontSize = 11;
+					style.lineHeight = 16;
+					break;
+				
+				case "selectedFootnote":
+					style.fontFamily = HelveticaNeueCFF.LIGHT;
+					style.color = ColorSchema.RED;
+					style.fontSize = 11;
+					style.lineHeight = 16;
+					break;
+				
 			}
 		
 			return style;

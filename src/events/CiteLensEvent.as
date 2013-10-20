@@ -17,6 +17,7 @@ package events{
 		public static const SORT					:String = "sort";
 		public static const CHANGE_VISUALIZATION	:String = "change_visualization";
 		public static const READER_SCROLL			:String = "reader_scroll";
+		public static const READER_CLICK			:String = "reader_click";
 		
 		public var parameters						:Object; 
 			

@@ -93,6 +93,7 @@ package view.bibliography {
 		
 			//authorship
 			authorship = refBib.getAuthorship()
+			if (authorship == " ") authorship = "*******";
 			textTF.appendText(authorship + ". ");
 			textTF.setTextFormat(TXTFormat.getStyle("Item List Author"),partial,textTF.length);
 			partial = textTF.length;

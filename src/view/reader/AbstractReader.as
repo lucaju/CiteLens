@@ -5,17 +5,11 @@ package view.reader {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-	import flash.text.engine.FontLookup;
-	
-	import controller.CiteLensController;
 	
 	import events.CiteLensEvent;
 	
 	import flashx.textLayout.compose.TextFlowLine;
 	import flashx.textLayout.container.ContainerController;
-	import flashx.textLayout.conversion.ConversionType;
-	import flashx.textLayout.conversion.TextConverter;
-	import flashx.textLayout.edit.SelectionManager;
 	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.elements.TextFlow;
 	import flashx.textLayout.events.TextLayoutEvent;
@@ -25,7 +19,7 @@ package view.reader {
 	 * @author lucaju
 	 * 
 	 */
-	public class Reader extends Sprite {
+	public class AbstractReader extends Sprite {
 		
 		//****************** Properties ****************** ****************** ******************
 		
@@ -42,7 +36,7 @@ package view.reader {
 		 * @param value
 		 * 
 		 */
-		public function Reader(_target:ReaderWindow):void {
+		public function AbstractReader(_target:ReaderWindow):void {
 			
 			target = _target;
 			
@@ -50,51 +44,13 @@ package view.reader {
 		
 		//****************** Initialize ****************** ****************** ******************
 			
+		/**
+		 * 
+		 * 
+		 */
 		public function init():void {
 			
-			// --- Textflow
-			// To built one you have 2 options
-			// 1. import the text to a textFlow. It can be Plain text, XML (or HTML), Text Layout schema
-			// Here, I worked with xml. But it dosn't like tags that have just text and no childrens. I had to inject child tags into tags without notespan
-			// 2. it is possible to create a loop and build one element (div, paragraph, span, link) at a time. I found that way more compicated and time consuming for this project.
-			
-			//defining the container for the text flow
-			var container:Sprite = new Sprite();
-			this.addChild(container);
-			
-			///FLOW
-			readerFlow = CiteLensController(target.getController()).getFlowConvertText();
-			
-			containerController = new ContainerController(container, dimensions.width, dimensions.height)
-				
-			readerFlow.flowComposer.addController(containerController); // make it mini - change the width to 20
-			readerFlow.hostFormat = TextReaderStyle.getStyle("body");
-			//readerFlow.fontLookup = FontLookup.EMBEDDED_CFF;
-			readerFlow.flowComposer.updateAllControllers();
-			
-			//-----debug - output the xml of the text flow
-			var outXML:XML = TextConverter.export(readerFlow,TextConverter.TEXT_LAYOUT_FORMAT, ConversionType.XML_TYPE) as XML;
-			//trace(outXML);
-			
-			// -------select and change the stlyle in tag throught the flow
-			this.changeElementStyleByName("chapter","chapter");
-			this.changeElementStyleByName("chapter_section","chapterSection");
-			this.changeElementStyleByName("label","label");
-			this.changeElementStyleByName("note_span","noteSpan");
-			this.changeElementStyleByName("note_loc","superScript");
-			
-			//!!!!!!!!!!!!!!!selectable
-			readerFlow.interactionManager = new SelectionManager();
-			//readerFlow.interactionManager = new EditManager();
-			
-			// ----- always remember to update controler after any change
-			readerFlow.flowComposer.updateAllControllers();
-			
-			//IMPORTANT !!!!
-			//Text for Color Code Column export from here
-			//var outString:String = TextConverter.export(readerFlow,TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
-			
-			readerFlow.addEventListener(TextLayoutEvent.SCROLL, scroll);
+			//To Override
 		}
 		
 		//****************** PUBLIC METHODS - Dimensions ****************** ****************** ******************
@@ -230,7 +186,7 @@ package view.reader {
 			
 			}
 			
-			this.scrollToHighlightedElement(firtsElementId);
+			this.scrollToElement(firtsElementId);
 			
 			readerFlow.flowComposer.updateAllControllers();
 		}
@@ -240,8 +196,7 @@ package view.reader {
 		 * 
 		 */
 		public function clearHighlightElements():void {
-			this.changeElementStyleByName("note_span","noteSpan");
-			readerFlow.flowComposer.updateAllControllers();
+			//to Override
 		}
 		
 		/**
@@ -249,7 +204,7 @@ package view.reader {
 		 * @param elementID
 		 * 
 		 */
-		public function scrollToHighlightedElement(elementID:String):void {
+		public function scrollToElement(elementID:String):void {
 			
 			//get element
 			var element:FlowElement = readerFlow.getElementByID(elementID);
@@ -257,13 +212,32 @@ package view.reader {
 			//get Absolute start
 			var absolueStart:int = element.getAbsoluteStart();
 			
+			
+	
 			//get line
 			var line:TextFlowLine = readerFlow.flowComposer.findLineAtPosition(absolueStart);
 			
+			//deceive the reader: Scroll to the end to activate all lines, otherwise sime lines will not "exists" 
+			containerController.verticalScrollPosition = containerController.getContentBounds().height;
+			readerFlow.flowComposer.updateAllControllers();
+				
 			//update scroll
 			containerController.verticalScrollPosition = line.y;
+			readerFlow.flowComposer.updateAllControllers();
 	
 		}
+		
+		/**
+		 * 
+		 * @param notesIDs
+		 * @return 
+		 * 
+		 */
+		public function getFootnoteIDs(notesIDs):Array {
+			//to override
+			return null;
+		}
+			
 
 		//****************** GETTERS // SETTER ****************** ****************** ******************
 		

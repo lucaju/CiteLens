@@ -33,11 +33,11 @@ package view.style {
 		 * @return 
 		 * 
 		 */
-		static public function getStyle(styleName:String = "standard", statusColor:String = "standard"):TextFormat {
+		static public function getStyle(styleName:String = "standard", statusColor:String = ""):TextFormat {
 			
 			var style:TextFormat = new TextFormat();
 			style.font = HelveticaNeue.REGULAR;
-			style.color = ColorSchema.getColor(statusColor);
+			if (statusColor == "") style.color = ColorSchema.getColor(statusColor);
 			style.leading = 2;
 			
 			switch (styleName) {
@@ -173,6 +173,9 @@ package view.style {
 					break;
 				
 			}
+			
+			//override color
+			if (statusColor != "") style.color = ColorSchema.getColor(statusColor);
 		
 			return style;
 		}

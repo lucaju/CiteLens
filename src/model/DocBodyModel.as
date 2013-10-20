@@ -58,11 +58,10 @@ package model {
 
 			divs = data.text.body.descendants("div");
 			
-			
 		}
 		
 		
-		//****************** PUBLIC METHODS ****************** ****************** ******************
+		//****************** PUBLIC AUXILIAR CONSTUCTOR METHODS ****************** ****************** ******************
 		
 		/**
 		 * 
@@ -83,6 +82,168 @@ package model {
 			//add to the list
 			_arrayXML.push(paragraphXML);
 		}
+		
+		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function processHeader(element:XML):XML {
+			
+			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
+			
+			//change name
+			if (element.@type == "chapter") {
+				element.setName("chapter");
+			} else if (element.@type == "chapterSection") {
+				element.setName("chapter_section");
+			}
+			//trace (element)
+			return element;
+		}
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function processLabel(element:XML):XML {
+			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
+			element.setName("label");
+			return element;
+		}
+		
+		/**
+		 * 
+		 * @param element
+		 * @return 
+		 * 
+		 */
+		protected function processParagraph(element:XML):XML {
+			
+			//temp attribute
+			default xml namespace = xmlns;
+			var id:String
+			
+			//adding id attibute
+			
+			for each(var reference:XML in element.descendants("ref")) {
+				if (reference.@type == "noteSpan") {
+					
+					//change tag name
+					reference.setName("note_span"); //comment?
+					
+					//add ID
+					id = reference.@corresp;  
+					id = id.substring(6);					//#note_xx -> xx
+					reference.@id = id;
+					
+					//add space before and after
+					reference.prependChild(" ");
+					reference.appendChild(" ");
+					
+					
+				} else if (reference.@type == "noteLoc") {
+					
+					//change tag name
+					reference.setName("note_loc");
+					
+					//test if next sibling is a reference: Add space
+					if (reference.parent() != null && reference.childIndex() < reference.parent().children().length( )-1) {
+						var nextNode:XML = reference.parent().*[reference.childIndex( )+1];
+						if (nextNode.localName() == null) reference.appendChild(" ");
+					}
+					
+					//add ID
+					//id = reference.@target;  
+					//id = id.substring(6);					//#note_xx -> xx
+					//trace(reference.text(),">>",reference.text().length())
+					reference.@id = reference;
+					if (reference.text().length() > 1) reference.@id = reference.toString().substring(0,reference.toString().length-1);
+					
+					
+				}
+			}
+			
+			//
+			if ( element.hasSimpleContent() ) element.appendChild(<span></span>);
+			
+			return element;
+		}
+		
+		
+		/**
+		 * 
+		 * @param element
+		 * 
+		 */
+		protected function processNote():XML {
+			
+			//temp attribute
+			default xml namespace = xmlns;
+			
+			//result xml
+			var resultXML:XML = <body></body>;
+			
+			
+			for each (var element:XML in divs.children()) {										
+				
+				if (element.localName() == "note") {
+					
+					var note:XML = <footnote></footnote>;
+					//note.@typeName = "footnote";
+
+					
+					//note.setName("footnote");
+					
+					for each(var elem:XML in element.children()) {
+						
+						
+						//find note number
+						//change <gi> tag name to <note_number>
+						//store note number in the note attribute ID
+						if (elem.localName() == "gi") {
+							
+							elem.setLocalName("note_number");
+							
+							var id:String = elem.text();  
+							id = id.substring(0,id.length-1);					//xx. -> xx
+							
+							note.@id = id;
+						}
+						
+						//add extra space to elements
+						for each(var e:XML in elem.descendants()) {
+							if (e.hasSimpleContent()) e.prependChild(" ");
+						}
+						
+						//if ( elem.hasSimpleContent() ) elem.prependChild(<span></span>);
+						
+						note.appendChild(elem);
+					
+					}
+					
+					var p:XML = <p></p>;
+					p.appendChild(note);
+					resultXML.appendChild(p);
+					
+				}
+				
+			}
+			
+			return resultXML;
+		}
+		
+		protected function processPb():void {
+			
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
 		
 		/**
 		 * 
@@ -116,127 +277,46 @@ package model {
 			//final xml
 			var resultXML:XML = <body></body>;
 			
-			var q:int = 0;
 			for each (var element:XML in divs.children()) {										// [pb,head,p,note,div,label]
 				
 				switch (element.localName()) {
 					
 					case "head":
-						resultXML.appendChild( headProcess(element) );
+						resultXML.appendChild( processHeader(element) );
 						break;
 					
 					case "p":
-						resultXML.appendChild( paragraphProcess(element) );
+						resultXML.appendChild( processParagraph(element) );
 						break;
 					
 					case "label":
-						resultXML.appendChild( labelProcess(element) );
+						resultXML.appendChild( processLabel(element) );
 						break;
 					
 				}
 			}
-			
 			
 			return resultXML;
 		}
 		
 		/**
 		 * 
-		 * @param element
 		 * @return 
 		 * 
 		 */
-		protected function headProcess(element:XML):XML {
-			
-			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
-			
-			//change name
-			if (element.@type == "chapter") {
-				element.setName("chapter");
-			} else if (element.@type == "chapterSection") {
-				element.setName("chapter_section");
-			}
-			//trace (element)
-			return element;
+		public function getNotes():XML {
+			return this.processNote();
 		}
 		
 		/**
 		 * 
-		 * @param element
 		 * @return 
 		 * 
 		 */
-		protected function labelProcess(element:XML):XML {
-			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
-			element.setName("label");
-			return element;
+		public function getNotesAsTextFlow():TextFlow {
+			var notesFlow:TextFlow = TextConverter.importToFlow(getNotes(), TextConverter.TEXT_FIELD_HTML_FORMAT);
+			return notesFlow;
 		}
-		
-		/**
-		 * 
-		 * @param element
-		 * @return 
-		 * 
-		 */
-		protected function paragraphProcess(element:XML):XML {
-			
-			//temp attribute
-			default xml namespace = xmlns;
-			var id:String
-			
-			//adding id attibute
-			
-			for each(var reference:XML in element.descendants("ref")) {
-				if (reference.@type == "noteSpan") {
-					
-					//change tag name
-					reference.setName("note_span"); //comment?
-					
-					//add ID
-					id = reference.@corresp;  
-					id = id.substring(6);					//#note_xx -> xx
-					reference.@id = id;
-					
-					//add space before and after
-					reference.prependChild(" ");
-					reference.appendChild(" ");
-					
-					
-				} else if (reference.@type == "noteLoc") {
-					
-					//change tag name
-					reference.setName("note_loc");
-					
-					//test if next sibling is a reference: Add space
-					if (reference.parent() != null && reference.childIndex() < reference.parent().children().length( )-1) {
-						var nextNode:XML = reference.parent().*[reference.childIndex( )+1];
-						//if (nextNode.localName() == null) reference.appendChild(" ");
-					}
-					
-					//add ID
-					id = reference.@target;  
-					id = id.substring(6);					//#note_xx -> xx
-					reference.@id = id;
-					
-					
-				}
-			}
-			
-			//
-			if ( element.hasSimpleContent() ) element.appendChild(<span></span>);
-			
-			return element;
-		}
-		
-		
-		protected function noteProcess():void {
-			
-		}
-		
-		protected function pbProcess():void {
-			
-		}
-		
 		
 		/**
 		 * 
@@ -276,27 +356,6 @@ package model {
 		 * @return 
 		 * 
 		 */
-		/*public function getRefsId():Array {
-			
-			var i:int = 1;
-			
-			var refsId:Array = new Array()
-			var refs:Array = textFlow.getElementsByTypeName("ref");
-			
-			for each (var ref:FlowElement in refs) {
-				ref.id = i.toString();	//add id to the element
-				refsId.push(ref.id);
-				i++;
-			}
-			
-			return refsId;
-		}*/
-		
-		/**
-		 * 
-		 * @return 
-		 * 
-		 */
 		public function getRefsId():Array {
 			
 			var refsId:Array = new Array()
@@ -319,12 +378,12 @@ package model {
 			var noteSpanArray:Array = new Array();
 			var noteSpan:Object;						//{id,start,end,numChar}
 			
-			
+			if (!textFlow) this.getFlowConvertText();
 			var refs:Array = textFlow.getElementsByTypeName("note_span");
 			
 			for each (var ref:FlowElement in refs) {
 				
-				var refLength:int = ref.getText().length;
+				var refLength:int = ref.getText().length//-1;
 				var posStart:int = ref.getAbsoluteStart();
 				var posEnd:int = posStart + refLength;
 				
@@ -343,26 +402,13 @@ package model {
 		 * 
 		 */
 		public function getRefLocationByID(id:String):Object {
-			
-			
+						
 			var element:FlowElement = textFlow.getElementByID(id);
-			//trace (element.getText())
-			
-			//trace (textFlow.getElementByID(id).getText())
-			//trace (id)
-			//trace("---")
+
 			var pos:Object = new Object();
 			
-			//trace (id)
-			
-			//trace (">>" + id)
-			
-			//!!!!!!!!!!!!!!!!!!!!!
-			//if (id != "80" && id != "7") {
-				pos.start = textFlow.getElementByID(id).getAbsoluteStart();
-				pos.end = pos.start + textFlow.getElementByID(id).getText().length;
-				
-			//}
+			pos.start = textFlow.getElementByID(id).getAbsoluteStart();
+			pos.end = pos.start + textFlow.getElementByID(id).getText().length;
 			
 			return pos;
 		}

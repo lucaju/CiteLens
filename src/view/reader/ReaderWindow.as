@@ -13,6 +13,7 @@ package view.reader {
 	
 	import view.WindowHeader;
 	import view.reader.readerScroll.ReaderScroll;
+	import view.style.ColorSchema;
 	
 	
 	/**
@@ -26,13 +27,15 @@ package view.reader {
 		
 		protected var header					:WindowHeader;					//header
 		protected var border					:Shape;
-		protected var reader					:Reader;
-		protected var scroll					:view.reader.readerScroll.ReaderScroll
+		protected var reader					:AbstractReader;
+		protected var scroll					:ReaderScroll;
 		
 		protected var dimensions				:Rectangle;
 		
 		protected var marginW					:uint	 = 10;
 		protected var marginH					:uint	 = 0;
+		
+		protected var _headerTitle				:String;
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -65,35 +68,47 @@ package view.reader {
 			this.addChild(border);
 			
 			//header
-			header = new WindowHeader();
-			header.setDimensions(this.width-1);
-			header.init();
-			this.addChildAt(header,0);
+			if (_headerTitle) {
+				header = new WindowHeader();
+				
+				header.setDimensions(this.width-1);
+				header.init();
+				header.setTitle(headerTitle,ColorSchema.DARK_GREY);
+				this.addChildAt(header,0);
+			}
 			
 			//reader
 			var readerW:Number = dimensions.width - ( 2 *marginW);
-			var readerH:Number = dimensions.height - (2 * marginH) - header.height;
+			var readerH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
-			reader = new Reader(this);
-			reader.x = marginW
-			reader.y = header.height + marginH;;
-			this.addChild(reader);
-			reader.setDimensions(readerW, readerH);
-			reader.init();
 			
-			reader.addEventListener(Event.RESIZE, readerResize);
+			if (this.name == "reader") {
+				reader = new MainReader(this);
+			} else if (this.name == "footnotes") {
+				reader = new FootnoteReader(this);
+			}
 			
-			//Scroll
-			scroll = new ReaderScroll();
-			scroll.target = reader;
-			this.addChildAt(scroll,0);
-			scroll.init();
-			scroll.alpha = 0;
-			scroll.visible = false;
-			scroll.x = dimensions.width - scroll.width;
-			
-			this.addEventListener(MouseEvent.ROLL_OVER, rollOver);
-			this.addEventListener(MouseEvent.ROLL_OUT, rollOut);
+			if (reader) {
+				reader.x = marginW
+				reader.y = ( (header) ? header.height: 0 ) + marginH;
+				this.addChild(reader);
+				reader.setDimensions(readerW, readerH);
+				reader.init();
+				
+				reader.addEventListener(Event.RESIZE, readerResize);
+				
+				//Scroll
+				scroll = new ReaderScroll();
+				scroll.target = reader;
+				this.addChildAt(scroll,0);
+				scroll.init();
+				scroll.alpha = 0;
+				scroll.visible = false;
+				scroll.x = dimensions.width - scroll.width;
+				
+				this.addEventListener(MouseEvent.ROLL_OVER, rollOver);
+				this.addEventListener(MouseEvent.ROLL_OUT, rollOut);
+			}
 		}			
 		
 		//****************** PROTECTED METHODS ****************** ****************** ******************
@@ -181,12 +196,12 @@ package view.reader {
 			
 			//Boders & Header
 			TweenMax.to(border, .5, {width:dimensions.width, delay:.3});
-			TweenMax.to(header, .5, {width:dimensions.width - 1, delay:.3});
+			if (header) TweenMax.to(header, .5, {width:dimensions.width - 1, delay:.3});
 			
 			TweenMax.to(scroll, .5, {x:dimensions.width - scroll.width - 1, delay:.3});
 			
 			var NewReaderW:Number = dimensions.width - ( 2 *marginW);
-			var NewReaderH:Number = dimensions.height - (2 * marginH) - header.height;
+			var NewReaderH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
 			//reader
 			reader.updateDimension(NewReaderW,NewReaderH);
@@ -210,6 +225,25 @@ package view.reader {
 		 */
 		public function getReaderMaxHeight():Number {
 			return reader.getMaxHeight();
+		}
+		
+		/**
+		 * 
+		 * @param elementID
+		 * 
+		 */
+		public function scrollToElement(elementID:String):void {
+			reader.scrollToElement(elementID);
+		}
+		
+		/**
+		 * 
+		 * @param notesIDs
+		 * @return 
+		 * 
+		 */
+		public function getFootnoteIDs(notesIDs):Array {
+			return reader.getFootnoteIDs(notesIDs);
 		}
 		
 		
@@ -242,6 +276,25 @@ package view.reader {
 		public function clearHighlightElements():void {
 			reader.clearHighlightElements();
 		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get headerTitle():String {
+			return _headerTitle;
+		}
+
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function set headerTitle(value:String):void {
+			_headerTitle = value;
+		}
+
 		
 	}
 }

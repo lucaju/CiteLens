@@ -33,7 +33,10 @@ package view {
 			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
 			
 			target.readerView.updateDimension({width:readerOffset.toString()});
+			target.footnoteView.updateDimension({width:readerOffset.toString()});
+			
 			TweenMax.to(target.readerView, .5, {x:posX, delay: .3});
+			TweenMax.to(target.footnoteView, .5, {x:posX, delay: .3});
 			
 		}
 		
@@ -51,7 +54,11 @@ package view {
 			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
 			
 			target.readerView.updateDimension({width:readerOffset.toString()});
+			target.footnoteView.updateDimension({width:readerOffset.toString()});
+			
+			
 			TweenMax.to(target.readerView, .5, {x:posX, delay: .3});
+			TweenMax.to(target.footnoteView, .5, {x:posX, delay: .3});
 			
 		}
 		

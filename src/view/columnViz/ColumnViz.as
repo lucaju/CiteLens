@@ -40,6 +40,8 @@ package view.columnViz {
 		protected var lineWeight			:Number	 = 1;					//line weigth
 		protected var columnGap				:int	 = 5;					//gap between columns
 		
+		protected var lineGap				:Number = lineWeight * 2;		//gap between lines
+		
 		protected var chunkCollection		:Array;							//store chunks
 		
 		protected var viz					:Sprite;
@@ -47,7 +49,7 @@ package view.columnViz {
 		
 		
 		protected var textColor				:uint	 = ColorSchema.LIGHT_GREY;
-		protected var highlightedColor		:uint	 = ColorSchema.MEDIUM_GREY;
+		protected var highlightedColor		:uint	 = ColorSchema.DARK_GREY;
 		protected var selectedColor			:uint	 = ColorSchema.RED;
 		
 		protected var animation				:Boolean = true;
@@ -106,6 +108,8 @@ package view.columnViz {
 				//generate data
 				var notesData:Array = CiteLensController(this.getController()).getNoteSpanData();
 				var plainTextLength:int = CiteLensController(this.getController()).getPlainTextLength();				//store text length in character number
+				var plain:String = CiteLensController(this.getController()).getPlainText();
+				
 				
 				//calculating size and proportions
 				var widthUtil:Number = wMax - ((numColumns-1) * columnGap);				//define the width util for the visualiation
@@ -125,15 +129,18 @@ package view.columnViz {
 					for each (var note:Object in notesData) {
 						
 						//check and change char type when a reference start or end
+						if (char == note.end) {
+							type = SamplePixelType.TEXT;
+							charNoteID = 0;
+							//break;
+						
+						} //else 
+						
 						if (char == note.start) {
 							type = SamplePixelType.CITATION;
 							charNoteID = note.id;
 							break;
 							
-						} else if (char == note.end) {
-							type = SamplePixelType.TEXT;
-							charNoteID = 0;
-							break;
 						}
 	
 					}
@@ -165,35 +172,39 @@ package view.columnViz {
 			chunkCollection = new Array()
 			var chunk:Chunk;
 			var actualColumn:int = 0;												//column position
-			var px:int = 0;															//carret - Drawer x postion - used to start a chunk								
+			var px:int = 0;															//caret - Drawer x postion - used to start a chunk								
 			var py:int = 0;															//drawer y position - used to break lines when the chunk is to long
 			var cx:int = 0;															//chunk x position - used to start a new chunk
 			var cy:int = 0;															//chunk y position - used to start a new chunk
 			var l:int = 0;															//chunk length counter
-			var currentType:String = SamplePixelType.TEXT;							//Pixel Type - store current pixel type
+			//var currentType:String = SamplePixelType.TEXT;							//Pixel Type - store current pixel type
+			var currentID:int = 0;														//Pixel id - store current pixel id
+			var numPixels:int = 0;
+			var currentType:String = SamplePixelType.TEXT;
 			
 			// Loop Sample Pixel
 			for each (var pixel:SamplePixel in pixelArray) {
 				
-				//if chunk exists and pixel is the same type, add pixel in the chunk
-				if (pixel.type == currentType && chunk) {
+				//if id are same type, add pixel in the chunk
+				if (pixel.noteID == currentID) {
 					l++;
-					chunk.numPixels = chunk.numPixels++;
+					numPixels++;
+					currentType = pixel.type;
 				
 				// else, create new chunk
 				} else {
 					
 					//Creating new chunk
-					chunk = new Chunk(pixel.noteID);
-					chunk.type = pixel.type;
-					chunk.numPixels = 1;
+					chunk = new Chunk(currentID);
+					chunk.type = currentType;
+					chunk.numPixels = numPixels;
 					
 					if (chunk.type == SamplePixelType.CITATION) chunk.highlighted = true;
 					
 					//grapjical settings
 					chunk.x = cx;
 					chunk.y = cy;
-					chunk.graphics.lineStyle(lineWeight,getColor(pixel.type),1,true);
+					chunk.graphics.lineStyle(lineWeight,getColor(chunk.type),1,true);
 					chunk.graphics.beginFill(textColor);
 					chunk.graphics.moveTo(px,0);
 					
@@ -225,9 +236,9 @@ package view.columnViz {
 						
 						//update variables if the loop continues
 						if (numLinesNeed > 1 && i != numLinesNeed-1) {
-							cy += lineWeight * 2;
+							cy += lineGap;
 							px = 0;
-							py += lineWeight * 2;
+							py += lineGap;
 						}
 						
 						//update px in the last iteration
@@ -253,10 +264,11 @@ package view.columnViz {
 					chunkCollection.push(chunk);
 					
 					//update variables
-					currentType = pixel.type;
+					//currentType = pixel.type;
+					currentID = pixel.noteID;
 					l = 0;
 					py = 0;
-					
+					numPixels = 0;
 				}
 				
 			}
@@ -275,7 +287,7 @@ package view.columnViz {
 		protected function initialAnimation():void {
 			var delay:int = 0;
 			for each (var chunk:Chunk in chunkCollection) {
-				TweenMax.from(chunk,2,{width:0, delay:delay *  0.05, ease:Back.easeOut});
+				TweenMax.from(chunk,1.3,{width:0, delay:delay *  0.02, ease:Back.easeOut});
 				delay++;
 			}
 		}

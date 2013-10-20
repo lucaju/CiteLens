@@ -1993,7 +1993,7 @@
         <author rend="false">
          <name type="first">Philippe</name>
          <name type="last">Pergola</name>
-        </author>idem, <title level="m">Les cimetières chrétiens de Rome depuis leurs origines jusqu’au neuvième siècle</title>. </bibl>
+        </author>idem, <title level="m">Les cimetières chrétiens de Rome depuis leurs origines jusqu’au neuvième siècle</title><pubCountry xmlns="http://www.example.org/ns/nonTEI">France</pubCountry>. </bibl>
       </ab>
       <ab type="authorIntervention">I would like to thank the author for granting me access to his work before publication. </ab>
      </note>

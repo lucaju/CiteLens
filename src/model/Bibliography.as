@@ -162,7 +162,7 @@ package model {
 						ref.addAuthor(auth.name.(@type == "last"), auth.name.(@type == "first"));
 					}
 				} else {
-					ref.addAuthor("*******", "");
+					//ref.addAuthor("*******", "");
 				}
 				
 				//test for Editors

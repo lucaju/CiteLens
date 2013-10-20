@@ -9,12 +9,17 @@ package view {
 	import flash.text.AntiAliasType;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
 	
 	import events.CiteLensEvent;
 	
+	import font.HelveticaNeue;
+	
 	import view.assets.CrossBT;
 	import view.style.ColorSchema;
-	import view.style.TXTFormat;
+	
+	
 	
 	/**
 	 * 
@@ -39,6 +44,7 @@ package view {
 		protected var box				:Sprite;
 		protected var labelID			:TextField;
 		protected var titleTF			:TextField;
+		protected var style				:TextFormat;
 		
 		protected var eraseBT			:CrossBT;
 		
@@ -81,6 +87,7 @@ package view {
 			if (_type == "filter") {
 			
 				//Label ID field
+				/*
 				labelID = new TextField();
 				labelID.selectable = false;
 				labelID.mouseEnabled = false;
@@ -95,6 +102,7 @@ package view {
 				labelID.y = 1;
 				
 				this.addChild(labelID);
+				*/
 
 			}
 			
@@ -108,12 +116,15 @@ package view {
 		 * @param value
 		 * 
 		 */
-		public function setTitle(value:String):void {
+		public function setTitle(value:String, color:uint = 0):void {
 			
 			if (!titleTF) {
 				
-				//move label ID
-				labelID.x = 4;
+				style = new TextFormat();
+				style.font = HelveticaNeue.MEDIUM;
+				style.size = 11;
+				style.align = TextFormatAlign.CENTER;
+				style.color = (color != 0) ? color : ColorSchema.white;
 				
 				titleTF = new TextField();
 				titleTF.selectable = false;
@@ -122,13 +133,15 @@ package view {
 				//titleTF.autoSize = "TextFieldAutoSize.LEFT;
 				titleTF.antiAliasType = AntiAliasType.ADVANCED;
 				
-				titleTF.defaultTextFormat = TXTFormat.getStyle("filter header");
+				titleTF.defaultTextFormat = style;
+				
 				titleTF.text = value;
 				
 				//position and dimension
 				if (labelID) {
 					titleTF.width = box.width - (labelID.width * 2)
 					titleTF.x = labelID.x + labelID.width;
+					labelID.x = 4;	//move label ID
 				} else {
 					titleTF.width = box.width;
 				}

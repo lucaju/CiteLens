@@ -57,7 +57,7 @@ package model {
 			//append several loaders
 			dataQueu.append( new XMLLoader("model/library/languages.xml", {name:"xmlLanguages"}) );
 			dataQueu.append( new XMLLoader("model/library/countries.xml", {name:"xmlCountries"}) );
-			dataQueu.append( new XMLLoader("resources/CareOfTheDead_chap1-revised.xml", {name:"xmlDoc"}) );
+			dataQueu.append( new XMLLoader("content/CareOfTheDead_chap1-revised.xml", {name:"xmlDoc"}) );
 			
 			dataQueu.prioritize("xmlLanguages");
 			dataQueu.load();
@@ -239,6 +239,15 @@ package model {
 		 */
 		public function getFlowConvertText():TextFlow {
 			return bodyModel.getFlowConvertText();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNotesAsTextFlow():TextFlow {
+			return bodyModel.getNotesAsTextFlow();
 		}
 		
 		
