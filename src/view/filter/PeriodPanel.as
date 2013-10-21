@@ -6,6 +6,7 @@ package view.filter {
 	import flash.display.Sprite;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
+	import flash.events.KeyboardEvent;
 	
 	import controller.CiteLensController;
 	
@@ -84,9 +85,12 @@ package view.filter {
 			}
 			
 			//listener
-			this.addEventListener(FocusEvent.FOCUS_OUT, fieldFocus);//removeNextBlankField)
+			this.addEventListener(FocusEvent.FOCUS_OUT, fieldFocus);
+			this.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 			
 		}		
+		
+
 		
 		//****************** INTERNAL EVENTS ****************** ****************** ******************
 		
@@ -101,6 +105,15 @@ package view.filter {
 		
 		
 		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function keyUp(event:KeyboardEvent):void {
+			if (event.keyCode == 13) this.updatePanel();
+		}
 		
 		/**
 		 * 

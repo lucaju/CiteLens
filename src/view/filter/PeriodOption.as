@@ -7,6 +7,7 @@ package view.filter {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.text.AntiAliasType;
 	import flash.text.TextField;
@@ -95,6 +96,7 @@ package view.filter {
 			inputToTF.addEventListener(Event.CHANGE, _addField);
 			inputFromTF.addEventListener(FocusEvent.FOCUS_IN, focusIn)		//Focus IN
 			inputFromTF.addEventListener(FocusEvent.FOCUS_OUT, _focusOff)	//Focus OFF
+			inputFromTF.addEventListener(KeyboardEvent.KEY_UP, keyUp);
 			inputToTF.addEventListener(FocusEvent.FOCUS_IN, focusIn)		//Focus IN
 			inputToTF.addEventListener(FocusEvent.FOCUS_OUT, _focusOff)	//Focus OFF
 		}
@@ -262,6 +264,17 @@ package view.filter {
 				empty = false;
 			}
 			
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function keyUp(event:KeyboardEvent):void {
+			if (event.keyCode == 13) {
+				if (inputToTF.text == "") inputToTF.text = "2009";
+			}
 		}
 		
 		//****************** GETTERS // SETTERS ****************** ****************** ******************

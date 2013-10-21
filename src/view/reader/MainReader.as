@@ -64,11 +64,13 @@ package view.reader {
 			this.addChild(container);
 			
 			///FLOW
+			
 			readerFlow = CiteLensController(target.getController()).getFlowConvertText();
 			
 			containerController = new ContainerController(container, dimensions.width, dimensions.height)
-				
-			readerFlow.flowComposer.addController(containerController); // make it mini - change the width to 20
+			
+			readerFlow.flowComposer.addController(containerController);
+			readerFlow.flowComposer.composeToPosition();
 			readerFlow.hostFormat = TextReaderStyle.getStyle("body");
 			//readerFlow.fontLookup = FontLookup.EMBEDDED_CFF;
 			readerFlow.flowComposer.updateAllControllers();
@@ -93,6 +95,7 @@ package view.reader {
 			//var outString:String = TextConverter.export(readerFlow,TextConverter.PLAIN_TEXT_FORMAT, ConversionType.STRING_TYPE) as String;
 			
 			//scroll listener
+			
 			readerFlow.addEventListener(TextLayoutEvent.SCROLL, scroll);
 			
 			//noteSpan listener

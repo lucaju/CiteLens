@@ -146,6 +146,34 @@ package model {
 					reference.prependChild(" ");
 					reference.appendChild(" ");
 					
+					//look for attribute rend
+					
+					////************************* Work still in progress ****************
+					////************************* TRYNG TO REMOVE NOT RENDER TAGS ****************
+					////************************* HAVE TO DO THE SAME TO (FOOT)NOTES ****************
+					
+					var elements:XMLList = reference.descendants();
+					for each (var elem:XML in elements) {
+						
+						if (elem.@rend == "false") {
+							var rep:XML = <span/>;
+							var parent:XML = elem.parent();
+							
+							var childName:String = elem.localName();;
+							
+							//trace ("||",childName)
+							if (childName != "editor") { 
+								if (parent.hasOwnProperty(childName) == true) {
+									parent.replace(childName,rep);								//<< remove some, bute editor doesn't work
+								}
+								//parent.replace(childName,rep);
+								//trace (">>",childName)
+							}
+						}
+					}
+					
+					////************************* Work still in progress ****************
+					
 					
 				} else if (reference.@type == "noteLoc") {
 					
@@ -295,6 +323,8 @@ package model {
 					
 				}
 			}
+			
+		//trace (resultXML)
 			
 			return resultXML;
 		}

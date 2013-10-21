@@ -92,7 +92,7 @@ package view.reader {
 			var actualReaderBounds:Rectangle = containerController.getContentBounds();
 			var readerDimension:Array = [actualReaderBounds.width, actualReaderBounds.height];
 			
-			TweenMax.to(readerDimension, .5, {endArray:[width,height], onUpdate:resize, onUpdateParams:[readerDimension],delay:.3});
+			TweenMax.to(readerDimension, .5, {endArray:[width,height], onUpdate:resize, onUpdateParams:[readerDimension]});
 			
 		}
 		
@@ -218,8 +218,8 @@ package view.reader {
 			var line:TextFlowLine = readerFlow.flowComposer.findLineAtPosition(absolueStart);
 			
 			//deceive the reader: Scroll to the end to activate all lines, otherwise sime lines will not "exists" 
-			containerController.verticalScrollPosition = containerController.getContentBounds().height;
-			readerFlow.flowComposer.updateAllControllers();
+			//containerController.verticalScrollPosition = containerController.getContentBounds().height;
+			//readerFlow.flowComposer.updateAllControllers();
 				
 			//update scroll
 			containerController.verticalScrollPosition = line.y;

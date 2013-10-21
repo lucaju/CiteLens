@@ -7,10 +7,12 @@ package view.filter {
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
+	import model.citation.CitationFunction;
+	
 	import mvc.IController;
 	
-	import view.assets.ButtonStatus;
 	import view.assets.Button;
+	import view.assets.ButtonStatus;
 	import view.style.TXTFormat;
 	
 	/**
@@ -236,6 +238,24 @@ package view.filter {
 			data.periods = periodPanel.getSelectedOptions();
 			data.functions = functionPanel.getSelectedOptions();
 			data.auhtors = authorPanel.getSelectedOptions();
+			
+			//test data - If not option is selected, send reset;
+			if (!data.languages && !data.countries && !data.pubTypes && !data.periods && !data.auhtors) {
+				
+				var functionAtivated:Boolean = false;
+				
+				for each (var func:CitationFunction in data.functions) {
+					if (func.value) {
+						functionAtivated = true;
+						break;
+					}
+					
+				}
+				
+				if (!functionAtivated) {
+					data.reset = true;
+				}
+			}
 			
 			if (debug) FilterPanelOutput.traceSelectedOption(data);
 			

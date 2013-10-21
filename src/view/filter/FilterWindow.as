@@ -151,6 +151,8 @@ package view.filter {
 			this.removeChild(border);
 			border = null;
 			
+			header.update(-1);
+			
 			open();
 		}
 		
@@ -196,6 +198,15 @@ package view.filter {
 		 */
 		public function removeViz():void {
 			_viz = null;
+		}
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		public function addRemoveButton(value:Boolean):void {
+			header.addEraseButton(value);
 		}
 		
 		

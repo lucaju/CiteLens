@@ -171,10 +171,10 @@ package view.filter {
 			
 			//identify button in the collection
 			
-			for each (var option:Object in optionArray) {
-				if (option.bt == button) {
-					break;
-				}
+			var option:Object;
+			
+			for each (option in optionArray) {
+				if (option.bt == button) break;
 			}
 			
 			if (option.selected == false) {
@@ -234,7 +234,7 @@ package view.filter {
 		 */
 		protected function _out(e:MouseEvent):void{
 			if (toolTip) {
-				stage.removeChild(toolTip);
+				toolTip.kill();
 				toolTip = null;
 			}
 		}

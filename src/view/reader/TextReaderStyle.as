@@ -44,26 +44,25 @@ package view.reader {
 			style.fontLookup = FontLookup.EMBEDDED_CFF;
 			style.renderingMode = RenderingMode.CFF;
 			style.cffHinting = CFFHinting.HORIZONTAL_STEM;
-			style.fontSize = 12;
-			style.lineHeight = 18;
+			style.fontSize = 13;
+			style.lineHeight = 20;
 			style.textAlign = TextAlign.LEFT;
 			style.paragraphSpaceAfter = 16;
-			
 			
 			switch (styleName) {
 				
 				case "body":
-					style.paddingLeft = 10;
-					style.paddingRight = 10;
-					style.paddingTop = 10;
+					style.paddingLeft = 5;
+					style.paddingRight = 5;
+					//style.paddingTop = 10;
 					style.paddingBottom = 10;
 					style.color = ColorSchema.DARK_GREY;
 					break;
 				
 				case "chapter":
 					style.fontFamily = HelveticaNeueCFF.BOLD;
-					style.fontSize = 16;
-					style.lineHeight = 24;
+					style.fontSize = 18;
+					style.lineHeight = 26;
 					style.color = ColorSchema.DARK_GREY;
 					style.textIndent = 0;
 					style.paragraphSpaceBefore = 32;
@@ -72,7 +71,7 @@ package view.reader {
 				
 				case "chapterSection":
 					style.fontFamily = HelveticaNeueCFF.MEDIUM;
-					style.fontSize = 14;
+					style.fontSize = 16;
 					style.lineHeight = 22;
 					style.color = ColorSchema.DARK_GREY;
 					style.textIndent = 0;
@@ -82,8 +81,8 @@ package view.reader {
 				
 				case "label":
 					style.fontFamily = HelveticaNeueCFF.REGULAR;
-					style.fontSize = 13;
-					style.lineHeight = 20;
+					style.fontSize = 14;
+					style.lineHeight = 18;
 					style.color = ColorSchema.DARK_GREY;
 					style.textIndent = 0;
 					style.paragraphSpaceAfter = 6;
@@ -91,8 +90,6 @@ package view.reader {
 				
 				case "noteSpan":
 					style.color = ColorSchema.BLACK;
-					style.paddingLeft = 10;
-					style.paddingRight = 10;
 					break;
 				
 				case "selectedNoteSpan":
@@ -107,15 +104,15 @@ package view.reader {
 				
 				case "footnote":
 					style.fontFamily = HelveticaNeueCFF.LIGHT;
-					style.fontSize = 11;
-					style.lineHeight = 16;
+					style.fontSize = 12;
+					style.lineHeight = 18;
 					break;
 				
 				case "selectedFootnote":
 					style.fontFamily = HelveticaNeueCFF.LIGHT;
 					style.color = ColorSchema.RED;
-					style.fontSize = 11;
-					style.lineHeight = 16;
+					style.fontSize = 12;
+					style.lineHeight = 18;
 					break;
 				
 			}

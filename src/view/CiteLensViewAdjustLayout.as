@@ -3,8 +3,8 @@ package view {
 	//imports
 	import com.greensock.TweenMax;
 	
-	import view.filter.FilterWindow;
 	import view.columnViz.ColumnViz;
+	import view.filter.FilterWindow;
 	
 	
 	/**
@@ -26,18 +26,58 @@ package view {
 		 * @param filterID
 		 * 
 		 */
+		static public function filterAdded(filterID:int, extraOffset:Number = 0):void {
+			
+			var filterWindow:FilterWindow = target.getFilterWindowByID(filterID);
+			var readerOffset:Number = -(filterWindow.width - extraOffset);
+			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
+			
+			target.readerView.updateDimension({width:readerOffset.toString()});
+			
+			TweenMax.to(target.readerView, .5, {x:posX});
+			
+		}
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
+		static public function filterRemoved(Offset:Number = 0, extraOffset:Number = 0):void {
+			
+			//var filterWindow:FilterWindow = target.getFilterWindowByID(filterID);
+			var readerOffset:Number = Offset - extraOffset;
+			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
+			
+			target.readerView.updateDimension({width:readerOffset.toString()});
+			
+			TweenMax.to(target.addFilterButton, .5, {x:posX});
+			posX += target.addFilterButton.width;
+			
+			TweenMax.to(target.readerView, .5, {x:posX});
+			
+		}
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
 		static public function vizAdded(filterID:int):void {
 			
 			var filterWindow:FilterWindow = target.getFilterWindowByID(filterID);
 			var readerOffset:Number = -(filterWindow.viz.wMax + target.gap);
-			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
+			var posX:Number = CiteLensViewAdjustLayout.moveFilters();
 			
 			target.readerView.updateDimension({width:readerOffset.toString()});
-			target.footnoteView.updateDimension({width:readerOffset.toString()});
 			
-			TweenMax.to(target.readerView, .5, {x:posX, delay: .3});
-			TweenMax.to(target.footnoteView, .5, {x:posX, delay: .3});
+			if (target.addFilterButton) {
+				TweenMax.to(target.addFilterButton, .5, {x:posX});
+				posX += target.addFilterButton.width;
+			}
 			
+			TweenMax.to(target.readerView, .5, {x:posX + target.gap});
+
 		}
 		
 		/**
@@ -54,11 +94,13 @@ package view {
 			var posX:Number = CiteLensViewAdjustLayout.moveFilters() + target.gap;
 			
 			target.readerView.updateDimension({width:readerOffset.toString()});
-			target.footnoteView.updateDimension({width:readerOffset.toString()});
 			
+			if (target.addFilterButton) {
+				TweenMax.to(target.addFilterButton, .5, {x:posX});
+				posX += target.addFilterButton.width;
+			}
 			
-			TweenMax.to(target.readerView, .5, {x:posX, delay: .3});
-			TweenMax.to(target.footnoteView, .5, {x:posX, delay: .3});
+			TweenMax.to(target.readerView, .5, {x:posX});
 			
 		}
 		
@@ -75,14 +117,14 @@ package view {
 			if (target.vizGrouping) {
 				
 				for each (filterWindow in target.filterWindowArray) {
-					TweenMax.to(filterWindow, .5, {x:posX, delay: .3})
+					TweenMax.to(filterWindow, .5, {x:posX})
 					posX += filterWindow.width + target.gap;
 				}
 				
-				var filterVizArrayReorded:Array = target.filterVizArray.sortOn("id");
+				var filterVizArrayReorded:Array = target.filterVizArray//.sortOn("id");
 				
 				for each (viz in filterVizArrayReorded) {
-					TweenMax.to(viz, .5, {x:posX, delay: .3})
+					TweenMax.to(viz, .5, {x:posX})
 					posX += viz.wMax + target.gap;
 				}
 				
@@ -91,12 +133,12 @@ package view {
 				
 				for each (filterWindow in target.filterWindowArray) {
 					
-					TweenMax.to(filterWindow, .5, {x:posX, delay: .3})
+					TweenMax.to(filterWindow, .5, {x:posX})
 					
 					posX += filterWindow.width + target.gap;
 					
 					if (filterWindow.hasViz) {
-						TweenMax.to(filterWindow.viz, .5, {x:posX, delay: .3})
+						TweenMax.to(filterWindow.viz, .5, {x:posX})
 						posX += filterWindow.viz.wMax + target.gap;
 					}
 					

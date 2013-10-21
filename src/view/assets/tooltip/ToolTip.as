@@ -118,6 +118,17 @@ package view.assets.tooltip {
 		}
 		
 		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * 
+		 */
+		public function kill():void {
+			this.parent.removeChild(this);
+		}
+		
+		
 		//****************** GETTERS // SETTERS ****************** ****************** ******************
 		
 		/**

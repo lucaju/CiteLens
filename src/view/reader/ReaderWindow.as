@@ -4,9 +4,12 @@ package view.reader {
 	
 	import flash.display.LineScaleMode;
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	
+	import events.CiteLensEvent;
 	
 	import mvc.AbstractView;
 	import mvc.IController;
@@ -27,8 +30,12 @@ package view.reader {
 		
 		protected var header					:WindowHeader;					//header
 		protected var border					:Shape;
+		
 		protected var reader					:AbstractReader;
+		protected var footnoteReader			:AbstractReader;
+		
 		protected var scroll					:ReaderScroll;
+		protected var scrollFootnotes			:ReaderScroll;
 		
 		protected var dimensions				:Rectangle;
 		
@@ -36,6 +43,8 @@ package view.reader {
 		protected var marginH					:uint	 = 0;
 		
 		protected var _headerTitle				:String;
+		
+		protected var splitLine					:Sprite;
 		
 		//****************** Constructor ****************** ****************** ******************
 		
@@ -60,7 +69,7 @@ package view.reader {
 			
 			//border
 			border = new Shape();
-			border.graphics.lineStyle(2,0xCCCCCC,1,false,LineScaleMode.NONE);
+			border.graphics.lineStyle(2,0xCCCCCC,0,false,LineScaleMode.NONE);
 			border.graphics.beginFill(0xFFFFFF,0);
 			border.graphics.drawRoundRect(0,0,dimensions.width, dimensions.height, 10);
 			border.graphics.endFill();
@@ -77,12 +86,67 @@ package view.reader {
 				this.addChildAt(header,0);
 			}
 			
-			//reader
+			//sizes
 			var readerW:Number = dimensions.width - ( 2 *marginW);
 			var readerH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
 			
-			if (this.name == "reader") {
+			//---------------Main reader
+			reader = new MainReader(this);
+			reader.name = "mainReader";
+			reader.x = marginW
+			reader.y = ( (header) ? header.height: 0 ) + marginH;
+			this.addChild(reader);
+			reader.setDimensions(readerW, readerH * .85);
+			reader.init();
+			
+			reader.addEventListener(Event.RESIZE, readerResize);
+			
+			//Scroll
+			scroll = new ReaderScroll();
+			scroll.target = reader;
+			this.addChildAt(scroll,0);
+			scroll.init();
+			scroll.alpha = 0;
+			scroll.visible = false;
+			scroll.x = dimensions.width - scroll.width;
+			
+			reader.addEventListener(MouseEvent.ROLL_OVER, rollOver);
+			reader.addEventListener(MouseEvent.ROLL_OUT, rollOut);
+			reader.addEventListener(CiteLensEvent.READER_CLICK, readerClicklHander);
+			
+			//---------------Split Line
+			
+			splitLine = new Sprite();
+			splitLine.graphics.lineStyle(1, ColorSchema.LIGHT_GREY);
+			splitLine.graphics.lineTo(readerW,0);
+			splitLine.x = marginW;
+			splitLine.y = reader.y + reader.height - 6;
+			this.addChild(splitLine);
+			
+			//---------------Footnote reader
+			footnoteReader = new FootnoteReader(this);
+			footnoteReader.name = "footnoteReader";
+			footnoteReader.x = marginW
+			footnoteReader.y = splitLine.y + 4;
+			this.addChild(footnoteReader);
+			footnoteReader.setDimensions(readerW, readerH * .12);
+			footnoteReader.init();
+			
+			footnoteReader.addEventListener(Event.RESIZE, readerResize);
+			
+			//Scroll
+			scrollFootnotes = new ReaderScroll();
+			scrollFootnotes.target = footnoteReader;
+			this.addChildAt(scroll,0);
+			scrollFootnotes.init();
+			scrollFootnotes.alpha = 0;
+			scrollFootnotes.visible = false;
+			scrollFootnotes.x = dimensions.width - scroll.width;
+			
+			
+			
+			/*if (this.name == "reader") {
 				reader = new MainReader(this);
 			} else if (this.name == "footnotes") {
 				reader = new FootnoteReader(this);
@@ -108,7 +172,7 @@ package view.reader {
 				
 				this.addEventListener(MouseEvent.ROLL_OVER, rollOver);
 				this.addEventListener(MouseEvent.ROLL_OUT, rollOut);
-			}
+			}*/
 		}			
 		
 		//****************** PROTECTED METHODS ****************** ****************** ******************
@@ -171,6 +235,15 @@ package view.reader {
 			
 		}
 		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function readerClicklHander(event:CiteLensEvent):void {
+			footnoteReader.scrollToElement(event.parameters.footnoteID);
+		}	
+		
 		
 		//****************** PUBLIC METHODS ****************** ****************** ******************
 		
@@ -195,16 +268,20 @@ package view.reader {
 			this.evaluteUpdateDimensionValues(values);
 			
 			//Boders & Header
-			TweenMax.to(border, .5, {width:dimensions.width, delay:.3});
-			if (header) TweenMax.to(header, .5, {width:dimensions.width - 1, delay:.3});
+			TweenMax.to(border, .5, {width:dimensions.width});
+			if (header) TweenMax.to(header, .5, {width:dimensions.width - 1});
 			
-			TweenMax.to(scroll, .5, {x:dimensions.width - scroll.width - 1, delay:.3});
+			TweenMax.to(scroll, .5, {x:dimensions.width - scroll.width - 1});
 			
 			var NewReaderW:Number = dimensions.width - ( 2 *marginW);
 			var NewReaderH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
 			//reader
-			reader.updateDimension(NewReaderW,NewReaderH);
+			reader.updateDimension(NewReaderW,NewReaderH * .85);
+			if (footnoteReader) {
+				TweenMax.to(splitLine, .5, {width:NewReaderW});
+				footnoteReader.updateDimension(NewReaderW,NewReaderH *.12);
+			}
 			
 		}
 		
@@ -267,6 +344,12 @@ package view.reader {
 		 */
 		public function highlightElementByID(elementID:*, styleName:String = "selectedNoteSpan"):void {
 			reader.highlightElementByID(elementID,styleName)
+				
+			if (footnoteReader) {
+			//get footnote reference
+				var footnotesIDs:Array = reader.getFootnoteIDs(elementID);
+				footnoteReader.highlightElementByID(footnotesIDs,"selectedFootnote")
+			}
 		}
 		
 		/**
@@ -275,8 +358,13 @@ package view.reader {
 		 */
 		public function clearHighlightElements():void {
 			reader.clearHighlightElements();
+			if (footnoteReader) footnoteReader.clearHighlightElements();
 		}
 
+		
+		
+		//****************** GETTER // SETTERS ****************** ****************** ******************
+		
 		/**
 		 * 
 		 * @return 

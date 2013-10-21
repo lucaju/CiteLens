@@ -14,6 +14,7 @@ package events{
 		
 		public static const DRAG					:String = "drag";
 		public static const FILTER					:String = "filter";
+		public static const REMOVE_FILTER			:String = "remove_filter";
 		public static const SORT					:String = "sort";
 		public static const CHANGE_VISUALIZATION	:String = "change_visualization";
 		public static const READER_SCROLL			:String = "reader_scroll";

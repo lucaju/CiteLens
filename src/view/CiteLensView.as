@@ -18,6 +18,7 @@ package view {
 	
 	import view.bibliography.BibliographyView;
 	import view.columnViz.ColumnViz;
+	import view.filter.AddButton;
 	import view.filter.FilterWindow;
 	import view.reader.ReaderWindow;
 	
@@ -34,13 +35,14 @@ package view {
 		//static public var citeLensController		:CiteLensController				//controller
 		
 		protected var elementsArray					:Array;					//List of elements
-		protected var _filterWindowArray				:Array;					//List of Filter Windows
+		protected var _filterWindowArray			:Array;					//List of Filter Windows
 		protected var _filterVizArray				:Array;					//List of Filter Visualization
+		
+		protected var _addFilterButton				:AddButton;
 		
 		protected var header						:Header;
 		protected var _bibiographyView				:BibliographyView;
 		protected var _readerView					:ReaderWindow;
-		protected var _footnoteView					:ReaderWindow;
 		protected var mainViz						:ColumnViz;
 		
 		protected var _gap							:int 	= 5;			//gap between elements
@@ -121,12 +123,11 @@ package view {
 			if (DeviceInfo.os() != "Mac") {
 				numFilterPanel = 2;
 			} else {
-				numFilterPanel = 3;
+				numFilterPanel = 2;
 			}
 			
 			//Loop filters
 			var filterWindow:FilterWindow;
-			
 			for (var i:int = 1; i <= numFilterPanel; i++) {
 				
 				filterWindow = new FilterWindow(this.getController(),i);
@@ -137,14 +138,21 @@ package view {
 				filterWindow.init();
 				filterWindow.open();
 				
-				filterWindowArray[i] = filterWindow;
-				elementsArray[i] = filterWindow;
+				filterWindowArray.push(filterWindow);
+				elementsArray.push(filterWindow);
 				
-				filterWindow.addEventListener(CiteLensEvent.CHANGE_VISUALIZATION, updateViualization);
+				filterWindow.addEventListener(CiteLensEvent.CHANGE_VISUALIZATION, changeVisualizationHandler);
+				filterWindow.addEventListener(CiteLensEvent.REMOVE_FILTER, removeFilter);
 				
 				posX += filterWindow.width + gap;
 			}
 			
+			//****************** Add Filter Button;
+			
+			this.showAddFilterButton(true);
+			addFilterButton.x = posX;
+			
+			posX += addFilterButton.width + gap;
 			
 			//****************** Reader;
 			
@@ -154,9 +162,9 @@ package view {
 			readerView.x = posX + gap;
 			
 			if (DeviceInfo.os() != "Mac") {
-				readerView.setDimensions(410,584); // (410,670)
+				readerView.setDimensions(410,670);
 			} else {
-				readerView.setDimensions(385,392); //(385,472)  //(385,558) 
+				readerView.setDimensions(385,558);
 			}
 			
 			this.addChild(readerView);
@@ -167,27 +175,6 @@ package view {
 			posX += readerView.width + gap + gap;
 			
 			readerView.addEventListener(CiteLensEvent.READER_SCROLL, readerScrollHander);
-			readerView.addEventListener(CiteLensEvent.READER_CLICK, readerClicklHander);
-			
-			
-			//****************** Footnote;
-			
-			_footnoteView = new ReaderWindow(this.getController());
-			footnoteView.name = "footnotes";
-			footnoteView.y = readerView.y + readerView.height + (gap/2);
-			footnoteView.x = readerView.x;
-			
-			if (DeviceInfo.os() != "Mac") {
-				footnoteView.setDimensions(410,80);
-			} else {
-				footnoteView.setDimensions(385,160);
-			}
-			
-			footnoteView.headerTitle = "Footnotes";
-			this.addChild(footnoteView);
-			footnoteView.initialize();
-			
-			elementsArray.push(footnoteView);
 			
 			
 			//****************** Main Viz
@@ -211,7 +198,16 @@ package view {
 			
 			elementsArray.push(mainViz);
 			
+			//resize reader
+			var readerX:Number = readerView.x;
+			var spaceAvailable:Number = this.stage.stageWidth - readerX - (2*gap) - mainViz.width;
+			
+			
+			readerView.updateDimension({width:spaceAvailable});
+			TweenMax.to(mainViz,.2,{x:readerView.x + spaceAvailable + gap});
+			
 		}	
+		
 		
 		//****************** PRIVATE METHODS ****************** ****************** ******************
 		
@@ -226,6 +222,151 @@ package view {
 		
 		
 		//****************** PROTECTED METHODS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param value
+		 * 
+		 */
+		protected function showAddFilterButton(value:Boolean):void {
+			
+			if (value) {
+				
+				//get next filter id and color
+				var nextFilterID:int = 1;
+				
+				var fArray:Array = filterWindowArray.concat();
+				fArray.sortOn("id");
+				
+				for each (var filterWindow:FilterWindow in fArray) {
+					if (filterWindow.id == nextFilterID) {
+						nextFilterID++;
+					} else {
+						break;
+					}
+				}
+			
+				
+				
+				_addFilterButton = new AddButton(nextFilterID);
+				addFilterButton.y = posMainY;
+				this.addChild(addFilterButton);
+				addFilterButton.init();
+				
+				elementsArray.push(addFilterButton);
+				
+				addFilterButton.addEventListener(MouseEvent.CLICK, addFilterClick);
+				
+			} else {
+				
+				addFilterButton.removeEventListener(MouseEvent.CLICK, addFilterClick);
+				this.removeChild(addFilterButton);
+				
+				elementsArray.splice(elementsArray.indexOf(addFilterButton),1);
+				
+				_addFilterButton = null;
+				
+			}
+		}
+		
+		/**
+		 * 
+		 * @param filterID
+		 * 
+		 */
+		protected function addFilterWindow(filterID:int):void {
+			
+			//filter view
+			
+			var filterWindow:FilterWindow = new FilterWindow(this.getController(),filterID);
+			filterWindow.y = posMainY
+			filterWindow.x = filterWindowArray[filterWindowArray.length-1].x + filterWindowArray[filterWindowArray.length-1].width + gap;
+			this.addChild(filterWindow);
+			
+			filterWindow.init();
+			filterWindow.open();
+			
+			filterWindowArray.push(filterWindow);
+			elementsArray.push(filterWindow);
+			
+			TweenMax.from(filterWindow, .6, {alpha:0});
+			
+			//Adjust Layout
+			CiteLensViewAdjustLayout.filterAdded(filterWindow.id, addFilterButton.width);
+			
+			filterWindow.addEventListener(CiteLensEvent.CHANGE_VISUALIZATION, changeVisualizationHandler);
+			filterWindow.addEventListener(CiteLensEvent.REMOVE_FILTER, removeFilter);
+			
+			//remove add filter button
+			showAddFilterButton(false)
+			
+			//add remove button to filterWindows
+			for each (var fWindow:FilterWindow in filterWindowArray) {
+				fWindow.addRemoveButton(true);
+			}
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function removeFilter(event:CiteLensEvent):void {
+			
+			var controler:CiteLensController = CiteLensController(this.getController());
+			
+			//defining window
+			var filterWindow:FilterWindow = this.getFilterWindowByID(event.parameters.filterID);
+				
+			//Update filter data model
+			controler.removeFilter(filterWindow.id);
+			
+			//reseting options
+			controler.removeResults(filterWindow.id);
+			
+			//get bibliography results for bibliographic panel
+			var BiblData:Array = controler.getFilterResults("bibl_id");
+			
+			//update bibliography
+			controler.updateBiblList(BiblData, true);
+			
+			//remove listeners
+			filterWindow.removeEventListener(CiteLensEvent.CHANGE_VISUALIZATION, changeVisualizationHandler);
+			filterWindow.removeEventListener(CiteLensEvent.REMOVE_FILTER, removeFilter);
+			
+			//save filter width
+			var filterWindowWidth:Number = filterWindow.width;
+			
+			//remove viz
+			var viz:ColumnViz = filterWindow.viz;
+			if (viz) {
+				filterWindowWidth += viz.width + gap;
+				this.RemoveVizByID(filterWindow.id);
+				this.removeChild(viz);
+			}
+			
+			if (filterVizArray.length == 0) _vizGrouping = false;
+			
+			//remove filter from array
+			filterWindowArray.splice(filterWindowArray.indexOf(filterWindow),1);
+			elementsArray.splice(elementsArray.indexOf(filterWindow),1);
+			
+			//Animation
+			TweenMax.to(filterWindow, .3, {alpha:0, onComplete:removeObject, onCompleteParams:[filterWindow]});
+			
+			//add function button
+			this.showAddFilterButton(true);
+			addFilterButton.x = filterWindowArray[filterWindowArray.length-1].x + filterWindowArray[filterWindowArray.length-1].width + gap;
+			
+			//adjust layout
+			CiteLensViewAdjustLayout.filterRemoved(filterWindowWidth, addFilterButton.width);	
+			
+			//remove remove button to filterWindows
+			for each (var fWindow:FilterWindow in filterWindowArray) {
+				fWindow.addRemoveButton(false);
+			}
+			
+		}	
 		
 		/**
 		 * 
@@ -275,122 +416,18 @@ package view {
 		
 		/**
 		 * 
-		 * @param value
-		 * @return 
+		 * @param filterWindow
+		 * @param reset
 		 * 
 		 */
-		protected function RemoveVizByID(value:int):Boolean {
-			
-			for each (var viz:ColumnViz in filterVizArray) {
-				if (viz.id == value) {
-					filterVizArray.splice(filterVizArray.indexOf(viz),1);
-					elementsArray.splice(elementsArray.indexOf(viz),1);
-					return true;
-				}
-			}
-			
-			return false;
-		}
-		
-		
-		//****************** PROTECTED EVENTS ****************** ****************** ******************
-		
-		
-		/**
-		 * 
-		 * @param event
-		 * 
-		 */
-		protected function bibiographySelect(event:Event):void {
-			
-			if (event.target.parent is BibliographyView) {
-				var bibliographyView:BibliographyView = event.target.parent as BibliographyView;
-				var selectedItemID:String = bibliographyView.getSelectedItemID();
-				
-				if (selectedItemID) {
-					
-					//get notes Ids
-					var notesIDs:Array = CiteLensController(this.getController()).getRefNotesIDs(selectedItemID);
-					
-					//highlight selected item in visualziation
-					mainViz.selectChunks(notesIDs);
-					
-					////highlight selected item in the reader
-					readerView.highlightElementByID(notesIDs);
-					
-					//get footnote reference
-					var footnotesIDs:Array = readerView.getFootnoteIDs(notesIDs);
-					
-					footnoteView.highlightElementByID(footnotesIDs,"selectedFootnote");
-					
-				} else {
-					
-					//remove highlight selection in visualziation
-					mainViz.clearSelectedChunks();
-					
-					//remove highlight selection in the reader
-					readerView.clearHighlightElements();
-					footnoteView.clearHighlightElements();
-				}
-					
-			}
-				
-		}
-		
-		/**
-		 * 
-		 * @param event
-		 * 
-		 */
-		protected function vizClick(event:MouseEvent):void {
-			if  (filterVizArray.length > 1 || vizGrouping) {
-				_vizGrouping = !vizGrouping;
-				CiteLensViewAdjustLayout.moveFilters();
-			}
-		}
-		
-		/**
-		 * 
-		 * @param event
-		 * 
-		 */
-		protected function readerScrollHander(event:CiteLensEvent):void {
-			
-			mainViz.updateRoll(event.parameters);
-			
-			for each (var viz:ColumnViz in filterVizArray) {
-				viz.updateRoll(event.parameters);
-			}
-			
-		}
-		
-		/**
-		 * 
-		 * @param event
-		 * 
-		 */
-		protected function readerClicklHander(event:CiteLensEvent):void {
-			footnoteView.scrollToElement(event.parameters.footnoteID);
-		}	
-		
-		
-		//****************** PUBLIC METHODS ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * @param e
-		 * 
-		 */
-		public function updateViualization(e:CiteLensEvent):void {
+		public function updateVisualization(filterWindow:FilterWindow, reset:Boolean = false):void {
 			
 			var controler:CiteLensController = CiteLensController(this.getController());
 			
-			//defining window
-			var filterWindow:FilterWindow = FilterWindow(e.currentTarget) as FilterWindow;
 			var filterID:int = filterWindow.id;
 			var viz:ColumnViz;
 			
-			if (e.parameters.reset) {
+			if (reset) {
 				
 				//Update filter data model
 				controler.removeFilter(filterID);
@@ -404,6 +441,9 @@ package view {
 				
 				//update bibliography
 				controler.updateBiblList(BiblData, true);
+				
+				//reset header
+				//filterWindow.reset();
 				
 				//viz
 				viz = filterWindow.viz;
@@ -430,6 +470,7 @@ package view {
 				//get bibliography results for citation fiter window
 				var BiblFilterData:Array = controler.getFilterResults("bibl_id", filterID);
 				
+				
 				//update filter header
 				filterWindow.updateFilterPanel(BiblFilterData.length);
 				
@@ -449,9 +490,128 @@ package view {
 				var vizData:Array = controler.getFilterResults("note_id", filterID);
 				viz.highlightChunks(vizData);
 				
+				if (data.reset) {
+					updateVisualization(filterWindow,true)
+					return;
+				}
 			}
 			
 		}
+		
+		/**
+		 * 
+		 * @param value
+		 * @return 
+		 * 
+		 */
+		protected function RemoveVizByID(value:int):Boolean {
+			
+			for each (var viz:ColumnViz in filterVizArray) {
+				if (viz.id == value) {
+					filterVizArray.splice(filterVizArray.indexOf(viz),1);
+					elementsArray.splice(elementsArray.indexOf(viz),1);
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		
+		//****************** PROTECTED EVENTS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function addFilterClick(event:MouseEvent):void {
+			if (event.target is AddButton) {
+				var addButton:AddButton = event.target as AddButton;
+				this.addFilterWindow(addButton.filterID);
+			}
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function bibiographySelect(event:Event):void {
+			
+			if (event.target.parent is BibliographyView) {
+				var bibliographyView:BibliographyView = event.target.parent as BibliographyView;
+				var selectedItemID:String = bibliographyView.getSelectedItemID();
+				
+				if (selectedItemID) {
+					
+					//get notes Ids
+					var notesIDs:Array = CiteLensController(this.getController()).getRefNotesIDs(selectedItemID);
+					
+					//highlight selected item in visualziation
+					mainViz.selectChunks(notesIDs);
+					
+					////highlight selected item in the reader
+					readerView.highlightElementByID(notesIDs);
+					
+				} else {
+					
+					//remove highlight selection in visualziation
+					mainViz.clearSelectedChunks();
+					
+					//remove highlight selection in the reader
+					readerView.clearHighlightElements();
+				}
+					
+			}
+				
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function vizClick(event:MouseEvent):void {
+			if  (filterVizArray.length > 1 || vizGrouping) {
+				_vizGrouping = !vizGrouping;
+				CiteLensViewAdjustLayout.moveFilters();
+			}
+		}
+		
+		/**
+		 * 
+		 * @param event
+		 * 
+		 */
+		protected function readerScrollHander(event:CiteLensEvent):void {
+			
+			if (event.target.name == "mainReader") {
+				
+				mainViz.updateRoll(event.parameters);
+				
+				for each (var viz:ColumnViz in filterVizArray) {
+					viz.updateRoll(event.parameters);
+				}
+			}
+			
+		}
+		
+		/**
+		 * 
+		 * @param e
+		 * 
+		 */
+		public function changeVisualizationHandler(event:CiteLensEvent):void {
+			var filterWindow:FilterWindow = FilterWindow(event.currentTarget) as FilterWindow;
+			
+			var reset:Boolean = event.parameters.reset;
+			
+			updateVisualization(filterWindow,reset);
+		}
+		
+		
+		//****************** PUBLIC METHODS ****************** ****************** ******************
 		
 		/**
 		 * 
@@ -518,15 +678,6 @@ package view {
 		public function get readerView():ReaderWindow {
 			return _readerView;
 		}
-		
-		/**
-		 * 
-		 * @return 
-		 * 
-		 */
-		public function get footnoteView():ReaderWindow {
-			return _footnoteView;
-		}
 
 		/**
 		 * 
@@ -544,6 +695,15 @@ package view {
 		 */
 		public function get filterVizArray():Array {
 			return _filterVizArray;
+		}
+
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get addFilterButton():AddButton {
+			return _addFilterButton;
 		}
 
 

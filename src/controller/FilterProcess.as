@@ -89,11 +89,7 @@ package controller {
 				var note:Object
 				
 				for each(note in notes) {
-					
-					//if (note.id < 80) { //////////!!!!!!! need to solve the note inline id problem- note 60 doesn't have ref correspondent
-					
 					resultNotes.push(note);
-					//}
 				}
 				
 				//trace ("*********")
@@ -472,7 +468,7 @@ package controller {
 			if (filter.empty == true) {
 				filteredBib = [];
 			} else {
-				filteredBib = bibliography;
+				filteredBib = []//bibliography;
 			}
 			
 			//to remove
@@ -483,6 +479,7 @@ package controller {
 			var languages:Array = filter.getOptionsByType("language");
 			
 			if (languages.length > 0) {
+				if (filteredBib.length == 0) filteredBib = bibliography;
 				var filteredByLanguage:Array = this.filterLanguage(languages, filteredBib);
 				/*if (filteredByLanguage.length > 0)*/ filteredBib = filteredByLanguage;
 			}
@@ -492,6 +489,7 @@ package controller {
 			var countries:Array = filter.getOptionsByType("country");
 			
 			if (countries.length > 0) {
+				if (filteredBib.length == 0) filteredBib = bibliography;
 				var filteredByCountries:Array = this.filterCountries(countries, filteredBib);
 				/*if (filteredByCountries.length > 0)*/ filteredBib = filteredByCountries;
 			}
@@ -501,6 +499,7 @@ package controller {
 			var pubtypes:Array = filter.getOptionsByType("publication type");
 			
 			if (pubtypes.length > 0) {
+				if (filteredBib.length == 0) filteredBib = bibliography;
 				var filteredByPubType:Array = this.filterPubTypes(pubtypes, filteredBib);
 				/*if (filteredByPubType.length > 0)*/ filteredBib = filteredByPubType;
 			}
@@ -510,6 +509,7 @@ package controller {
 			var periods:Array = filter.getOptionsByType("period");
 			
 			if (periods.length > 0) {
+				if (filteredBib.length == 0) filteredBib = bibliography;
 				var filteredByPeriod:Array = this.filterPeriod(periods, filteredBib);
 				/*if (filteredByPeriod.length > 0)*/ filteredBib = filteredByPeriod;
 			}
@@ -545,6 +545,7 @@ package controller {
 									if (primaryON) {
 										//filteredFunction = this.filterPrimaryRole(citationFunction, filteredBib);
 										
+										if (filteredBib.length == 0) filteredBib = bibliography;
 										var primary:Array = this.filterPrimaryRole(citationFunction, filteredBib);
 										for each (ref in primary) {
 											filteredBiblFunct.push(ref);
@@ -558,6 +559,7 @@ package controller {
 									if (secondaryON) {
 										//filteredFunction = this.filterSecondaryRole(citationFunction, filteredBib);
 										
+										if (filteredBib.length == 0) filteredBib = bibliography;
 										var secondary:Array = this.filterSecondaryRole(citationFunction, filteredBib);
 										for each (ref in secondary) {
 											filteredBiblFunct.push(ref);
@@ -569,12 +571,19 @@ package controller {
 								//****************** FURTHER READING ******************
 								case CitationType.FURTHER_READING:
 									if (furtherON) {
-										//filteredFunction = this.filterFurtherReading(citationFunction, filteredBib);
+										
+										// AND further reading (REMOVE those that doesn't fullfil the requeriment)
+										filteredBiblFunct = this.filterFurtherReading(citationFunction, filteredBiblFunct);
 									
+										// OR further reading (ADD those that fullfil the requeriment)
+										/*
+										if (filteredBib.length == 0) filteredBib = bibliography;
 										var further:Array = this.filterFurtherReading(citationFunction, filteredBib);
 										for each (ref in further) {
 											filteredBiblFunct.push(ref);
 										}
+										*/
+										
 										
 									}
 									break;
@@ -606,7 +615,7 @@ package controller {
 			}
 			
 			
-			//****************** AUTHOR ******************
+			//****************** Wrap up ******************
 			
 			//grab
 			resultArray = filteredBib;

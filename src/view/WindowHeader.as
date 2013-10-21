@@ -180,6 +180,33 @@ package view {
 		
 		/**
 		 * 
+		 * @param value
+		 * 
+		 */
+		public function addEraseButton(value:Boolean):void {
+			
+			if (value) {
+			
+				eraseBT = new CrossBT(0xFFFFFF);
+				eraseBT.x = box.width - 10;
+				eraseBT.y = box.height/2;
+				this.addChild(eraseBT);
+				eraseBT.buttonMode = true;
+				eraseBT.addEventListener(MouseEvent.CLICK, eraseClick);
+				TweenMax.from(eraseBT, .5, {alpha: 0, delay:.5})
+			
+			} else {
+			
+				eraseBT.removeEventListener(MouseEvent.CLICK, eraseClick);
+				this.removeChild(eraseBT)
+				eraseBT = null;
+				
+			}
+			
+		}
+		
+		/**
+		 * 
 		 * @param data
 		 * 
 		 */
@@ -218,15 +245,7 @@ package view {
 			
 			//add a erase button
 			//erase BT
-			if (!eraseBT) {
-				eraseBT = new CrossBT(0xFFFFFF);
-				eraseBT.x = box.width - 10;
-				eraseBT.y = box.height/2;
-				this.addChild(eraseBT);
-				eraseBT.buttonMode = true;
-				eraseBT.addEventListener(MouseEvent.CLICK, eraseClick);
-				TweenMax.from(eraseBT, .5, {alpha: 0, delay:.5})
-			}
+			//if (!eraseBT) addEraseButton;
 			
 		}
 		
@@ -250,7 +269,9 @@ package view {
 			//send reset informatiom
 			var obj:Object = new Object();
 			obj.reset = true;
-			dispatchEvent(new CiteLensEvent(CiteLensEvent.CHANGE_VISUALIZATION,obj));
+			obj.filterID = this.id;
+			//dispatchEvent(new CiteLensEvent(CiteLensEvent.CHANGE_VISUALIZATION,obj));
+			dispatchEvent(new CiteLensEvent(CiteLensEvent.REMOVE_FILTER,obj));
 			
 		}
 		

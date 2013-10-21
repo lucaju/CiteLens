@@ -12,6 +12,8 @@ package view.reader {
 	import flashx.textLayout.elements.FlowElement;
 	import flashx.textLayout.events.TextLayoutEvent;
 	
+	import view.style.ColorSchema;
+	
 	/**
 	 * 
 	 * @author lucaju
@@ -51,6 +53,7 @@ package view.reader {
 			
 			//defining the container for the text flow
 			var container:Sprite = new Sprite();
+			//container.opaqueBackground = 0xEEEEEE;
 			this.addChild(container);
 			
 			///FLOW
@@ -58,7 +61,8 @@ package view.reader {
 			
 			containerController = new ContainerController(container, dimensions.width, dimensions.height)
 				
-			readerFlow.flowComposer.addController(containerController); // make it mini - change the width to 20
+			readerFlow.flowComposer.addController(containerController);
+			readerFlow.flowComposer.composeToPosition();
 			readerFlow.hostFormat = TextReaderStyle.getStyle("body");
 			//readerFlow.fontLookup = FontLookup.EMBEDDED_CFF;
 			readerFlow.flowComposer.updateAllControllers();
