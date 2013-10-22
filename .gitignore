@@ -1,9 +1,18 @@
-CiteLens.app
-CiteLens.air
+.*
 
-.DS_Store
+.project
 
-src/resources/CareOfTheDead_chap1-inProgress.xml
+.settings
+
+.actionScriptProperties
+
+bin-debug/com/.DS_Store
+
+Apps/*
+
+src/content/CareOfTheDead_chap1-revised.xml
+
+bin-debug/content/CareOfTheDead_chap1-revised.xml
 
 src/view/.DS_Store
 
@@ -26,9 +35,3 @@ src/view/assets/.DS_Store
 src/view/util/.DS_Store
 
 src/model/.DS_Store
-
-.project
-
-.settings
-.actionScriptProperties
-*.
