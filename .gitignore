@@ -28,6 +28,10 @@ src/view/util/.DS_Store
 src/model/.DS_Store
 
 .project
+<<<<<<< HEAD
+=======
+
+>>>>>>> a1772097b482b3f88fe6e2c54883e170e8a7b228
 .settings
 .actionScriptProperties
 *.
