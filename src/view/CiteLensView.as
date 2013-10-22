@@ -22,6 +22,7 @@ package view {
 	import view.filter.FilterWindow;
 	import view.reader.ReaderWindow;
 	
+	import settings.Settings;
 	
 	/**
 	 * 
@@ -60,8 +61,11 @@ package view {
 		public function CiteLensView(c:IController) {
 			super(c);
 			
-			//define controller
-			//citeLensController = CiteLensController(c);
+			//splash
+			var splash:Splash = new Splash();
+			this.addChild(splash);
+			TweenMax.to(splash,2,{alpha:0,onComplete:this.removeChild,onCompleteParams:[splash]});
+			splash = null;
 		}
 		
 		
@@ -120,11 +124,8 @@ package view {
 			
 			posX = bibiographyView.x + bibiographyView.width + gap + gap;
 			
-			if (DeviceInfo.os() != "Mac") {
-				numFilterPanel = 2;
-			} else {
-				numFilterPanel = 2;
-			}
+			//num filters
+			numFilterPanel = 2;
 			
 			//Loop filters
 			var filterWindow:FilterWindow;
@@ -149,10 +150,12 @@ package view {
 			
 			//****************** Add Filter Button;
 			
-			this.showAddFilterButton(true);
-			addFilterButton.x = posX;
-			
-			posX += addFilterButton.width + gap;
+			if (Settings.platformTarget != "mobile") {
+				this.showAddFilterButton(true);
+				addFilterButton.x = posX;
+				
+				posX += addFilterButton.width + gap;
+			}
 			
 			//****************** Reader;
 			
@@ -161,7 +164,7 @@ package view {
 			readerView.y = posMainY;
 			readerView.x = posX + gap;
 			
-			if (DeviceInfo.os() != "Mac") {
+			if (Settings.platformTarget == "mobile") {
 				readerView.setDimensions(410,670);
 			} else {
 				readerView.setDimensions(385,558);
@@ -189,7 +192,7 @@ package view {
 			
 			this.addChild(mainViz);
 			
-			if (DeviceInfo.os() != "Mac") {
+			if (Settings.platformTarget == "mobile") {
 				mainViz.hMax = 670;
 				mainViz.wMax = 35;
 			}
@@ -246,8 +249,6 @@ package view {
 					}
 				}
 			
-				
-				
 				_addFilterButton = new AddButton(nextFilterID);
 				addFilterButton.y = posMainY;
 				this.addChild(addFilterButton);

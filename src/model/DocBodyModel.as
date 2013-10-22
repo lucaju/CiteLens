@@ -55,6 +55,8 @@ package model {
 			
 			//define the default namespace
 			default xml namespace = xmlns;
+			
+			XML.ignoreWhitespace = false;
 
 			divs = data.text.body.descendants("div");
 			
@@ -143,34 +145,30 @@ package model {
 					reference.@id = id;
 					
 					//add space before and after
-					reference.prependChild(" ");
-					reference.appendChild(" ");
+					//reference.prependChild(" ");
+					//reference.appendChild(" ");
 					
-					//look for attribute rend
+					//--------
+					//Remove elements with attrtibute rend=false
 					
-					////************************* Work still in progress ****************
-					////************************* TRYNG TO REMOVE NOT RENDER TAGS ****************
-					////************************* HAVE TO DO THE SAME TO (FOOT)NOTES ****************
+					var elements:XMLList = reference.descendants("@rend");
+					var rep:XML = <span> </span>;
 					
-					var elements:XMLList = reference.descendants();
 					for each (var elem:XML in elements) {
 						
-						if (elem.@rend == "false") {
-							var rep:XML = <span/>;
-							var parent:XML = elem.parent();
+						var tagElement:XML = elem.parent();
+						
+						tagElement.setChildren(" ");
+						
+						//var parent:XML = tagElement.parent();
+						//var localName:String = tagElement.localName();
 							
-							var childName:String = elem.localName();;
+					//	if (parent) if (parent.hasOwnProperty(localName)) parent.replace(localName,rep);								//<< remove some, bute editor doesn't work	
 							
-							//trace ("||",childName)
-							if (childName != "editor") { 
-								if (parent.hasOwnProperty(childName) == true) {
-									parent.replace(childName,rep);								//<< remove some, bute editor doesn't work
-								}
-								//parent.replace(childName,rep);
-								//trace (">>",childName)
-							}
-						}
+						
 					}
+					
+					//--------
 					
 					////************************* Work still in progress ****************
 					
@@ -197,9 +195,62 @@ package model {
 				}
 			}
 			
-			//
+			//adding spaces
 			if ( element.hasSimpleContent() ) element.appendChild(<span></span>);
 			
+			//adding spaces in the descendants
+			var descendants:XMLList = element.descendants();
+			
+			var prevDesc:XML;
+			
+			for each (var desc:XML in descendants) {
+				
+				// if not a superscript note locatator
+				if (desc.localName() != "note_loc") {
+				
+					//if is not the first descendant (of each paragraph)
+					if (desc.childIndex() > 0) {
+						
+						//if is not set to false render
+						if (!desc.@rend) {
+							
+							//if this or the previous are not a note span
+							if (desc.localName() != "note_span" && prevDesc.localName() != "note_span") {				
+								
+								desc.prependChild(" ");
+								desc.appendChild(" ");
+								
+							}
+							
+						}
+						
+					}
+					
+					//if note span
+					if (desc.localName() == "note_span") {
+						
+						//if is not the first in the paragraph and previous is not a note span
+						if (desc.childIndex() > 0 && prevDesc.localName() != "note_span") desc.prependChild(" ");
+						
+						//if previous is not a note span
+						if (prevDesc && prevDesc.localName() != "note_span") desc.appendChild(" ");	
+						
+						//if is the first
+						if (!prevDesc) desc.appendChild(" ");
+					}
+					
+					//if it is a false render
+					if (desc.hasOwnProperty("@rend")) desc.appendChild(<span> </span>);
+					
+					
+				}
+					
+				prevDesc = desc;
+				
+				
+			}
+			
+			//return
 			return element;
 		}
 		
@@ -223,10 +274,17 @@ package model {
 				if (element.localName() == "note") {
 					
 					var note:XML = <footnote></footnote>;
-					//note.@typeName = "footnote";
-
 					
-					//note.setName("footnote");
+					//--------
+					//Remove elements with attrtibute rend=false
+					var elements:XMLList = element.descendants("@rend");
+					
+					for each (var elemen:XML in elements) {
+						var tagElement:XML = elemen.parent();
+						tagElement.setChildren("");
+					}
+					
+					//--------
 					
 					for each(var elem:XML in element.children()) {
 						
@@ -263,9 +321,28 @@ package model {
 				
 			}
 			
+			//adding spaces
+			if ( resultXML.hasSimpleContent() ) resultXML.appendChild(<span></span>);
+			
+			//adding spaces in the descendants
+			var descendants:XMLList = resultXML.descendants();
+			
+			var prevDesc:XML;
+			
+			for each (var desc:XML in descendants) {
+				
+				//if it is a false render
+				if (desc.hasOwnProperty("@rend")) desc.appendChild(<span></span>);
+				
+			}
+			
 			return resultXML;
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
 		protected function processPb():void {
 			
 		}

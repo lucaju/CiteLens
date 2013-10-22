@@ -48,6 +48,8 @@ package view.reader {
 			style.lineHeight = 20;
 			style.textAlign = TextAlign.LEFT;
 			style.paragraphSpaceAfter = 16;
+			//style.whiteSpaceCollapse = "preserve";
+			
 			
 			switch (styleName) {
 				
