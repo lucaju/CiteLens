@@ -28,6 +28,6 @@ src/view/util/.DS_Store
 src/model/.DS_Store
 
 .project
-.gitignore
 .settings
 .actionScriptProperties
+*.
