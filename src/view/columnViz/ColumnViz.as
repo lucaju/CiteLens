@@ -182,6 +182,17 @@ package view.columnViz {
 			var numPixels:int = 0;
 			var currentType:String = SamplePixelType.TEXT;
 			
+			
+			//add space to the end;
+			var spacePixel:SamplePixel
+			if (pixelArray[pixelArray.length-1].type == SamplePixelType.TEXT) {
+				spacePixel = new SamplePixel(pixelArray.length,SamplePixelType.CITATION,-1);
+			} else {
+				spacePixel = new SamplePixel(pixelArray.length,SamplePixelType.TEXT,-1);
+			}
+			
+			pixelArray.push(spacePixel);
+			
 			// Loop Sample Pixel
 			for each (var pixel:SamplePixel in pixelArray) {
 				
@@ -286,6 +297,7 @@ package view.columnViz {
 		 */
 		protected function initialAnimation():void {
 			var delay:int = 0;
+			
 			for each (var chunk:Chunk in chunkCollection) {
 				TweenMax.from(chunk,1.3,{width:0, delay:delay *  0.02, ease:Back.easeOut});
 				delay++;

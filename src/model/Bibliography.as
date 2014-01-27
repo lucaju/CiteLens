@@ -33,7 +33,8 @@ package model {
 			
 			var namespaces:Array = fullData.namespaceDeclarations();
 			xsi = namespaces[0];
-			xmlns = namespaces[1];
+			xmlns = namespaces[1]; //change to [0 to work with dtoc document]
+			
 			
 			//define namespace of lang and id attributes
 			teiH = new Namespace('http://www.w3.org/XML/1998/namespace');
@@ -43,12 +44,17 @@ package model {
 			
 			
 			//filter the data
-			data = fullData.text.body.div.descendants("note");
+			if (fullData.text.body.div.hasOwnProperty("listBibl")) {
+				data = fullData.text.body.div.listBibl;
+			} else {
+				data = fullData.text.body.div.descendants("note");
+			}
 			
 			refCollection = new Array();
 			
 			//adding references
 			for each(var note:XML in data) {
+				
 				for each (var bib:XML in note.descendants("bibl")) {
 					this.addRef(bib, note.@teiH::id);
 				}
@@ -158,9 +164,41 @@ package model {
 				
 				//test for authors
 				if (item.hasOwnProperty("author")) {
+					
 					for each(var auth:XML in item.author) {
-						ref.addAuthor(auth.name.(@type == "last"), auth.name.(@type == "first"));
+						
+						//if authors have tag name with attributes "last" and "first" - TEI
+						
+						if (item.author.hasOwnProperty("name")) {
+						
+							ref.addAuthor(auth.name.(@type == "last"), auth.name.(@type == "first"));
+						
+						} else {
+							
+							var fullName:String = auth;
+							
+							var fullNameArr:Array 
+							
+							
+							
+							if (fullName.indexOf(",") > 0 ) {
+								//if last name, first name
+								fullNameArr = fullName.split(",");
+								ref.addAuthor(fullNameArr[0], fullNameArr[1]);
+							} else {
+								//if first name last name
+								fullNameArr = fullName.split(" ");
+								ref.addAuthor(fullNameArr[1], fullNameArr[0]);
+							}
+							
+							
+						}
+						
+						
 					}
+					
+					
+					
 				} else {
 					//ref.addAuthor("*******", "");
 				}
@@ -193,7 +231,6 @@ package model {
 				//test for country
 				
 				var ntei:Namespace = new Namespace("http://www.example.org/ns/nonTEI");
-				
 				
 				if (item.ntei::pubCountry.toString().length > 0) {
 					for each(var country:XML in item.ntei::pubCountry) {

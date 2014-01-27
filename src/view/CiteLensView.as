@@ -62,10 +62,10 @@ package view {
 			super(c);
 			
 			//splash
-			var splash:Splash = new Splash();
-			this.addChild(splash);
-			TweenMax.to(splash,2,{alpha:0,onComplete:this.removeChild,onCompleteParams:[splash]});
-			splash = null;
+			//var splash:Splash = new Splash();
+			//this.addChild(splash);
+			//TweenMax.to(splash,2,{alpha:0,onComplete:this.removeChild,onCompleteParams:[splash]});
+			//splash = null;
 		}
 		
 		

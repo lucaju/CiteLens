@@ -42,6 +42,20 @@ package view.style {
 			
 			switch (styleName) {
 				
+				case "Document list Title":
+					
+					style.font = HelveticaNeue.BOLD;
+					style.size = 13;
+					style.leading = 4;
+					break;
+				
+				case "Document list":
+					
+					style.font = HelveticaNeue.MEDIUM;
+					style.size = 12;
+					style.leading = 4;
+					break;
+				
 				case "Main Button Style":
 					
 					style.font = HelveticaNeue.MEDIUM;

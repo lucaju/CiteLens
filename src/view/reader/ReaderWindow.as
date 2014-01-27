@@ -97,7 +97,7 @@ package view.reader {
 			reader.x = marginW
 			reader.y = ( (header) ? header.height: 0 ) + marginH;
 			this.addChild(reader);
-			reader.setDimensions(readerW, readerH * .85);
+			reader.setDimensions(readerW, readerH * .80);
 			reader.init();
 			
 			reader.addEventListener(Event.RESIZE, readerResize);
@@ -121,7 +121,7 @@ package view.reader {
 			splitLine.graphics.lineStyle(1, ColorSchema.LIGHT_GREY);
 			splitLine.graphics.lineTo(readerW,0);
 			splitLine.x = marginW;
-			splitLine.y = reader.y + reader.height - 6;
+			splitLine.y = reader.y + reader.height;
 			this.addChild(splitLine);
 			
 			//---------------Footnote reader
@@ -130,7 +130,7 @@ package view.reader {
 			footnoteReader.x = marginW
 			footnoteReader.y = splitLine.y + 4;
 			this.addChild(footnoteReader);
-			footnoteReader.setDimensions(readerW, readerH * .12);
+			footnoteReader.setDimensions(readerW, readerH * .17);
 			footnoteReader.init();
 			
 			footnoteReader.addEventListener(Event.RESIZE, readerResize);
@@ -277,10 +277,10 @@ package view.reader {
 			var NewReaderH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
 			//reader
-			reader.updateDimension(NewReaderW,NewReaderH * .85);
+			reader.updateDimension(NewReaderW,NewReaderH * .80);
 			if (footnoteReader) {
 				TweenMax.to(splitLine, .5, {width:NewReaderW});
-				footnoteReader.updateDimension(NewReaderW,NewReaderH *.12);
+				footnoteReader.updateDimension(NewReaderW,NewReaderH *.17);
 			}
 			
 		}

@@ -62,7 +62,7 @@ package view {
 			
 			//---------- LOGO
 			logo = new Sprite();
-			logo.x = 25;
+			logo.x = 60;
 			logo.y = 0;
 			this.addChild(logo);
 			

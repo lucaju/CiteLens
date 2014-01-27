@@ -1,0 +1,401 @@
+<?xml-stylesheet type="text/css" href="http://cwrc.ca/templates/css/tei.css"?>
+<TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tei-c.org/ns/1.0 file:/Users/Pisicestii/Desktop/CiteLens%20Schema/CiteLensCustomization.xsd" xmlns="http://www.tei-c.org/ns/1.0">
+ <teiHeader>
+  <fileDesc>
+   <titleStmt>
+    <title>Canadian Women Writers: Connecting Texts and Generations</title>
+    <editor>Pat Demers</editor>
+    <editor>Marie Carrière</editor>
+   </titleStmt>
+   <editionStmt>
+    <edition>
+     <date>2011-06-08</date>
+    </edition>
+   </editionStmt>
+   <publicationStmt>
+    <p>unknown</p>
+   </publicationStmt>
+   <sourceDesc>
+    <listBibl>
+     <bibl>
+      <title rend="bold">Foreword<w xml:lang="fr">/ Liminaire</w></title>
+      <author rend="bold"><name type="first">Susan</name>
+       <name type="last">Brown</name></author> and <author rend="bold"><name type="first">Mary-Jo</name>
+       <name type="last">Romaniuk</name></author>
+     </bibl>
+     <bibl>
+      <title rend="bold">Crooked ribs, modern martyrs and dull days: Recovering hidden Prince Edward Island women through their life writing</title>
+      <author rend="bold">
+       <name type="first">Mary</name>
+       <name type="last">McDonald-Rissanen</name>
+      </author>
+     </bibl>
+     <bibl>
+      <title rend="bold">Recuperating oblivion in <hi rend="italic">The Displaced View</hi> (1988). Midi Onodera&apos;s experimental polyphony: issei, nisei, sansei voices of displacement</title>
+      <author rend="bold">
+       <name type="first">Sheena</name>
+       <name type="last">Wilson</name>
+      </author>
+     </bibl>
+     <bibl>
+      <title rend="bold">Waves, Tangles, Archaeologies, and Loops: Historicizing the Second Wave of the Women's Movement</title>
+      <author rend="bold">Tessa Elizabeth Jordan</author> and <author rend="bold"><name type="first">Jo-Ann</name>
+       <name type="last">Wallace</name></author>
+     </bibl>
+     <bibl>
+      <title rend="bold">
+       <w xml:lang="fr">Du métaféminisme et des histoires au féminin</w>
+      </title>
+      <author rend="bold">
+       <name type="first">Marie</name>
+       <name type="last">Carrière</name>
+      </author>
+     </bibl>
+    </listBibl>
+   </sourceDesc>
+  </fileDesc>
+
+ </teiHeader>
+ <!-- This version includes new index entries. I have deleted roleNames. I have modified the persName tag to include a 'character' attribute. I have modified the name value of educational to education (we need to firm up values of name). I have also created taxonomy in TEI header, with ref targets in the text pointing to the XML ID of the semantic categories. I have also modified the bibliographic structure (note tag has replaced all parenthetical citations). I have embeded chapter titles and author information in the header. I have cleaned up the persName, placeName, and name tags, so that they do not include punctuation. I have added a subtype attribute to all persNames placeNames, in order to regularize names. I have also cleaned up the note tags, ensuring that there are no spaces between the notes and sentence level punctuation.-->
+ <text>
+
+  <body>
+
+   <div type="chapter" xml:id="div3">
+
+    <head>
+     <bibl>
+      <title>Crooked ribs, Modern martyrs and Dull Days: Recovering Hidden Prince Edward Island Women Through Their Life Writing</title>
+      <author>
+       <name type="first">Mary</name>
+       <name type="last">McDonald-Rissanen</name>
+      </author>
+     </bibl>
+    </head>
+
+    <p xml:id="P1">Over the last century, folk songs and stories, obituaries, paintings, newspaper advertisements, and local histories have depicted Island women as mystical mermaids, biblically incited victims of their body, and sometimes as gracious and gentle women. But in their own words in their journals women write themselves through their daily rituals of managing households, planting their gardens or stretching the parameters of home; <ref type="noteSpan">they contextualize themselves within what <bibl corresp="#wza_ubv_wi "><name type="person" subtype="Kathryn_Carter">Kathryn Carter</name></bibl> refers to as <soCalled>&apos;the small details&apos;</soCalled> of their everyday and through deflated expressions like &quot;dull day.&quot;</ref></p>
+
+    <p xml:id="P2">In this paper I intend to examine the images of women popularly available and juxtapose those images with the representations women generate in their life writing. Journals, diaries, and letters by women from the nineteenth and early twentieth century are not widely available; my research on twenty such Island women is based on their unpublished manuscripts obtained from the <name type="bureaucratic_institution" subtype="Public_Archives_and_Record_Office_of_Prince_Edward_Island">Public Archives and Records Office of Prince Edward Island</name> (<name type="bureaucratic_institution" subtype="Public_Archives_and_Record_Office_of_Prince_Edward_Island"><abbr type="acronym">PAROPEI</abbr></name>). Redeeming women from their place of obscurity in their diaries and locating their inscribed sites of representation have indeed opened up a new chapter in women&apos;s writing. <ref type="noteSpan">Inspired by <bibl corresp="#xhb_ubv_wi "><name type="person" subtype="Sheila_Rowbotham">Sheila Rowbotham</name></bibl>&apos;s work on
+     women <quote>&quot;hidden from history,&quot;</quote></ref> I began to expand my collection of Island women&apos;s unpublished life writing and develop strategies for reading and understanding these <soCalled>&quot;messy&quot;</soCalled> documents.<note place="in-line"><bibl corresp="#jjb_ubv_wi ">Weiland <biblScope type="pp">204</biblScope></bibl></note>
+     <ref target="#formal_response">Multiple readings of these diaries, ledgers, account books, and scraps of paper convinced me that the women&apos;s choice of the autobiographical genre was instrumental in their textual articulation of voice. The diary could accept entries at any time, on any subject and allow for textual resolutions unheard of elsewhere. Initially for the reader/researcher of these original handwritten texts the task of understanding the sporadic and varied handwriting and idiosyncratic textual resolutions of each diarist such as gaps, vagueness or silence about the <soCalled>&quot;unsayable&quot;</soCalled> seemed insurmountable. <ref type="noteSpan">But as <name type="person" subtype="Rebecca_Hogan">Rebecca Hogan</name> has indicated, such practices are typical of <w xml:lang="fr" rend="italic">l&apos;ecriture feminine </w> where the parataxical fragments of ungrammatical passages reflect the <quote>&quot;non-hierarchical flow of events&quot;</quote> that make up a woman&apos;s
+      life.<note place="in-line"><bibl corresp="#reb_ubv_wi ">Hogan <biblScope type="pp">4</biblScope></bibl></note></ref> The sought-after cohesion in life writing texts comes through multiple readings of the diaries and lining up these documents with other cultural artifacts such as histories, paintings or even anecdotal evidence.</ref></p>
+
+    <p xml:id="P3">Typically these ordinary women in their diaries refrained from confronting and confessing immediate threats and instead the diarist creates a lacunae or silence on the subject which the diary reader often in retrospect fills in. In the case of the five-year diary of my grandmother <name type="person" subtype="Amy_Andrew">Amy Andrew</name>
+     <date from="1881" to="1966">(1881-1966)</date>, anecdotal evidence on an incident recorded and often spoken about indicated that she downplayed the accident and wrote of a <quote>&quot;fright&quot;</quote> (1912) while the scar on her arm spoke of a more serious accident. On other occasions she created gaps in her diary, unable to find the language for the <soCalled>&quot;unsayable&quot;</soCalled> situation of being newly married. <name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name>
+     <date from="1819" to="1881">(1819-1881)</date> very discreetly disclosed her own illness in her <date>1859</date> diary, focusing primarily on her child&apos;s near-death experience. Once the child recovered, we learn from <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s <soCalled>&quot;account book&quot;</soCalled> that she too had been violently ill and had lost her hearing as a result of it.</p>
+
+    <p>
+     <title type="sub" rend="bold">Island women diarists&apos; representation in writing, art, and song</title>
+    </p>
+
+    <p xml:id="P4">Numerous women diarists diverted their diary entries away from personal dilemmas and instead concentrated on the birth and death of farm animals rather than the same fates of their nearest and dearest. <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer Haslam</name>
+     <date from="1865" to="1943">(1865-1943)</date> and <name type="person" subtype="Amy_Andrew">Amy Andrew</name> reported on headaches at times when their words did not suffice for the anguish of the moment. Reading <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name>&apos;s <date>1887</date> entries on her early teaching experiences alongside Island artist <name type="person" subtype="Robert_Harris">Robert Harris</name>&apos;s painting <title>&quot;The Meeting of the School Trustees&quot;</title>
+     <date when="1885">(1885)</date> provides both a textual and visual representation of women&apos;s early entry to the public sphere. <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name>&apos;s textual trepidation matches that of the young teacher in <name type="person" subtype="Robert_Harris">Harris</name>&apos; famous painting. <name type="person" subtype="Amy_Andrew">Amy Andrew</name>&apos;s obvious anxiety of losing her sister Marion to the stream of outward migration was folded into the account of her withdrawal from attending church; similarly, when the mare died, she wrote again: <quote>&quot;did not go to church.&quot;</quote> She could not admit to her sorrow but by her actions she could acknowledge an inability to fall into the social expectation of going to church, thereby indicating her sadness.</p>
+
+    <p xml:id="P5">Island women&apos;s diaries have emerged like sandstones surfacing with the outgoing tide. With each receding wave more sandstones appear as the tides simultaneously expose and shape the fragile surfaces of the artifacts. Through time and systematically sifting in archives these diary gems emerged. The reading of <name type="person" subtype="Amy_Andrew">Amy</name>, <name type="person" subtype="Lucy_Palmer_Harris">Lucy</name>, <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> and other Island diarists has been a task of examining the crumbling sandstone-like layers of texts and placing the diaries in a twenty-first-century setting with other nineteenth and early-twentieth-century artifacts. Newspaper archives, anthologies of folk songs and stories prove to be a rich site for finding women&apos;s visual representations in advertisements and lyrical representations in popular folk songs. Folk stories, like popular histories which currently flourish in
+      <name type="place" subtype="Prince_Edward_Island">PEI</name>, remain faithful to a presentation of early Island women within what <name type="person" subtype="J.M._Bumsted">Bumsted</name> refers to as the sentimentalized <quote>&quot;specialness&quot;</quote> of the Island.<note place="in-line"><bibl>Bumsted 11</bibl></note></p>
+
+    <p xml:id="P6"><ref target="#theme_or_topic">Musical lyrics of nine songs in <title rend="italic">Folksongs from Prince Edward Island</title>, featuring women as the main thematic element and originating from the nineteenth and twentieth century, are a revealing point of departure for taking up women&apos;s imaging in popular culture, past and present. Three of the nine women in these folksongs die in circumstances of love near the sea.</ref> Consider <name type="character" subtype="Alice">Alice</name> from the popular Island folksong <title>&quot;The Gay Spanish Maid&quot;</title> who dies on the shore like a rose nipped by the frost while waiting for her <quote>&quot;gay gallant youth.&quot;</quote> Their love blossomed on the shore, where she dies of hypothermia while he returns from his wrecked ship on a plank. A familiar pattern emerges as the woman succumbs to a beautiful death and the man survives a heroic encounter with the elements. Pretty <name type="character"
+      subtype="Mary">Mary</name> in <title>&quot;The Murder of Mary Tuplin&quot;</title> was taken in by the tide and found by her parents after being murdered by her jealous lover. The bonnie lassie &quot;<name type="character" subtype="Sally_Munroe">Sally Munroe</name>&quot; was stolen away from her <name type="city" subtype="Belfast">Belfast</name> home by <name type="character" subtype="Jimmy_Dixon">Jimmy Dixon</name>. The sweet and pleasant gale takes <name type="character" subtype="Sally_Munroe">Sally</name> and <name type="character" subtype="Jimmy_Dixon">Jimmy</name> from the sandy shore in the hope of a new beginning across the sea, but the dark clouds consume their ship and the young lovers.</p>
+
+    <p xml:id="P7">The six surviving women take leave of their familiar domestic sphere, their fate being linked with the dangers of moving alone in the world. The nameless woman at the <name type="place" subtype="Boston_Harbor">Boston harbor</name> depicted in <title>&quot;Coatman&apos;s Saloon&quot;</title> deceives her male companion by pretending to be a rich widow. The deceitful woman &quot;<name type="character" subtype="Eve">Eve</name>&quot; in <title>&quot;The Crooked Rib&quot;</title> is wild and stubborn like an unruly horse. The flirtatious &quot;<name type="character" subtype="Rose_of_Cumberland">Rose of Cumberland</name>&quot; with her cunning eyes fails to seduce the sportsman who insists the coastal girls are more handsome. <name type="character" subtype="Mary_Ann">Mary Ann</name> of <title>&quot;The Jim Ross Song&quot;</title> dares to say <quote>&quot;no&quot;</quote> while there are other <quote>&quot;maidens who cried and mourned for the groom.&quot;</quote> The
+     snotty nosed wife in <title>&quot;What do you think of my darling?&quot;</title> inspires the husband&apos;s hope that the devil would sweep her away soon. All give a gloomy picture of the Island woman, in love and despair, particularly when she takes leave of her home for the city or the wilds of nature, and exercises her independence.</p>
+
+    <p xml:id="P8">The natural landscapes of the shore, the outer limits of society figure strongly as a place of resolution for women once they have left the security of home, whether in <name type="country" subtype="Ireland">Ireland</name>, or <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name> itself. In retrospect, songs like <title>&quot;Coatman&apos;s Saloon&quot;</title> serve as a warning to the many young Maritime women who joined the exodus to seek employment outside the region and more specifically those who in the early 1900s headed for the Eastern States or Western <name type="country" subtype="Canada">Canada</name>. Whether woman&apos;s fate be death or moral stagnation, as is the case of the <quote>&quot;<name type="character" subtype="Wealthy_Widow">wealthy widow</name>&quot;</quote> of <title>&quot;Coatman&apos;s Saloon,&quot;</title> departure from home was for many of the women of folksongs a fatal move. In <title>&quot;The Old Oak
+      Tree&quot;</title>
+     <name type="character" subtype="Liza">Liza</name> fails to return home from her stormy night sojourn with Squire <name type="character" subtype="James_MacCallum">James MacCallum</name> only to be found with her heart pierced by <name type="character" subtype="James_MacCallum">MacCallum</name>&apos;s knife, buried under the same tree where he had once professed his love to her. Those women who challenged the proposals of men, as <name type="character" subtype="Mary_Ann">Mary Ann</name> did, or initiated romance as <name type="character" subtype="Rose_of_Cumberland">Rose</name>, were regarded as a threat to the status quo and were destined to be the subject of folksongs.</p>
+
+    <!-- Representation of women? Or gender issue? -->
+    <p xml:id="P9">Historical vignettes of women written up in stories about the good old days, as Island historian <name type="person" subtype="David_Weale">David Weale</name> has in <title rend="italic">Them Times</title>, do not give a direct voice to women either. Such folk stories are a third-person narrative in an ethnographic form meant to depict what life was like on <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name> when the twentieth century <quote>&quot;seemed to hit the Island.&quot;</quote> Judging by his selection of stories, women from these times are to be celebrated for their roles as mother and wife in the bosom of domesticity: <quote>&quot;a woman&apos;s house was her person you see, and her pride and joy.&quot;</quote><note place="in-line"><bibl>Weale 21</bibl></note>
+     <name type="person" subtype="David_Weale">Weale</name> was obviously engaging in what <name type="person" subtype="Shirley_Neuman">Shirley Neuman</name> refers to as <quote>&quot;contemporary narratives of disappearing ways of life&quot;</quote> as he turns his narrative into a romancing of past hardships.<note place="in-line"><bibl>Neuman 349</bibl></note> Women, Island historian <name type="person" subtype="Edward_MacDonald">Edward MacDonald</name> reminds us, were at this time <quote>&quot;silent partners in the life of the Island . . . far away from the levers of social, political or economic power.&quot;</quote><note place="in-line"><bibl>MacDonald 62</bibl></note></p>
+
+    <p xml:id="P10">
+     <ref target="#representation_of_women">Similarly, advertisements in the Island media from the early twentieth century gave one-sided representations of women, reinforcing the myth of women as the weaker sex or even unfit for the public sphere because of their <soCalled>&quot;female functions.&quot;</soCalled> A woman imaged in the <title>&quot;Modern Martyrs&quot;</title> advertisement, dressed in a voluptuous manner and textually portrayed as part of the age of martyrs that has not passed, stands at the stake fueled by the flames of disease, a victim of her own biology and a vehicle through which medical remedies were promoted. As <name type="person" subtype="Rosalind_Coward">Rosalind Coward</name> writes, <quote>&quot;women were put to work by the images&quot;</quote> and offered man-made cures like Dr. Hugo’s Health Tablets to get relief from their <soCalled>&quot;female function&quot;</soCalled> and resume being healthy, happy, fertile mothers.</ref>
+     <note place="in-line">
+      <bibl>Coward 82</bibl>
+     </note>
+    </p>
+
+    <p xml:id="P11">The obituary tends to overwrite any representation a woman may have carved out for herself during her lifetime in her journal. According to <name type="person" subtype="G._Thomas_Couser">G. Thomas Couser</name><!-- Should likely be changed to 'referenced author', or something like that -->, it is the most widely disseminated life writing genre and thus the most widely consumed by the public. When <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer Haslam</name> (<date from="1884" to="1943">1884-1943</date>) died leaving twenty extensive handwritten diaries documenting her life from the age of eighteen to her time as a teacher, her marriage, and life as an entrepreneurial farm wife, her obituary spoke of her family relations and the funeral details, summing her up thus: <quote>&quot;The late Mrs. Haslam was widely known and highly esteemed in the community in which she had lived for many years.&quot;</quote> Her volumes of texts where she discreetly reveals
+     her apprehensions as a young teacher, her budding professionalism in the public domain, the transactions of her poultry business, are all forgotten. <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name>&apos;s obituary memorializes her within the typical frames of death writing, of chronicling and commemorating, thus ignoring the journal inscriptions of this gregarious writing subject, the one buried within the pages of her diary in the archives.</p>
+
+    <p>
+     <title type="sub" rend="bold">Turning to life writing and seeing women in their own words</title>
+    </p>
+
+    <p xml:id="P12">Images such as those projected in the folk songs, folk stories, advertisements and obituaries above are popular, familiar, and easily transmitted and received. By contrast the opaque handwritten texts of the Island women diarists could never reach extensive audiences, not only because they are tucked away in obscure locations like archives, but because of their discursive nature. Illegible handwriting, lack of cohesiveness, references to unknown people, gaps in the text as well as information disguised through vague metaphors, all characterize the personal diaries in their handwritten, unedited form.</p>
+
+    <p xml:id="P13">
+     <ref target="#authority">The <w xml:lang="fr" rend="italic">journal intime</w>, ledger, or diary, by its form and formlessness and absence of any literary conventions to be adhered to, had a particular appeal to women. Here a woman could write when time permitted for whatever length and exercise her literacy on any topic she deemed worthy of recounting. The woman&apos;s diary was a safe zone for playing with writing and recording conventions, even self-imposed conventions like writing poetry in the margins, inserting sketches, occasionally hiding information, or partially revealing something. In her diary she was creating a place of her own.</ref>
+    </p>
+
+    <p xml:id="P14">Contrary to <name type="person" subtype="Edward_MacDonald">Edward MacDonald</name>&apos;s claim about Island women as <quote>&quot;silent partners,&quot;</quote> through their life writing women diarists emerged as agents within their own spheres, wrote out their rapport with nature in minimalist discourse, recorded engagement with current social movements or gave unique descriptions of social intercourse in their immediate surroundings. Women&apos;s own portrayals of their roles as mother, wife and homemaker in the context of their life writing defy a strict demarcation of the private sphere of the home and the public sphere. Women&apos;s life writing gave depth as well as new perspectives on self-images and their social milieu.</p>
+
+    <p>
+     <title type="sub" rend="bold">Inscribing a new world identity: Emma Chadwick Stretch </title>
+    </p>
+
+    <p xml:id="P15"><name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name> migrated to <name type="province" subtype="Prince_Edward_Island">PEI</name> in the late 1850s from England with her husband and children and set up house on a farm in <name type="town" subtype="Long_River">Long River</name>. <name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name>&apos;s <date from="1859" to="1860">1859-60</date> diary/account book illustrates the complexity of domesticity when she records her numerous daily transactions as an entrepreneur woven into a rare social documentary of her personal account as a new world subject. Her diary is an account book of tea transactions carried out with the neighbors which evolves into a story of immigration comparable to that of the more famous immigrant narratives of <name type="person" subtype="Susanna_Moodie">Susanna Moodie</name> and <name type="person" subtype="Catherine_Parr_Trail">Catherine Parr
+      Trail</name>. What is remarkable is how <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s <w xml:lang="fr" rend="italic">journal intime</w> became her vehicle for finding a new voice in her new found land through the telling of the system of bartering she established. While <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> will likely never be written up in the history of business entrepreneurs, she is undoubtedly an example of how women opened female avenues for establishing economic enterprises like those referred to by <name type="person" subtype="Charlotte_Perkins_Gilman">Charlotte Perkins Gilman</name> in her <date>1898</date> manifesto <title rend="italic">Women and Economics</title>. But what is more important is how <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> sabotaged the autobiographical genre and increasingly used her ledger as that discursive location for inscribing a new world identity.</p>
+
+    <p xml:id="P16">An excerpt from <name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name>&apos;s <date>1859</date> ledger diary illustrates how she succinctly captures her everyday activities of neighbors&apos; visits and her trade of tea and other goods:</p>
+
+    <p xml:id="P17">
+     <quote type="block"><date when="--12-15">Friday December 15</date>, A Oldfield came for ½ lb of tea and also Betsy Shaw. Joe went up to Mr Knights. W Hodson borrowed riding saddle.</quote>
+    </p>
+    <!-- For some reason the browser has created a double space between this paragraph and the next, with the period of this sentence hanging on the next line. -->
+
+    <p xml:id="P18">But then on Sundays her diary discourse takes on other features. <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> talks of visitors, time alone, children&apos;s and even her own health. On <date when="1859-09-18">Sunday, September 18, 1859</date>
+     <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> wrote:</p>
+
+    <p>
+     <quote type="block">Took baby down to the beach for a walk children had a sail in the boat H and A Blue came up to tea and Mr. and Mrs. Hodgson spent the evening with us.</quote>
+    </p>
+
+    <p xml:id="P19">Tea in this entry was a commodity to be enjoyed in the company of neighbors and not a currency of transactions. As an immigrant, <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s new motherland discourse is refined in her Island circumstances. Between the lines of her tea transactions and her Sunday sojourns in the pastures surrounding her farm, <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> negotiates her new world subject position. <name type="person" subtype="Irene_Gammel">Irene Gammel</name> (<date when="1999">1999</date>) has suggested ways of understanding the discursive strategies taken up by women in their life writing. <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s linguistic downplay of certain issues such as her own health, her shifts away from tea transactions, and her peaceful Sundays, all signal her power as author to maneuver positions in her own diary discourse, what <name type="person"
+      subtype="Irene_Gammel">Gammel</name> refers to as <emph rend="italic">confessional modalities</emph>.</p>
+
+    <p>
+     <title type="sub" rend="bold"><name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name>&apos; <date>1864</date> Confederation diary </title>
+    </p>
+
+    <p xml:id="P20">Theatricality and playing with language and theme obviously drew women to the genre. In the shelter of her <date>1864</date> travel diary <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name> (daughter of one of <name type="province" subtype="Prince_Edward_Island">PEI</name>&apos;s delegates to the historic <name type="city" subtype="Quebec">Quebec</name> Conference which determined <name type="country" subtype="Canada">Canada</name>&apos;s emergence as a sovereign nation) carries on a performance of flirting with <name type="country" subtype="Canada">Canada</name>&apos;s nation builders much in the same way that the nation builder Fathers of Confederation were attempting to seduce the eastern provinces into a political union. <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name> writes:</p>
+
+    <p xml:id="P21">
+     <quote type="block">Wednesday morning: We went to the drawing room last night, quite a crowd when we all got together and the ladies looked very well and were quite a credit to the lower Provinces. Pa, Ma and I went together and half the gentlemen wanted to take me but I preferred to go in with Papa. The Governor General stood in the middle of the room with his private secretary on his right, we did not require cards as the aides announced all the time… Mr Tilley took charge of me and walked about with me the whole evening.</quote>
+    </p>
+
+    <p xml:id="P22"><name type="person" subtype="Mercy_Ann_Coles">Mercy Ann</name>&apos;s linguistic flamboyance in her travel diary juxtaposed with <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s flat discourse in her shop ledger illustrate just how women were able in their idiosyncratic ways to disrupt the confessional frames and unsettle the confessional reader by their choices of <emph rend="italic">confessional interventions</emph>. <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s absence of intervention, despite being the invisible scribe of transactions of tea and nurse of sick children as she herself fought for her life, became her trademark confessional interventional strategy while <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann</name> positioned herself in the limelight of <name type="country" subtype="Canada">Canada</name>&apos;s political elite.</p>
+
+    <p xml:id="P23">
+     <ref target="#textual_strategies">Pioneer <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>, socialite/dilettante <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann</name>, grandmother <name type="person" subtype="Amy_Andrew">Amy</name>, teacher <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name>, they like so many diarists <quote>&quot;encoded boundaries and warnings signaling their desire to create their own space in which to articulate their personal and sexual lives while defying confessional entrapments.&quot;</quote><note place="in-line"><bibl>Gammel 1</bibl></note> Through their idiosyncratic textual and thematic resolutions the confessional reader is beckoned to pause and consider, why this detail now. Such is the case with my newlywed grandmother and also novice school teacher <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name> and their confessional modalities or writing strategies and the gaps they interjected when they
+      encountered new situations.</ref>
+    </p>
+
+    <p>
+     <title type="sub" rend="bold">Religion and life writing</title>
+    </p>
+
+    <p xml:id="P24"><ref target="#religion">While these twenty or so diarists fulfilled their autobiographical pact over and over again, day in day out, constructing a self through their oftentimes complex meaning systems, there is no evidence that Island women, other than those of <name type="religion" subtype="Protestant">Protestant</name> faith, engaged in life writing. This raises several questions concerning diary writing and the role of religion, and how representative these diaries of Island women actually are. Foremost is the question, did Catholic women keep diaries or participate in the practice of life writing? Religion has been an important part of the cultural baggage immigrants brought to their new destination.</ref>
+     <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name> is a case in point considering how early settlers established their new communities around churches, schools, and shops. Travel down any Island road and every few miles white wooden spires break the pastoral landscapes to indicate that the settlers were primarily either <name type="religion" subtype="Protestant">Protestant</name> or <name type="religion" subtype="Catholic">Catholic</name>. Today the decommissioning of many of these churches signals religion is not the definitive aspect of Islanders&apos; everyday life it once was.</p>
+
+    <p xml:id="P25">Women&apos;s diaries from the nineteenth and early twentieth centuries give testimony to the interrelatedness of home and community. The shared values of home, school, and church gushed from diarists&apos; pages. <name type="person" subtype="Violet_Goldsmith">Violet Goldsmith</name>, a teacher in <name type="town" subtype="Alberton">Alberton</name>, <name type="province" subtype="Prince_Edward_Island">PEI</name>, wrote in her diary in <date>1900</date>:</p>
+
+    <p xml:id="P26">
+     <quote type="block"><date when="1900-07-19">Thursday, July 19</date> Sunday we went to the Presbyterian church morning and evening and to school in the afternoon. Rev Mr. Cairns preached. Mr. McKay addressed school. Mr. Chas Sterns taught the class I was in. Monday was the day of the <name type="religion" subtype="Catholic">Catholic</name> tea. Some people came here from <name type="town" subtype="Souris">Souris</name>. … We had a very nice time at the tea.</quote>
+    </p>
+
+    <p xml:id="P27"><ref target="#non-survival_of_text">But this diarist along with all of the women diarists in my research were <name type="religion" subtype="Protestant">Protestant</name> and wrote from homes, schools, and churches that subscribed to <name type="religion" subtype="Protestant">Protestant</name> doctrine. <name type="religion" subtype="Catholic">Catholic</name> women did not leave any testimony from the same period. <ref target="#archival_location">My discussions with the <name type="religion" subtype="Sisters_of_the_Congregation_of_Notre_Dame">Sisters of the Congregation of Notre Dame</name> and the <name type="religion" subtype="Sisters_of_Saint_Martha">Sisters of Saint Martha</name> assured me that those Island women who aspired to be nuns were required to write a letter in order to be considered as an entrant to the convent. Such letters from Island women are housed in the archives of the <name type="religion" subtype="Notre_Dame">Notre Dame</name> in <name
+        type="city" subtype="Montreal">Montreal</name> and the <name type="religion" subtype="Sisters_of_Saint_Martha">Sisters of Saint Martha</name> have similar archives on <name type="province" subtype="Prince_Edward_Island">PEI</name>, but permission to view these documents has not been granted.</ref>
+      <name type="person" subtype="Marta_Danylewycz">Marta Danylewycz</name> acknowledges that <quote>&quot;there was some reluctance on the part of the religious communities to allow historians into the convent. It was and still is the convent&apos;s right to deny researchers access to their archival holdings and to discourage their members from talking about themselves and their community to the public.&quot;</quote><note place="in-line"><bibl>Danylewycz 14</bibl></note> Until these restrictions can be circumvented, no evidence of other life writing has emerged from the pens of <name type="religion" subtype="Catholic">Catholic</name> women on <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name>.</ref> The importance of retrieving letters, diaries or other autobiographical documents from <name type="religion" subtype="Catholic">Catholic</name> women of this same era would further expand the collection of Island women voices and broaden our understanding of
+     their subjective realities. The cultural memory handed down by <name type="religion" subtype="Catholic">Catholic</name> women from this period could be another important source for reformulating our history. As <name type="person" subtype="Jann_Assman">Jan Assman</name> observes, <quote>&quot;cultural memory is … handed down, learned, taught, researched, interpreted, and practiced because it is needed, because it belongs to us and for that reason has to be sustained and perpetuated by us.&quot;</quote><note place="in-line"><bibl>Assman 24</bibl></note></p>
+
+    <p xml:id="P28">
+     <ref target="#religion">For someone like myself, having been born and brought up <name type="religion" subtype="Catholic">Catholic</name> on <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name>, where I also attended convents and was taught by and even lived with nuns and spent my first year of university at <name type="education" subtype="St_Dunstan">St Dunstan</name>&apos;s, a <name type="religion" subtype="Catholic">Catholic</name> university, before it became non-denominational, there is a sadness in relating the absence of life writing from <name type="religion" subtype="Catholic">Catholic</name> women about the experience and history of these institutions, all of which have now been laid to rest. It seems ironic that <name type="religion" subtype="Catholic">Catholic</name> women do have a history of social engagement which can only be accessed on a factual level. Between <date>1881</date> and <date>1920</date> approximately 150 <name
+       type="religion" subtype="Catholic">Catholic</name>
+      <name type="province" subtype="Prince_Edward_Island">PEI</name> women joined the religious order of the <name type="religion" subtype="Congregation_of_the_Notre_Dame">Congregation of the Notre Dame</name> (<name type="religion" subtype="Congregation_of_the_Notre_Dame"><abbr type="acronym">CND</abbr></name>). In <date>1857</date>, four sisters arrived on the Island from the <name type="religion" subtype="Motherhouse">Motherhouse</name> in <name type="city" subtype="Montreal">Montreal</name> to extend their tradition of education and social service among Island <name type="religion" subtype="Catholic">Catholic</name>. In <date>1916</date> sisters from the <name type="religion" subtype="Congregation_of_Saint_Martha">Congregation of Saint Martha</name> (<name type="religion" subtype="Congregation_of_the_Notre_Dame"><abbr type="acronym">CND</abbr></name>) took up positions in hospitals and numerous other sites, setting in motion a kind of <soCalled>&apos;feminist
+       spirituality&apos;</soCalled>. The (<name type="religion" subtype="Congregation_of_the_Notre_Dame"><abbr type="acronym">CND</abbr></name>) saw 300 Island women join their order from <date>1916</date> to <date>1982</date>.</ref>
+    </p>
+
+    <p xml:id="P29">Statistics have indicated a long and almost constant equal distribution of Islanders along religious lines. At the time <name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name> migrated to <name type="province" subtype="Prince_Edward_Island">Prince Edward Island</name> the distribution of the population according to religion lists 44,416 Protestants (<name type="religion" subtype="Church_of_England">Church of England</name>, <name type="religion" subtype="Presbyterian">Presbyterians</name>, <name type="religion" subtype="Kirk_of_Scotland">Kirk of Scotland</name>, <name type="religion" subtype="Methodist">Methodists</name>, <name type="religion" subtype="Baptist">Baptists</name>, <name type="religion" subtype="Bible_Christians">Bible Christians</name> and <name type="religion" subtype="Universalists">Universalists</name>) and 35,852 <name type="religion" subtype="Catholic">Catholic</name>.<note place="in-line"><bibl>Journal of the House
+       Assemble, PEI, 1862, Appendix A</bibl></note> Diarists like <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer Haslam</name> or <name type="person" subtype="Violet_Goldsmith">Violet Goldsmith</name>, both Island school teachers from the 1890s and early <date>1900</date>s, give some indication of how their religious upbringing and faith inspired their diary writing. Both provide innumerable references to their reading and familiarity with the Bible by quoting biblical texts, listing hymns and accounting the social activities affiliated with their respective churches. On <date when="1890-04-06">April 6<hi rend="sup">th</hi>, 1890</date>
+     <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name> wrote:</p>
+
+    <p xml:id="P30"><quote type="block"/>All drove up to Church. Roads pretty bad. Mr. Millan preached a good sermon for it being Easter Sunday from Luke xxiv.34. … Drove up to Prayer Meeting in evening, Minister read the 27<hi rend="sup">th</hi> Chap of Acts. … Charlie Black was there &amp; took Edith home from Church.</p>
+
+    <p><name type="person" subtype="Violet_Goldsmith">Violet Goldsmith</name>, the daughter of a church minister, cultivates and asserts her moral superiority in her <date>1900</date> journal:</p>
+
+    <p xml:id="P31">
+     <quote type="block">Mr. &amp; Mrs. Holmes went to <name type="city" subtype="Fredericton">Fredericton</name> Wed. &amp; Mr. H. came home drunk. The trainman dumped him on the siding &amp; he was there some time before we knew it. Miss Gills, [?] the girl Mrs. H. left in charge &amp; I went down and brought him home. When we got there we found the house full of company. We got a fire on in the parlour &amp; I went down got the company in there. Mr. H. had a bottle of whiskey with him and I ran down the hill with it, broke it against the fence. He was very cross when they first told [him], but he is glad now. He feels very much ashamed of himself the morning.</quote>
+    </p>
+
+    <p xml:id="P32"><name type="person" subtype="Violet_Goldsmith">Violet</name>&apos;s rather picturesquely writes how she walked the moral higher ground by taking control of the situation, confiscating the liquor, and accommodating the visitors.<name type="person" subtype="Violet_Goldsmith">Violet</name> illustrates how her diary serves as a repository of her good deeds, as an expression of accountability to her God.</p>
+
+    <p xml:id="P33">The literacy that Bible reading facilitates appears to go hand in hand with diary keeping. Women diarists such as <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name>&apos;s sister <name type="person" subtype="Amelia">Amelia</name> often filled pages of her diary with psalms and verse. By contrast their <name type="religion" subtype="Catholic">Catholic</name> sisters were not encouraged to read the Bible but instead to follow the reading and interpretation of scripture by their clergy. There is little evidence that Island women rigorously examined themselves and the lives they were leading or how they had fallen away from God, as <name type="person" subtype="Catherine_A._Brekus">Catherine A. Brekus</name> indicates that the Puritans did in their devotional diaries. Nor were <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name> and her kind writing for redemption and salvation, but instead most of the women diarists were being faithful to their
+     autobiographical pact to inscribe the self with all its flaws and imperfections which emerged in their everydayness.</p>
+
+    <p xml:id="P34">For <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name>, <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name> and many others, writing a diary was a kind of liberation and their textuality is more serendipitous in its religious referencing and self-examination. On <date when="1890-03-04">4 March 1890</date>
+     <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name>, spending her third year as a teacher in <name type="town" subtype="Malpeque">Malpeque</name>, writes: </p>
+
+    <p xml:id="P35"><quote type="block"/>Went down to the sewing circle at John Montgomery&apos;s had a splendid time a great many there &amp; a beautiful moon light night.</p>
+
+    <p xml:id="P36">The gaps, metaphors, and vagueness in the Island women&apos;s diaries suggested that they were not weaning themselves from their carnal desires as their Puritan sisters did in their diaries but were withholding or masking information about those pleasures they engaged in. Novice teacher <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer</name>&apos;s repetitive moonlit nights excerpts took on the semblance of a siren yearning for romance as she cautiously admits through references to the moon, the wind, and the sleigh ride her innermost desires. On <date when="1888-01-28">28 January 1888</date> Lucy wrote: </p>
+
+    <p xml:id="P37">
+     <quote type="block">It is the loveliest moon light night that I was ever out not a breath of wind. How I would love a sleigh drive.</quote>
+    </p>
+
+    <p xml:id="P38">This confession to the self, about the self and for the self, appears to have been supported by the urge of these literate Protestant women to preserve their special abilities to read and write and celebrate their affluence of having a pen, pencil, paper or even a diary to put it all in.</p>
+
+    <p xml:id="P39">The Island diarists discussed here undoubtedly took part in the innermost expression of self through their <w xml:lang="fr" rend="italic">journal intime</w>, an articulation facilitated by the literary models of the Bible and the conduct manuals of their homes like <title rend="italic">Vivilore: The Pathway to Mental and Physical Perfection. The Twentieth Century Book for Every Woman</title>. By contrast their Catholic sisters were forced to confess to their priest who would then mediate on their behalf to their God and participate in what <name type="person" subtype="Liz_Stanley">Liz Stanley</name> refers to as <quote>&quot;an external system of surveillance&quot;</quote> associated with organization, power, and audit.<note place="in-line"><bibl>Stanley 45</bibl></note> This could partially account for the absence of <name type="religion" subtype="Catholic">Catholic</name> women&apos;s life writing among nineteenth-century <name type="province"
+      subtype="Prince_Edward_Island">PEI</name> women. For a <name type="religion" subtype="Catholic">Catholic</name> woman to confess in her diary would be contrary to her religion and frowned upon. Therefore the existence of, or the survival and preservation of, any documents such as diaries or journals could be evidence that a <name type="religion" subtype="Catholic">Catholic</name> woman had sinned by the act of self-examination. Under the watchful eye of church and community <name type="religion" subtype="Catholic">Catholic</name> women indulging in self (-ish) scrutiny would not be performing their anticipated role with humility and obedience. What good <name type="religion" subtype="Catholic">Catholic</name> family would acknowledge a daughter, sister or mother had been keeping a diary and preserve the document with pride and seek to have it immortalized, making the artifact publicly available in the archives? It appears that <name type="religion" subtype="Catholic"
+      >Catholic</name> women did not participate in the tradition of diary writing as they had neither the impetus to confess in this way nor the literary impulse which reading and transcribing the Bible instilled in their <name type="religion" subtype="Protestant">Protestant</name> sisters. Island women&apos;s diaries presented here are part of the extensive body of texts through which one can interrogate women&apos;s exclusionary practices in historical discourse and literary formations. But for <name type="religion" subtype="Catholic">Catholic</name> women it appears to have been a self-exclusionary practice from the recording process. </p>
+
+    <p xml:id="P40"><ref target="#writing_climate">For Island women the late 1800s and the early 1900s was a period of <quote>&quot;attempting to articulate a subjectivity that has remained unscribed.&quot;</quote><note place="in-line"><bibl>Prentice et al. 164</bibl></note> It is a fact that few if any Island women are written into the chronicles of <name type="country" subtype="Canada">Canada</name>&apos;s <date>1867</date> Confederation despite the fact that <name type="province" subtype="Prince_Edward_Island">PEI</name> is designated the birthplace of <name type="country" subtype="Canada">Canada</name> and labeled the cradle of Confederation, alluding to the important prescribed feminine preoccupations of maternity.</ref> Women like <name type="person" subtype="Margaret_Gray_Lord">Margaret Gray Lord</name> did witness Confederation but instead of recording the notorious socio-political events of her time in her diary she focuses on her more immediate spheres of influence and her
+     philanthropy through the church, the women&apos;s movement, and temperance campaigns, giving us a more nuanced account of her <name type="city" subtype="Charlottetown">Charlottetown</name>. On <date when="1897-01-04">4 January 1897</date> she wrote:</p>
+
+    <p xml:id="P41">
+     <quote type="block">I went into the <name subtype="Women_Christian_Temperance_Union"><abbr type="religion">WCTU</abbr></name> (<name subtype="Women_Christian_Temperance_Union">Women’s Christian Temperance Union</name>) to the prayer meeting praying for the success of the prohibition bill.</quote>
+    </p>
+
+    <p xml:id="P42"><name type="religion" subtype="Protestant">Protestant</name> women like <name type="person" subtype="Margaret_Gray_Lord">Margaret Gray Lord</name> were more individualistic in their response to social issues and recorded engagement with prohibition, the war effort, missionaries, and enfranchisement. </p>
+
+    <p xml:id="P43">Until more life writing emerges from Island women, more artifacts are found and examined, their visions will remain buried beneath the facts of organizations and institutions. What now appears without these subjective accounts is a history missing the woman&apos;s voice. But the Island diarists so far recovered have much to say in their idiosyncratic voices. </p>
+
+
+
+     <label rend="bold">Bibliography:</label>
+    <listBibl>
+     
+     
+      <bibl xml:id="pya_ubv_wi ">
+       <author>Andrew, Amy Darby</author> (née Tanton). <title level="m">&quot;A Line a Day&quot;. Unpublished diary, 1910-14.</title> Estate of Katherine (née Andrew) McDonald. </bibl>
+     
+
+     
+      <bibl xml:id="aza_ubv_wi ">
+       <author>Assmann, Jan</author>. <title level="m" rend="italic">Religion and Cultural Memory</title>. <publisher>Stanford University Press</publisher>, <date>2006</date>. </bibl>
+     
+
+     
+      <bibl xml:id="bza_ubv_wi ">
+       <author>Brekus, Catherine A</author>. <title level="a">&quot;A place to go to connect with yourself: A Historical Perspective on Journaling&quot;</title>. <title level="m">Marty Center Religion and Culture Web Forum</title>, <date when="2004-02">February 2004</date>. </bibl>
+     
+
+     
+      <bibl xml:id="vza_ubv_wi ">
+       <author>Bumsted, J.M</author>. <title level="a">&quot;&apos;The only Island there is&apos;: The writing of Prince Edward Island History&quot;</title>. <title level="m" rend="italic">The Garden Transformed: Prince Edward Island, 1945-1980</title>. <publisher>Ragweed Press</publisher>: <pubPlace>Charlottetown, PEI</pubPlace>. <biblScope type="pp">11-38</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="wza_ubv_wi " type="book">
+       <author><name type="last">Carter</name>, <name type="first">Kathryn</name></author>. <title level="m" rend="italic">The small details of life: twenty diaries by women in Canada, 1830-1996</title>. <publisher>University of Toronto Press</publisher>: <pubPlace>Toronto</pubPlace>, <date>2002</date>. </bibl>
+     
+
+     
+      <bibl xml:id="pab_ubv_wi ">
+       <author>Coles, Mercy Ann</author>. <title level="a">&quot;She Saw Canada Born – Diary of Mercy Ann Coles&quot;</title>.<title level="m" rend="italic">Atlantic Advocate</title>
+       <date when="1865-11">November 1865</date>: <biblScope type="pp">40-44</biblScope>. Accession no. 2541/40. Public Archives and Records Office of Prince Edward Island, Charlottetown, PEI. </bibl>
+     
+
+     
+      <bibl xml:id="qab_ubv_wi ">
+       <author>Couser, G. Thomas</author>. <title level="a">&quot;The Obituary of a Face: Lucy Grealy, Death Writing and Posthumous Harm&quot;</title>. <title level="m" rend="italic">Auto/Biography</title> 12.1 (<date when="2004">2004</date>): <biblScope type="pp">1-15</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="rbb_ubv_wi ">
+       <author>Coward, Rosalind</author>. <title level="m" rend="italic">Female Desire: Woman’s Sexuality Today</title>. <pubPlace>Aylesbury, UK</pubPlace>: <publisher>Paladin</publisher>, <date>1987</date>. </bibl>
+     
+
+     
+      <bibl xml:id="sbb_ubv_wi ">
+       <author>Danylewycz, Marta</author>. <title level="m" rend="italic">Taking the Veil: An Alternative to Marriage, Motherhood, and Spinsterhood in Quebec, 1840-1920.</title>
+       <pubPlace>Toronto</pubPlace>: <publisher>McClelland &amp; Stewart</publisher>, <date>1991</date>. </bibl>
+     
+
+     
+      <bibl xml:id="kcb_ubv_wi ">
+       <author>Dibblee, Randall</author> and <author>Dorothy Dibblee</author>. <title level="m" rend="italic">Folksongs from Prince Edward Island</title>. <pubPlace>Summerside, PEI</pubPlace>: <publisher>Williams and Crue</publisher>, <date>1973</date>. </bibl>
+     
+
+     
+      <bibl xml:id="lcb_ubv_wi ">
+       <title level="a">&quot;Dr. Hugo’s Health Tablets For Women&quot;</title>. <title level="m" rend="italic">The Pioneer</title>, <date when="1905-01-07">7 January 1905</date>, <biblScope type="pp">8</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="edb_ubv_wi ">
+       <author>Gammel, Irene</author>. <title level="m" rend="italic">Confessional Politics: Women’s Sexual Self-Representation in Life Writing and Popular Media.</title> Ed. <editor>I. Gammel</editor>. <pubPlace>Carbondale</pubPlace>: <publisher>Southern Illinois University Press</publisher>, <date>1999</date>.<biblScope type="pp">1-10</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="fdb_ubv_wi ">
+       <author>Gilman, Charlotte Perkins</author>. <title level="m" rend="italic">Women and Economics: A Study of the Economic Relations between Men and Women as a Factor in Social Evolution.</title> 1898. <pubPlace>Berkeley</pubPlace>: <publisher>University of California Press</publisher>, <date>1998</date>. </bibl>
+     
+
+     
+      <bibl xml:id="ydb_ubv_wi ">
+       <author>Goldsmith, Violet E</author>. <title level="a">&quot;Diary of Violet E. Goldsmith&quot;</title>. Accession no.3381/1. Public Archives and Records Office of Prince Edward Island, Charlottetown, PEI. </bibl>
+     
+
+     
+      <bibl xml:id="zdb_ubv_wi ">
+       <author>Haslam, Lucy Palmer</author>. Journals and correspondence. Accession no. 4311. Palmer Haslam Family fonds. Public Archives and Records Office of Prince Edward Island, Charlottetown, PEI. </bibl>
+     
+
+     
+      <bibl xml:id="reb_ubv_wi ">
+       <author><name type="last">Hogan</name>, <name type="first">Rebecca</name></author>. <title level="a">&quot;Engendered Autobiographies: The Diary as a Feminine Form&quot;</title>. <title level="m" rend="italic">Autobiography and Questions of Gender</title>. <pubPlace>London</pubPlace>: <publisher>Frank Cass</publisher>, <date>1991</date>. <biblScope type="pp">95-107</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="seb_ubv_wi "> Journal of the House of Assembly, P.E.I., 1862, Appendix A. </bibl>
+     
+
+     
+      <bibl xml:id="lfb_ubv_wi ">
+       <author>Lord, Margaret Gray</author>. Journals of Margaret Pennefather Stukely Gray, daughter of Col. John Hamilton Gray, later Mrs. Artemas Lord. 39 vols. Prince Edward Island Museum and Heritage Foundation collection; Margaret Gray Lord fonds. Accession no.3466/hf 78.63. Public Archives and Records Office of Prince Edward Island, Charlottetown, PEI. </bibl>
+     
+
+     
+      <bibl xml:id="mfb_ubv_wi ">
+       <author>MacDonald, Edward</author>. <title level="m" rend="italic">If You&apos;re Stronghearted: Prince Edward Island in the Twentieth Century</title>. <pubPlace>Charlottetown, PEI</pubPlace>: <publisher>PEI Museum and Heritage Foundation</publisher>, <date>2000</date>. </bibl>
+     
+
+     
+      <bibl xml:id="fgb_ubv_wi ">
+       <author>Melendy, Mary Ries</author>. <title level="m" rend="italic">Vivilore: The Pathway to Mental and Physical Perfection. The Twentieth Century Book for Every Woman</title>. W.R. Vansant,1904. </bibl>
+     
+
+     
+      <bibl xml:id="ggb_ubv_wi ">
+       <title level="a">&quot;Modern Martyrs,&quot;</title>
+       <title level="m" rend="italic">The Island Farmer</title>, <date when="1914-03-25">25 March 1914</date>, <biblScope type="pp">7</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="ygb_ubv_wi ">
+       <author>Neuman, Shirley</author>. <title level="a">&quot;Life Writing,&quot; </title>
+       <title level="m" rend="italic">Literary History of Canada: Canadian Literature in English</title>. <edition>2<hi rend="sup">nd</hi> ed.</edition> Vol. 4. Ed. <editor>W.H. New et al</editor>. <pubPlace>Toronto</pubPlace>: <publisher>University of Toronto Press</publisher>, <date>1990</date>. <biblScope type="pp">333-70</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="ahb_ubv_wi ">
+       <author>Prentice, Alison</author>, <author>Paula Bourne</author>, <author>Gail Cuthbert Brandt</author>, <author>Beth Light</author>, <author>Wendy Mitchinson</author> and <author>Naomi Black</author>. <title level="m" rend="italic">Canadian Women: A History</title>. <pubPlace>Toronto</pubPlace>: <publisher>Harcourt Brace</publisher>,<date>1996</date>. </bibl>
+     
+
+     
+      <bibl xml:id="xhb_ubv_wi ">
+       <author><name type="last">Rowbotham</name>, <name type="first">Sheila</name></author>. <title level="m" rend="italic">Hidden from History: 300 Years of Women’s Oppression and the Fight against It</title>. <pubPlace>Bristol</pubPlace>: <publisher>Pluto Press</publisher>, <date>1989</date>. </bibl>
+     
+
+     
+      <bibl xml:id="yhb_ubv_wi ">
+       <author>Stanley, Liz</author>. <title level="a">&quot;Self-made Woman&quot;</title>. <title level="m" rend="italic">Feminism and Autobiography: Texts, Theories, Methods</title>. Ed. <editor>Tess Cosslett</editor>, <editor>Celia Lury</editor> and <editor>Penny Summerfield</editor>. <pubPlace>London</pubPlace>: <publisher>Routledge</publisher>, <date>2000</date>. <biblScope type="pp">40-60</biblScope>. </bibl>
+     
+
+     
+      <bibl xml:id="rib_ubv_wi "> Stretch, Mrs. Joseph (née Emma Ann Chadwick). &quot;Diary and Account Book of Mrs. Joseph Stretch, Long River, c1850-60&quot;. Accession no. 2540/1. Public Archives and Records Office of Prince Edward Island, Charlottetown, PEI. </bibl>
+     
+
+     
+      <bibl xml:id="sib_ubv_wi ">
+       <author>Weale, David</author>. <title level="m" rend="italic">Them Times</title>. <pubPlace>Charlottetown, PEI</pubPlace>: <publisher>Institute of Island Studies</publisher>,<date>1992</date>. </bibl>
+     
+
+     
+      <bibl xml:id="jjb_ubv_wi ">
+       <author><name type="last">Weiland</name>, <name type="first">Steven</name></author>. <title>&quot;Writers as Readers in Narrative Inquiry: Learning from Biography.&quot;</title>
+      </bibl>
+     
+
+     
+      <bibl xml:id="kjb_ubv_wi ">
+       <title level="m" rend="italic">Up Close and Personal: The Teaching and Learning of Narrative Research</title>. <pubPlace>Washington, D.C.</pubPlace>: <publisher>American Psychological Association</publisher>, <date>2003</date>. <biblScope type="pp">199-214</biblScope>. </bibl>
+     
+    </listBibl>
+   </div>
+  </body>
+ </text>
+</TEI>
