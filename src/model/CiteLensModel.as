@@ -35,6 +35,7 @@ package model {
 		protected var _plainTex				:String;
 		
 		protected var traceBibliography		:Boolean = false;
+		protected var traceNotes			:Boolean = false;
 		
 		
 		//****************** Constructor ****************** ****************** ******************
@@ -126,22 +127,9 @@ package model {
 			if (traceBibliography) BibliographyOutput.traceAll(bibliography);
 			
 			
-			
-			/*
-			var bibs:Array = bibliography.getBibligraphy();
-			
-			bibs.sortOn("id", Array.NUMERIC);
-			
-			trace (bibs.length)
-			
-			for each(var item:RefBibliographic in bibs) {
-				trace (item.id);
-				trace (item.uniqueID);
-				trace ("------")
-			}
-			*/
-			
 			//------------- test notes
+			if (traceNotes) NotesOutput.traceAll(notes);
+			
 			/*
 			//trace (notes.length)
 			
@@ -222,6 +210,26 @@ package model {
 			return bibliography.getRefNotes(refID);
 		}
 		
+		
+		//****************** NOTES INFORMATION ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numFootnotes():int {
+			return notes.numFootnotes();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numInLine():int {
+			return notes.numInLine();
+		}
 		
 		//****************** READER ****************** ****************** ******************
 		

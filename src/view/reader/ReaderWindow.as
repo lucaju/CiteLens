@@ -2,6 +2,8 @@ package view.reader {
 	
 	import com.greensock.TweenMax;
 	
+	import controller.CiteLensController;
+	
 	import flash.display.LineScaleMode;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -46,6 +48,8 @@ package view.reader {
 		
 		protected var splitLine					:Sprite;
 		
+		protected var hasFootnotes				:Boolean = false;
+		
 		//****************** Constructor ****************** ****************** ******************
 		
 		/**
@@ -66,6 +70,9 @@ package view.reader {
 		 * 
 		 */
 		public function initialize():void {
+			
+			//has footnotes
+			if (CiteLensController(this.getController()).numFootnotes() > 0) hasFootnotes = true;
 			
 			//border
 			border = new Shape();
@@ -97,7 +104,13 @@ package view.reader {
 			reader.x = marginW
 			reader.y = ( (header) ? header.height: 0 ) + marginH;
 			this.addChild(reader);
-			reader.setDimensions(readerW, readerH * .80);
+			
+			if (hasFootnotes) {
+				reader.setDimensions(readerW, readerH * .80);
+			} else {
+				reader.setDimensions(readerW, readerH);
+			}
+			
 			reader.init();
 			
 			reader.addEventListener(Event.RESIZE, readerResize);
@@ -115,34 +128,38 @@ package view.reader {
 			reader.addEventListener(MouseEvent.ROLL_OUT, rollOut);
 			reader.addEventListener(CiteLensEvent.READER_CLICK, readerClicklHander);
 			
-			//---------------Split Line
+			if (hasFootnotes) {
 			
-			splitLine = new Sprite();
-			splitLine.graphics.lineStyle(1, ColorSchema.LIGHT_GREY);
-			splitLine.graphics.lineTo(readerW,0);
-			splitLine.x = marginW;
-			splitLine.y = reader.y + reader.height;
-			this.addChild(splitLine);
-			
-			//---------------Footnote reader
-			footnoteReader = new FootnoteReader(this);
-			footnoteReader.name = "footnoteReader";
-			footnoteReader.x = marginW
-			footnoteReader.y = splitLine.y + 4;
-			this.addChild(footnoteReader);
-			footnoteReader.setDimensions(readerW, readerH * .17);
-			footnoteReader.init();
-			
-			footnoteReader.addEventListener(Event.RESIZE, readerResize);
-			
-			//Scroll
-			scrollFootnotes = new ReaderScroll();
-			scrollFootnotes.target = footnoteReader;
-			this.addChildAt(scroll,0);
-			scrollFootnotes.init();
-			scrollFootnotes.alpha = 0;
-			scrollFootnotes.visible = false;
-			scrollFootnotes.x = dimensions.width - scroll.width;
+				//---------------Split Line
+				
+				splitLine = new Sprite();
+				splitLine.graphics.lineStyle(1, ColorSchema.LIGHT_GREY);
+				splitLine.graphics.lineTo(readerW,0);
+				splitLine.x = marginW;
+				splitLine.y = reader.y + reader.height;
+				this.addChild(splitLine);
+				
+				//---------------Footnote reader
+				footnoteReader = new FootnoteReader(this);
+				footnoteReader.name = "footnoteReader";
+				footnoteReader.x = marginW
+				footnoteReader.y = splitLine.y + 4;
+				this.addChild(footnoteReader);
+				footnoteReader.setDimensions(readerW, readerH * .17);
+				footnoteReader.init();
+				
+				footnoteReader.addEventListener(Event.RESIZE, readerResize);
+				
+				//Scroll
+				scrollFootnotes = new ReaderScroll();
+				scrollFootnotes.target = footnoteReader;
+				this.addChildAt(scroll,0);
+				scrollFootnotes.init();
+				scrollFootnotes.alpha = 0;
+				scrollFootnotes.visible = false;
+				scrollFootnotes.x = dimensions.width - scroll.width;
+				
+			}
 			
 			
 			
@@ -277,7 +294,13 @@ package view.reader {
 			var NewReaderH:Number = dimensions.height - (2 * marginH) - ( (header) ? header.height: 0 );
 			
 			//reader
-			reader.updateDimension(NewReaderW,NewReaderH * .80);
+			
+			if (hasFootnotes) {
+				reader.updateDimension(NewReaderW,NewReaderH * .80);
+			} else {
+				reader.updateDimension(NewReaderW,NewReaderH);
+			}
+			
 			if (footnoteReader) {
 				TweenMax.to(splitLine, .5, {width:NewReaderW});
 				footnoteReader.updateDimension(NewReaderW,NewReaderH *.17);

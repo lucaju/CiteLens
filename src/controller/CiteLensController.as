@@ -174,6 +174,27 @@ package controller {
 		}
 		
 		
+		//****************** NOTES CONTROLS ****************** ****************** ******************
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numFootnotes():int {
+			return citeLensModel.numFootnotes();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numInLine():int {
+			return citeLensModel.numInLine();
+		}
+		
+		
 		//****************** READER CONTROLS ****************** ****************** ******************
 		
 		/**

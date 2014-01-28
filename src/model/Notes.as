@@ -182,8 +182,48 @@ package model {
 		
 		//****************** GETTERS // SETTERS ****************** ****************** ******************
 		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get length():int {
 			return notesCollection.length;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function getNotesCollection():Array {
+			return notesCollection.concat();
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numFootnotes():int {
+			var num:int = 0;
+			for each (note in notesCollection) {
+				if (note.notePlace == "foot") num++;
+			}
+			return num;
+		}
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function numInLine():int {
+			var num:int = 0;
+			for each (note in notesCollection) {
+				if (note.notePlace == "in-line") num++;
+			}
+			return num;
 		}
 	}
 }
