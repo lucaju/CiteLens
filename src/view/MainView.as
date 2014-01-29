@@ -13,6 +13,8 @@ package view {
 	import mvc.AbstractView;
 	import mvc.IController;
 	
+	import view.columnViz.ColumnViz;
+	
 	import view.assets.EjectButton;
 	import view.intro.ListDocuments;
 	
@@ -95,6 +97,8 @@ package view {
 			
 			list = null;
 			splash = null;
+			
+			ColumnViz.kill();
 		}
 		
 		//****************** PROTECTED EVENTS ****************** ****************** ******************

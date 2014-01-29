@@ -4,11 +4,8 @@ package {
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.Event;
 	
 	import controller.CiteLensController;
-	
-	import model.CiteLensModel;
 	
 	import net.hires.debug.Stats;
 	
@@ -16,7 +13,6 @@ package {
 	
 	import util.Global;
 	
-	import view.CiteLensView;
 	import view.MainView;
 	
 	
@@ -26,9 +22,7 @@ package {
 		
 		//****************** Properties ****************** ****************** ******************
 		
-		protected var citeLensModel					:CiteLensModel;					//Model - CiteLens data
 		protected var citeLensController			:CiteLensController;			//Controller - CiteLens Controller
-		protected var citeLensView					:CiteLensView;					//View - CiteLens View
 		protected var mainView						:MainView;						//View - CiteLens View
 		
 		protected var configure						:Settings;						//Settings
@@ -51,16 +45,8 @@ package {
 			Global.globalWidth = stage.stageWidth;
 			Global.globalHeight = stage.stageHeight;
 			
-			//Starting models
-			//citeLensModel = new CiteLensModel();
-			//citeLensModel.addEventListener(Event.COMPLETE, _init);
-			
 			//starting controler
 			//citeLensController = new CiteLensController([citeLensModel]);
-			
-			//Starting View
-			//citeLensView = new CiteLensView(citeLensController);
-			//this.addChild(citeLensView);
 			
 			mainView = new MainView(citeLensController);
 			this.addChild(mainView);
@@ -68,19 +54,6 @@ package {
 			
 			//debug stat
 			if (Settings.debug == true) this.addChild(new Stats());
-		}
-		
-		
-		//****************** EVENTS ****************** ****************** ******************
-		
-		/**
-		 * 
-		 * @param event
-		 * 
-		 */
-		protected function _init(event:Event):void {
-			//citeLensModel.removeEventListener(Event.COMPLETE, _init);
-			//citeLensView.initialize();
 		}
 		
 		

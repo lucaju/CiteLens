@@ -113,14 +113,19 @@ package view.columnViz {
 				
 				//calculating size and proportions
 				var widthUtil:Number = wMax - ((numColumns-1) * columnGap);				//define the width util for the visualiation
-				columnWidth = widthUtil / numColumns;						//define column width
-				pixRate = Math.round(plainTextLength / (numLines * widthUtil));			//pixelrate - store the sample rate based on the text length and the max parameters
+				columnWidth = widthUtil / numColumns;									//define column width
+				pixRate = plainTextLength / ((numLines * widthUtil)-340);				//pixelrate - Defines sample rate based on the text length and the max parameters // -340 magic number?
+				
 				
 				//Supporting vars
 				pixelArray = new Array();
 				var pixel:SamplePixel;
 				var type:String = SamplePixelType.TEXT;
 				var charNoteID:int = 0;
+
+				
+				var iPixRate:Number = 0;
+				var iP:Number = 0;
 				
 				//loop char text
 				for (var char:int = 0; char <= plainTextLength; char++) {
@@ -145,8 +150,8 @@ package view.columnViz {
 	
 					}
 					
-					//create sample pixel
-					if (char % pixRate == 0) {
+					//add pixel
+					if (char > (pixRate * pixelArray.length)) {
 						pixel = new SamplePixel(pixelArray.length,type,charNoteID);
 						pixelArray.push(pixel);
 					}
@@ -184,7 +189,7 @@ package view.columnViz {
 			
 			
 			//add space to the end;
-			var spacePixel:SamplePixel
+			var spacePixel:SamplePixel;
 			if (pixelArray[pixelArray.length-1].type == SamplePixelType.TEXT) {
 				spacePixel = new SamplePixel(pixelArray.length,SamplePixelType.CITATION,-1);
 			} else {
@@ -256,7 +261,7 @@ package view.columnViz {
 						if (i == numLinesNeed-1) px = lineDrawing;
 						
 						//create a new column if chunk exeed the max size for this viz. 
-						if (cy >= _hMax) {
+						if (cy > _hMax) {
 							actualColumn++;
 							cx = (columnWidth + columnGap) * (actualColumn);
 							cy = 0;
@@ -470,6 +475,16 @@ package view.columnViz {
 			roll.update(data);
 		}
 		
+		/**
+		 * 
+		 * 
+		 */
+		static public function kill():void {
+			pixelArray = null;
+			columnWidth = 0;
+			pixRate = 0;
+		}
+		
 		//****************** GETTERS // SETTERS ****************** ****************** ******************
 		
 		/**
@@ -536,11 +551,14 @@ package view.columnViz {
 			numLines = _hMax/2
 		}
 
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
 		public function get roll():Roll {
 			return _roll;
 		}
 
-
-	
 	}
 }
