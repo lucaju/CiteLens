@@ -115,40 +115,27 @@ package model {
 		 */
 		protected function processLabel(element:XML):XML {
 			if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
-			element.setName("label");
 			
-			/*
 			
 			if (element.hasOwnProperty("@rend")) {
 				
-				
 				if (element.@rend == false) {
-					
-					trace ("false")
-					
-					var tagElement:XML = element.parent();
-					tagElement.setChildren(" ");
-					element.setName("label");
+
+					element.setChildren(" ");
 					
 				} else {
-					
-					trace ("true")
-					
+
 					if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
-					element.setName("label");
 					
 				}
 				
 			} else {
 				
-				trace ("nope")
-				
 				if ( element.hasSimpleContent() ) element.prependChild(<span></span>);
-				element.setName("label");
 				
 			}
 			
-			*/
+			element.setName("label");
 			
 			
 			return element;

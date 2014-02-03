@@ -62,17 +62,19 @@
   <body>
 
    <div type="chapter" xml:id="div3">
-
-    <head>
+   
+    <head type="chapter">
+    <p>
      <bibl>
-      <title>Crooked ribs, Modern martyrs and Dull Days: Recovering Hidden Prince Edward Island Women Through Their Life Writing</title>
+      <title>Crooked ribs, Modern martyrs and Dull Days: Recovering Hidden Prince Edward Island Women Through Their Life Writing</title><br />
       <author>
-       <name type="first">Mary</name>
+       <name type="first">Mary</name> 
        <name type="last">McDonald-Rissanen</name>
       </author>
-     </bibl>
+     </bibl><br />
+     </p>
     </head>
-
+    
     <p xml:id="P1">Over the last century, folk songs and stories, obituaries, paintings, newspaper advertisements, and local histories have depicted Island women as mystical mermaids, biblically incited victims of their body, and sometimes as gracious and gentle women. But in their own words in their journals women write themselves through their daily rituals of managing households, planting their gardens or stretching the parameters of home; <ref type="noteSpan" corresp="#note_1">they contextualize themselves within what <note place="in-line" xml:id="note_1"><bibl corresp="#wza_ubv_wi " reason="neither" sourceRole="secondary" contentType="opinion" furtherReading="false"><name type="person" subtype="Kathryn_Carter">Kathryn Carter</name></bibl></note> refers to as <soCalled>&apos;the small details&apos;</soCalled> of their everyday and through deflated expressions like &quot;dull day.&quot;</ref></p>
 
     <p xml:id="P2">In this paper I intend to examine the images of women popularly available and juxtapose those images with the representations women generate in their life writing. Journals, diaries, and letters by women from the nineteenth and early twentieth century are not widely available; my research on twenty such Island women is based on their unpublished manuscripts obtained from the <name type="bureaucratic_institution" subtype="Public_Archives_and_Record_Office_of_Prince_Edward_Island">Public Archives and Records Office of Prince Edward Island</name> (<name type="bureaucratic_institution" subtype="Public_Archives_and_Record_Office_of_Prince_Edward_Island"><abbr type="acronym">PAROPEI</abbr></name>). Redeeming women from their place of obscurity in their diaries and locating their inscribed sites of representation have indeed opened up a new chapter in women&apos;s writing. <ref type="noteSpan" corresp="#note_2">Inspired by <note place="in-line" xml:id="note_2"><bibl corresp="#xhb_ubv_wi " reason="support" contentType="fact" sourceRole="primary"><name type="person" subtype="Sheila_Rowbotham">Sheila Rowbotham</name></bibl></note>&apos;s work on women <quote>&quot;hidden from history,&quot;</quote></ref> <ref type="noteSpan" corresp="#note_3">I began to expand my collection of Island women&apos;s unpublished life writing and develop strategies for reading and understanding these <soCalled>&quot;messy&quot;</soCalled> documents.<note place="in-line" xml:id="note_3"><bibl corresp="#jjb_ubv_wi " sourceRole="primary" contentType="fact" reason="support" furtherReading="true">Weiland <biblScope type="pp">204</biblScope></bibl></note></ref>
@@ -84,7 +86,7 @@
      <date from="1819" to="1881">(1819-1881)</date> very discreetly disclosed her own illness in her <date>1859</date> diary, focusing primarily on her child&apos;s near-death experience. Once the child recovered, we learn from <name type="person" subtype="Emma_Chadwick_Stretch">Emma</name>&apos;s <soCalled>&quot;account book&quot;</soCalled> that she too had been violently ill and had lost her hearing as a result of it.</p>
 
     <p>
-     <title type="sub" rend="bold">Island women diarists&apos; representation in writing, art, and song</title>
+     <label><title type="sub" rend="bold">Island women diarists&apos; representation in writing, art, and song</title></label>
     </p>
 
     <p xml:id="P4">Numerous women diarists diverted their diary entries away from personal dilemmas and instead concentrated on the birth and death of farm animals rather than the same fates of their nearest and dearest. <name type="person" subtype="Lucy_Palmer_Haslam">Lucy Palmer Haslam</name>
@@ -119,7 +121,7 @@
      her apprehensions as a young teacher, her budding professionalism in the public domain, the transactions of her poultry business, are all forgotten. <name type="person" subtype="Lucy_Palmer_Haslam">Lucy</name>&apos;s obituary memorializes her within the typical frames of death writing, of chronicling and commemorating, thus ignoring the journal inscriptions of this gregarious writing subject, the one buried within the pages of her diary in the archives.</p>
 
     <p>
-     <title type="sub" rend="bold">Turning to life writing and seeing women in their own words</title>
+     <label><title type="sub" rend="bold">Turning to life writing and seeing women in their own words</title></label>
     </p>
 
     <p xml:id="P12">Images such as those projected in the folk songs, folk stories, advertisements and obituaries above are popular, familiar, and easily transmitted and received. By contrast the opaque handwritten texts of the Island women diarists could never reach extensive audiences, not only because they are tucked away in obscure locations like archives, but because of their discursive nature. Illegible handwriting, lack of cohesiveness, references to unknown people, gaps in the text as well as information disguised through vague metaphors, all characterize the personal diaries in their handwritten, unedited form.</p>
@@ -131,7 +133,7 @@
     <p xml:id="P14">Contrary to <name type="person" subtype="Edward_MacDonald">Edward MacDonald</name>&apos;s claim about Island women as <quote>&quot;silent partners,&quot;</quote> through their life writing women diarists emerged as agents within their own spheres, wrote out their rapport with nature in minimalist discourse, recorded engagement with current social movements or gave unique descriptions of social intercourse in their immediate surroundings. Women&apos;s own portrayals of their roles as mother, wife and homemaker in the context of their life writing defy a strict demarcation of the private sphere of the home and the public sphere. Women&apos;s life writing gave depth as well as new perspectives on self-images and their social milieu.</p>
 
     <p>
-     <title type="sub" rend="bold">Inscribing a new world identity: Emma Chadwick Stretch </title>
+     <label><title type="sub" rend="bold">Inscribing a new world identity: Emma Chadwick Stretch </title></label>
     </p>
 
     <p xml:id="P15"><name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name> migrated to <name type="province" subtype="Prince_Edward_Island">PEI</name> in the late 1850s from England with her husband and children and set up house on a farm in <name type="town" subtype="Long_River">Long River</name>. <name type="person" subtype="Emma_Chadwick_Stretch">Emma Chadwick Stretch</name>&apos;s <date from="1859" to="1860">1859-60</date> diary/account book illustrates the complexity of domesticity when she records her numerous daily transactions as an entrepreneur woven into a rare social documentary of her personal account as a new world subject. Her diary is an account book of tea transactions carried out with the neighbors which evolves into a story of immigration comparable to that of the more famous immigrant narratives of <name type="person" subtype="Susanna_Moodie">Susanna Moodie</name> and <name type="person" subtype="Catherine_Parr_Trail">Catherine Parr
@@ -155,7 +157,7 @@
       subtype="Irene_Gammel">Gammel</name> refers to as <emph rend="italic">confessional modalities</emph>.</p>
 
     <p>
-     <title type="sub" rend="bold"><name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name>&apos; <date>1864</date> Confederation diary </title>
+    <label><title type="sub" rend="bold"><name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name>&apos; <date>1864</date> Confederation diary </title></label>
     </p>
 
     <p xml:id="P20">Theatricality and playing with language and theme obviously drew women to the genre. In the shelter of her <date>1864</date> travel diary <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name> (daughter of one of <name type="province" subtype="Prince_Edward_Island">PEI</name>&apos;s delegates to the historic <name type="city" subtype="Quebec">Quebec</name> Conference which determined <name type="country" subtype="Canada">Canada</name>&apos;s emergence as a sovereign nation) carries on a performance of flirting with <name type="country" subtype="Canada">Canada</name>&apos;s nation builders much in the same way that the nation builder Fathers of Confederation were attempting to seduce the eastern provinces into a political union. <name type="person" subtype="Mercy_Ann_Coles">Mercy Ann Coles</name> writes:</p>
@@ -172,7 +174,7 @@
     </p>
 
     <p>
-     <title type="sub" rend="bold">Religion and life writing</title>
+     <label><title type="sub" rend="bold">Religion and life writing</title></label>
     </p>
 
     <p xml:id="P24"><ref target="#religion">While these twenty or so diarists fulfilled their autobiographical pact over and over again, day in day out, constructing a self through their oftentimes complex meaning systems, there is no evidence that Island women, other than those of <name type="religion" subtype="Protestant">Protestant</name> faith, engaged in life writing. This raises several questions concerning diary writing and the role of religion, and how representative these diaries of Island women actually are. Foremost is the question, did Catholic women keep diaries or participate in the practice of life writing? Religion has been an important part of the cultural baggage immigrants brought to their new destination.</ref>
